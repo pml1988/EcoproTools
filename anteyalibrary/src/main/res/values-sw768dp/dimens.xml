@@ -1,0 +1,11 @@
+<resources>
+
+
+
+    <!-- for tools -->
+    <dimen name="relativeLayout_textView_textSize">22sp</dimen>
+    <dimen name="relativeLayout_imageView_width">80dp</dimen>
+    <dimen name="relativeLayout_imageView_height">60dp</dimen>
+
+
+</resources>

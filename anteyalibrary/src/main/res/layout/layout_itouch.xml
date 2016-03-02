@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/relativeLayout_imageView"
+        android:layout_width="@dimen/relativeLayout_imageView_width"
+        android:layout_height="@dimen/relativeLayout_imageView_height"
+        android:src="@drawable/ic_itouch"
+        android:layout_centerHorizontal="true"
+        android:scaleType="fitCenter"/>
+
+    <TextView
+        android:id="@+id/relativeLayout_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/relativeLayout_imageView"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:text="iTouch"
+        android:textSize="@dimen/relativeLayout_textView_textSize"/>
+
+</RelativeLayout>

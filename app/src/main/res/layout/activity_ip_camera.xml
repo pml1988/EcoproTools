@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.anteya.ecoprotools.IpCameraActivity">
+
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></FrameLayout>
+
+
+    <LinearLayout
+        android:id="@+id/activityIpCamera_layoutQRCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:orientation="vertical">
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@drawable/qrcode210"
+            android:scaleType="fitCenter"
+            android:background="@null"/>
+        <TextView
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:text="Scan QRCode to Add IPCamera."
+            android:textSize="18sp"
+            android:gravity="center"/>
+    </LinearLayout>
+
+    <SurfaceView
+        android:id="@+id/activityIpCamera_surfaceView"
+        android:layout_width="@dimen/activityIpCamera_surfaceView_layoutWidth"
+        android:layout_height="@dimen/activityIpCamera_surfaceView_layoutHeight"
+        android:layout_centerInParent="true" />
+
+
+</RelativeLayout>

@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    tools:context="com.anteya.ecoprotools.WifiSettingsActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/activityWifiSettings_textViewTitle1"
+                android:text="System Settings"
+                style="@style/MySettingsBigTitle"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/activitySettings_textViewTitle_layoutHeight"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/activityWifiSettings_textViewNetworkMode"
+                    android:text="Network Mode"
+                    style="@style/MySettingsTitle"/>
+                <Spinner
+                    android:id="@+id/activityWifiSettings_spinnerNetworkMode"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/activitySettings_textViewTitle_layoutHeight"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/activityWifiSettings_textViewChannel"
+                    android:text="Channel"
+                    style="@style/MySettingsTitle"/>
+                <Spinner
+                    android:id="@+id/activityWifiSettings_spinnerChannel"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/activitySettings_textViewTitle_layoutHeight"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/activityWifiSettings_textViewSSID"
+                    android:text="SSID"
+                    style="@style/MySettingsTitle"/>
+                <EditText
+                    android:id="@+id/activityWifiSettings_editTextSSID"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:singleLine="true" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/activitySettings_textViewTitle_layoutHeight"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/activityWifiSettings_textViewSecurityMode"
+                    android:text="Security Mode"
+                    style="@style/MySettingsTitle"/>
+                <Spinner
+                    android:id="@+id/activityWifiSettings_spinnerSecurityMode"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+
+
+
+
+
+            <TextView
+                android:id="@+id/activityWifiSettings_textViewTitle2"
+                android:text="AES/TKIP Security Settings"
+                android:layout_marginTop="20dp"
+                style="@style/MySettingsBigTitle"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/activitySettings_textViewTitle_layoutHeight"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/activityWifiSettings_textViewPassword"
+                    android:text="Password"
+                    style="@style/MySettingsTitle"/>
+                <EditText
+                    android:id="@+id/activityWifiSettings_editTextPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+
+
+
+
+
+
+            <TextView
+                android:id="@+id/activityWifiSettings_textViewTitle3"
+                android:text="Reset Wi-Fi Settings"
+                android:layout_marginTop="20dp"
+                style="@style/MySettingsBigTitle"/>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/activitySettings_textViewTitle_layoutHeight"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/activityWifiSettings_textViewWifiReset"
+                    android:text="Reset Wi-Fi"
+                    style="@style/MySettingsTitle"/>
+                <Button
+                    android:id="@+id/activityWifiSettings_buttonReset"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Reset"
+                    android:onClick="prepareASIXUDPUnicastForReset"/>
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+
+
+
+
+</LinearLayout>

@@ -1,0 +1,128 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary2</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <!--<style name="AppTheme.NoActionBar">-->
+        <!--<item name="windowActionBar">false</item>-->
+        <!--<item name="windowNoTitle">true</item>-->
+    <!--</style>-->
+
+    <style name="MyTheme" parent="@android:style/Theme.Holo.Light">
+        <item name="android:actionBarStyle">@style/MyActionBar</item>
+        <item name="android:screenOrientation">portrait</item>
+    </style>
+    <style name="MyActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
+        <item name="android:background">@color/colorPrimary2</item>
+        <item name="android:titleTextStyle">@style/MyTheme.ActionBar.TitleTextStyle</item>
+        <item name="android:icon">@android:color/transparent</item>
+    </style>
+
+
+
+
+    <!-- for settings activity -->
+    <style name="MySettingsTheme" parent="@android:style/Theme.Holo.Light">
+        <item name="android:actionBarStyle">@style/MySettingsActionBar</item>
+        <item name="android:screenOrientation">portrait</item>
+    </style>
+    <style name="MySettingsActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
+        <item name="android:background">@color/colorPrimary2</item>
+        <item name="android:titleTextStyle">@style/MyTheme.ActionBar.TitleTextStyleWhite</item>
+        <item name="android:icon">@drawable/ic_settings_white</item>
+
+    </style>
+
+
+
+
+
+    <style name="MyTheme.ActionBar.TitleTextStyle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
+        <item name="android:textColor">@android:color/transparent</item>
+    </style>
+    <style name="MyTheme.ActionBar.TitleTextStyleWhite" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/myWhite</item>
+    </style>
+
+    <!--測試-->
+    <style name="Widget.Holo.ProgressBar.Inverse" parent="@android:style/Widget.ProgressBar.Inverse" />
+
+
+    <!-- ActionBar title text Style-->
+    <style name="MyActionBar.Title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textSize">@dimen/actionBar_titleTextSize</item>
+        <item name="android:textColor">@color/myWhite</item>
+    </style>
+
+    <!--設定頁面 text Style-->
+    <style name="SettingsActivity_TextView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/activitySettingsList_textView_layoutHeight</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textSize">@dimen/activitySettingsList_textView_textSize</item>
+        <item name="android:paddingLeft">@dimen/activitySettingsList_textView_paddingLeft</item>
+    </style>
+
+    <!-- 設定頁面的字型風格 -->
+    <style name="MySettingsBigTitle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/activitySettings_textViewBigTitle_layoutHeight</item>
+        <item name="android:textColor">@color/materialGreen</item>
+        <item name="android:textSize">@dimen/activitySettings_textViewBigTitle_textSize</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+    <style name="MySettingsTitle">
+        <item name="android:layout_width">@dimen/activitySettings_textViewTitle_layoutWidth</item>
+        <item name="android:layout_height">@dimen/activitySettings_textViewTitle_layoutHeight</item>
+        <item name="android:textColor">@color/myDarkGray</item>
+        <item name="android:textSize">@dimen/activitySettings_textViewTitle_textSize</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+
+    <!-- 主頁面 Button Style-->
+    <style name="ActivityMain_ButtonMode_Style">
+        <item name="android:layout_width">@dimen/activityMain_buttonMode_width</item>
+        <item name="android:layout_height">@dimen/activityMain_buttonMode_height</item>
+        <item name="android:textColor">@drawable/button_text_color</item>
+        <item name="android:textSize">@dimen/activityMain_buttonMode_textSize</item>
+        <item name="android:background">@null</item>
+    </style>
+    <!-- 主頁面 text title Style-->
+    <style name="ActivityMain_TextTitle_Style">
+        <item name="android:layout_width">@dimen/activityMain_textTitle_layoutWidth</item>
+        <item name="android:layout_height">@dimen/activityMain_textTitle_layoutHeight</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/activityMain_textTitle_textSize</item>
+    </style>
+    <!-- 主頁面 text turn on time title Style-->
+    <style name="ActivityMain_TextTurnOnTime_Style">
+        <item name="android:layout_width">@dimen/activityMain_textTurnOnTime_layoutWidth</item>
+        <item name="android:layout_height">@dimen/activityMain_textTurnOnTime_layoutHeight</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/activityMain_textTitle_textSize</item>
+    </style>
+    <!-- 主頁面 text status title Style-->
+    <style name="ActivityMain_TextStatus_Style">
+        <item name="android:layout_width">@dimen/activityMain_textStatus_layoutWidth</item>
+        <item name="android:layout_height">@dimen/activityMain_textStatus_layoutHeight</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/activityMain_textTitle_textSize</item>
+    </style>
+
+
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+</resources>

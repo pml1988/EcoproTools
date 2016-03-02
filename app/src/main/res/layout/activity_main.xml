@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.anteya.ecoprotools.MainActivity">
+
+    <LinearLayout
+        android:id="@+id/activityMain_layoutMode"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/activityMain_layoutMode_height"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:orientation="horizontal"
+        android:gravity="center">
+        <Button
+            android:id="@+id/button0"
+            android:text="Stop"
+            style="@style/ActivityMain_ButtonMode_Style" />
+        <Button
+            android:id="@+id/button1"
+            style="@style/ActivityMain_ButtonMode_Style"
+            android:text="Nursery"/>
+        <Button
+            android:id="@+id/button2"
+            style="@style/ActivityMain_ButtonMode_Style"
+            android:text="Grow"/>
+        <Button
+            android:id="@+id/button3"
+            style="@style/ActivityMain_ButtonMode_Style"
+            android:text="Flower"/>
+        <Button
+            android:id="@+id/button4"
+            style="@style/ActivityMain_ButtonMode_Style"
+            android:text="Manual"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/activityMain_layoutInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activityMain_layoutInfo_marginTop"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_below="@+id/activityMain_layoutMode"
+        android:layout_centerHorizontal="true">
+
+        <LinearLayout
+            android:id="@+id/activityMain_layoutInfoRow1"
+            android:layout_width="@dimen/activityMain_layoutInfoRow_layoutWidth"
+            android:layout_height="@dimen/activityMain_layoutInfoRow_layoutHeight"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/activityMain_textTitle"
+                style="@style/ActivityMain_TextTitle_Style"/>
+            <TextView
+                android:id="@+id/activityMain_textTurnOnTime"
+                style="@style/ActivityMain_TextTurnOnTime_Style"
+                android:text="On"/>
+            <TextView
+                android:id="@+id/activityMain_textTurnOffTime"
+                style="@style/ActivityMain_TextTurnOnTime_Style"
+                android:text="Off"/>
+            <TextView
+                android:id="@+id/activityMain_textStatus"
+                style="@style/ActivityMain_TextStatus_Style"
+                android:text="Status"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/activityMain_layoutInfoRow2"
+            android:layout_width="@dimen/activityMain_layoutInfoRow_layoutWidth"
+            android:layout_height="@dimen/activityMain_layoutInfoRow_layoutHeight"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/activityMain_textLightTitle"
+                style="@style/ActivityMain_TextTitle_Style"
+                android:text="Light"/>
+            <TextView
+                android:id="@+id/activityMain_textLightTurnOnTime"
+                style="@style/ActivityMain_TextTurnOnTime_Style"
+                android:text="06:00"/>
+            <TextView
+                android:id="@+id/activityMain_textLightTurnOffTime"
+                style="@style/ActivityMain_TextTurnOnTime_Style"
+                android:text="23:00"/>
+            <ImageView
+                android:id="@+id/activityMain_imageLightStatus"
+                style="@style/ActivityMain_TextStatus_Style"
+                android:src="@drawable/green_light"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/activityMain_layoutInfoRow3"
+            android:layout_width="@dimen/activityMain_layoutInfoRow_layoutWidth"
+            android:layout_height="@dimen/activityMain_layoutInfoRow_layoutHeight"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/activityMain_textAirTitle"
+                style="@style/ActivityMain_TextTitle_Style"
+                android:text="Air"/>
+            <TextView
+                android:id="@+id/activityMain_textAirTurnOnTime"
+                style="@style/ActivityMain_TextTurnOnTime_Style"
+                android:text="06:00"/>
+            <TextView
+                android:id="@+id/activityMain_textAirTurnOffTime"
+                style="@style/ActivityMain_TextTurnOnTime_Style"
+                android:text="23:00"/>
+            <ImageView
+                android:id="@+id/activityMain_imageAirStatus"
+                style="@style/ActivityMain_TextStatus_Style"
+                android:src="@drawable/green_light"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/activityMain_layoutInfoRow4"
+            android:layout_width="@dimen/activityMain_layoutInfoRow_layoutWidth"
+            android:layout_height="@dimen/activityMain_layoutInfoRow_layoutHeight"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/activityMain_textFanTitle"
+                style="@style/ActivityMain_TextTitle_Style"
+                android:text="Fan"/>
+            <TextView
+                android:id="@+id/activityMain_textFanTurnOnTime"
+                style="@style/ActivityMain_TextTurnOnTime_Style"
+                android:text="06:00"/>
+            <TextView
+                android:id="@+id/activityMain_textFanTurnOffTime"
+                style="@style/ActivityMain_TextTurnOnTime_Style"
+                android:text="23:00"/>
+            <ImageView
+                android:id="@+id/activityMain_imageFanStatus"
+                style="@style/ActivityMain_TextStatus_Style"
+                android:src="@drawable/green_light"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/activityMain_layoutInfoRow5"
+            android:layout_width="@dimen/activityMain_layoutInfoRow_layoutWidth"
+            android:layout_height="@dimen/activityMain_layoutInfoRow_layoutHeight"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/activityMain_textWaterTitle"
+                style="@style/ActivityMain_TextTitle_Style"
+                android:text="Water"/>
+            <TextView
+                style="@style/ActivityMain_TextTurnOnTime_Style"
+                android:text=""/>
+            <TextView
+                style="@style/ActivityMain_TextTurnOnTime_Style"
+                android:text=""/>
+            <ImageView
+                android:id="@+id/activityMain_imageWaterStatus"
+                style="@style/ActivityMain_TextStatus_Style"
+                android:src="@drawable/green_light"/>
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+
+    <ImageButton
+        android:id="@+id/activityMain_imageButton"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:scaleType="fitCenter"
+        android:src="@drawable/video_camera"
+        android:background="@null"/>
+
+
+</RelativeLayout>

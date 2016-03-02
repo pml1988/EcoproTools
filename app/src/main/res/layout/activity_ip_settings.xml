@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    tools:context="com.anteya.ecoprotools.IpSettingsActivity">
+
+
+    <TextView
+        android:id="@+id/activityIpSettings_textViewTitle1"
+        android:text="IP Address Settings"
+        style="@style/MySettingsBigTitle"
+        android:layout_width="wrap_content"/>
+
+    <Button
+        android:id="@+id/activityIpSettings_buttonLink"
+        android:layout_width="70dp"
+        android:layout_height="@dimen/activitySettings_textViewTitle_layoutHeight"
+        android:text="Link"
+        android:layout_alignParentRight="true"/>
+
+
+    <TextView
+        android:id="@+id/activityIpSettings_textView"
+        android:layout_below="@+id/activityIpSettings_textViewTitle1"
+        android:text="IP Address"
+        style="@style/MySettingsTitle"/>
+
+    <EditText
+        android:id="@+id/activityIpSettings_editText"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/activitySettings_textViewTitle_layoutHeight"
+        android:layout_below="@+id/activityIpSettings_textViewTitle1"
+        android:layout_toRightOf="@id/activityIpSettings_textView"
+        android:inputType="text"
+        android:maxLines="1"
+        android:singleLine="true"/>
+
+
+    <TextView
+        android:id="@+id/activityIpSettings_textViewTitle2"
+        android:text="IP Address List"
+        style="@style/MySettingsBigTitle"
+        android:layout_width="wrap_content"
+        android:layout_below="@id/activityIpSettings_textView"/>
+
+
+    <ImageButton
+        android:id="@+id/activityIpSettings_buttonAdd"
+        android:layout_width="70dp"
+        android:layout_height="@dimen/activitySettings_textViewTitle_layoutHeight"
+        android:text="Add IP"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/activityIpSettings_textView"
+        android:src="@android:drawable/ic_input_add"/>
+
+    <ListView
+        android:id="@+id/activityIpSettings_listView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/activityIpSettings_textViewTitle2"/>
+
+</RelativeLayout>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingRight="16dp">
+
+    <!-- Home Button
+        android:layout_height="?android:attr/actionBarSize"-->
+    <Button
+        android:id="@+id/actionBar_wifiSettingsActivity_buttonSave"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:background="@android:drawable/ic_menu_save"/>
+
+    <TextView
+        android:id="@+id/actionBar_wifiSettingsActivity_textTitle"
+        android:layout_alignParentLeft="true"
+        android:text="@string/title_activity_wifi_settings"
+        style="@style/MyActionBar.Title"/>
+
+</RelativeLayout>

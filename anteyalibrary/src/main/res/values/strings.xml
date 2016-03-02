@@ -1,0 +1,376 @@
+<resources>
+    <string name="version">Ver. 2.0.3</string>
+
+    <color name="gray">#999999</color>
+    <color name="blue">#0000ff</color>
+    <color name="background">#ffffff</color> 
+    <color name="white">#ffffff</color> 
+    <color name="myBlack">#000000</color> 
+    <color name="blue_ios7">#0d79ff</color> 
+    <color name="lightgray">#bbbbbb</color>
+    
+    
+    <string name="app_name">ipHost</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_info">Info</string>
+    <string name="default_text">Default text</string>
+    <string name="gridviewcell_bulb_panel_imageview_description">Bulb Panel GridView Cell\'s BulbImage</string>
+    <string name="AllOn">All On</string>
+    <string name="AllOff">All Off</string>
+    <string name="AllOn_TW">全開</string>
+    <string name="AllOff_TW">全關</string>
+    <string name="AllSelect">All Sel</string>
+    <string name="AllUnselect">All Unsel</string>
+    <string name="init">100%</string> 
+    <string name="channelName">1.Channel Name</string>
+    <string name="action_search">action_search</string>
+    <string name="action_compose">action_compose</string>
+    <string name="open_the_drawer">Open the drawer.</string>
+    <string name="close_the_drawer">Close the drawer.</string>
+    <string name="strF1">F1</string>
+    <string name="strF2">F2</string>
+    <string name="strF3">F3</string>
+    <string name="strF4">F4</string>
+
+    <string name="text">text</string>
+    <string name="wattUnit">w</string>
+    <string name="int_0">0</string>
+    
+    <string name="infoTitle_TW">軟體資訊</string>
+    <string name="infoTitle_EN">App Info</string>
+    <string name="fragmentInfo_textNameTitle_TW">軟體名稱</string>
+    <string name="fragmentInfo_textNameTitle_EN">App Name</string>
+    <string name="fragmentInfo_textVersionTitle_TW">版本序號</string>
+    <string name="fragmentInfo_textVersionTitle_EN">Version</string>
+    
+    
+    <string name="text_enterIp_en">Please enter ip address</string>
+    <string name="text_enterIp_tw">請輸入 IP 位址</string>
+    <string name="text_enterIp_Title_en">Link by enter the ip</string>
+    <string name="text_enterIp_Title_tw">輸入IP位址連線</string>
+    <string name="text_linkIp_Title_en">Link by memory ip</string>
+    <string name="text_linkIp_Title_tw">讀取記憶IP位址連線</string>
+    <string name="text_linkIp_Add">＋</string>
+    
+    
+    
+    
+    <!-- for set AP mode -->
+    <string name="text_security_EN">Security</string>
+    <string name="text_channel_EN">Channel</string>
+    <string name="text_ssid_EN">SSID</string>
+    <string name="text_password_EN">Password</string>
+    
+    <string name="text_security_TW">安全性</string>
+    <string name="text_channel_TW">頻道</string>
+    <string name="text_ssid_TW">SSID</string>
+    <string name="text_password_TW">連線密碼</string>
+    
+    <string name="str_apply_EN">Apply</string>
+    <string name="str_apply_TW">確認</string>
+    <string name="str_cancel_EN">Cancel</string>
+    <string name="str_cancel_TW">取消</string>
+    
+    <string-array name="stringArray_clientMode_security"> 
+        <item>No security</item> 
+        <item>Auto</item>
+    </string-array>
+    
+    
+    
+    <string name="buttonText_done_en">Save</string>
+    <string name="buttonText_link_en">Link</string>
+    <string name="buttonText_done_tw">儲存</string>
+    <string name="buttonText_link_tw">連線</string>
+    
+    
+    <string name="title_Brightness_en">Brightness</string>
+    <string name="title_ColorTemp_en">ColorTemp</string>
+    <string name="title_CCT_en">CCT</string>
+    <string name="title_RGB_en">RGB</string>
+    <string name="title_back_en">Back</string>
+    
+    <string name="title_Brightness_tw">亮度</string>
+    <string name="title_ColorTemp_tw">色溫</string>
+    <string name="title_CCT_tw">雙色</string>
+    <string name="title_RGB_tw">變色</string>
+    <string name="title_back_tw">返回</string>
+    
+    <string name="channelcolortype_en">Channel color type</string>
+    <string name="channellighttype_en">Channel light type</string>
+    <string name="channelcolortype_tw">顏色類型</string>
+    <string name="channellighttype_tw">燈具類型</string>
+    
+    <string name="lighttype_default_en">Default</string>
+    <string name="lighttype_bulb_en">Bulb</string>
+    <string name="lighttype_downlight_en">Downlight</string>
+    <string name="lighttype_tube_en">Tube</string>
+    <string name="lighttype_panel_en">Panel</string>
+    
+    <string name="lighttype_default_tw">預設</string>
+    <string name="lighttype_bulb_tw">球泡燈</string>
+    <string name="lighttype_downlight_tw">筒燈</string>
+    <string name="lighttype_tube_tw">日光燈</string>
+    <string name="lighttype_panel_tw">平板燈</string>
+    
+    
+    <!-- Set Group Id -->
+    <string name="info_title1_tw">Mac：</string>
+    <string name="info_title2_tw">連線狀態：</string>
+    <string name="info_title3_tw">電源狀態：</string> 
+    <string name="info_title4_tw">瓦數：</string>
+    <string name="info_title5_tw">溫度：</string>
+    <string name="info_title6_tw">亮度：</string>
+    <string name="info_title7_tw">色溫：</string>
+    <string name="info_title8_tw">MTX：</string>
+    <string name="info_title9_tw">STX：</string>
+    
+    <string name="info_title_iPlug_tw">iPlug狀態：</string>
+    <string name="info_title_iPlug_en">iPlugState：</string>
+    <string name="info_title_ALS_tw">照度：</string>
+    <string name="info_title_ALS_en">Illuminance：</string>
+    <string name="info_title_LuxerValue_tw">數據：</string>
+    <string name="info_title_LuxerValue_en">Info：</string>
+    <string name="info_title_LuxerRatio_tw">倍率：</string>
+    <string name="info_title_LuxerRatio_en">Ratio：</string>
+    <string name="info_title_LuxerMax_tw">Max：</string>
+    <string name="info_title_LuxerMax_en">Max：</string>
+    <string name="info_title_LuxerMin_tw">Min：</string>
+    <string name="info_title_LuxerMin_en">Min：</string>
+
+    <string name="info_title1_en">Mac：</string>
+    <string name="info_title2_en">LinkState：</string>
+    <string name="info_title3_en">PowerState：</string> 
+    <string name="info_title4_en">Power：</string>
+    <string name="info_title5_en">Temperature：</string>
+    <string name="info_title6_en">Brightness：</string>
+    <string name="info_title7_en">ColorTemp：</string>
+    <string name="info_title8_en">MTX：</string>
+    <string name="info_title9_en">STX：</string>
+     
+    <!-- AirCon 相關 -->
+    <color  name="btn_aircon_textcolor_normal">#263055</color>
+    <color  name="btn_aircon_textcolor_select">#d56b1b</color>
+    
+    <string name="currentTemp_tw">現在溫度</string>
+    <string name="setTemp_tw">設定溫度</string>
+    <string name="btnTitle_cold_tw">冷氣</string>
+    <string name="btnTitle_fan_tw">送風</string>
+    <string name="btnTitle_warm_tw">暖氣</string>
+    <string name="btnTitle_dry_tw">除溼</string>
+    <string name="btnTitle_Strong_tw">強</string>
+    <string name="btnTitle_Medium_tw">中</string>
+    <string name="btnTitle_Week_tw">弱</string>
+    <string name="btnTitle_Auto_tw">自動</string>
+    
+    <string name="currentTemp_en">Current Temp</string>
+    <string name="setTemp_en">Set Temp</string>
+    <string name="btnTitle_cold_en">Cool</string>
+    <string name="btnTitle_fan_en">Fan</string>
+    <string name="btnTitle_warm_en">Heat</string>
+    <string name="btnTitle_dry_en">Dry</string>
+    <string name="btnTitle_Strong_en">High</string>
+    <string name="btnTitle_Medium_en">Med</string>
+    <string name="btnTitle_Week_en">Low</string>
+    <string name="btnTitle_Auto_en">Auto</string>
+    
+    <string name="text_run_program_en">Run Program</string>
+    <string name="text_run_scene_en">Scene</string>
+    <string name="text_run_program_tw">自動變色模式</string>
+    <string name="text_run_scene_tw">情境模式對照</string>
+    
+    
+    <string-array name="stringArray_ir_TW"> 
+        <item>投影機</item> 
+        <item>音響</item> 
+        <item>電視</item> 
+        <item>家電</item> 
+        <item>空氣清淨機</item>
+    </string-array>
+    
+    <string-array name="stringArray_ir_EN"> 
+        <item>Projector</item> 
+        <item>Music</item> 
+        <item>TV</item> 
+        <item>Appliance</item> 
+        <item>Cleaner</item> 
+    </string-array>
+    
+    <string name="text_temperature_symbol">℃</string>
+    <string name="sampleTemp">27.0</string>
+    
+    
+    <string-array name="stringArray_menu_en"> 
+        <item>Channel Setting</item> 
+        <item>Set Scene</item> 
+        <item>Run Program</item> 
+        <item>Set Group ID</item>
+        <item>Set scene title</item>
+        <item>Connect to ipHost</item> 
+        <item>Scene</item> 
+        <item>AirCon Controller</item>
+        <item>Curtain</item>
+        <item>IR Control</item> 
+        <item>iPlug</item>
+        <item>ALS</item>
+        <item>中文</item>
+    </string-array>
+    
+    <string-array name="stringArray_menu_tw"> 
+        <item>群組設定</item> 
+        <item>儲存情境模式</item> 
+        <item>自動變色模式</item>
+        <item>設定群組ID</item>
+        <item>設定情境名稱</item>
+        <item>連線</item> 
+        <item>情境模式</item> 
+        <item>冷氣控制</item>
+        <item>窗簾控制</item>
+        <item>電器控制</item> 
+        <item>插座控制</item>
+        <item>照度感測</item>
+        <item>English</item>
+    </string-array>
+    
+    
+    <string-array name="stringArray_for_f"> 
+        <item>F1</item> 
+        <item>F2</item> 
+        <item>F3</item> 
+        <item>F4</item> 
+        <item>F5</item> 
+        <item>F6</item> 
+        <item>F7</item> 
+        <item>F8</item> 
+        <item>F9</item> 
+        <item>F10</item>
+    </string-array>
+    
+    <string-array name="stringArray_for_p"> 
+        <item>P1</item> 
+        <item>P2</item> 
+        <item>P3</item> 
+        <item>P4</item> 
+        <item>P5</item> 
+        <item>P6</item> 
+        <item>P7</item> 
+        <item>P8</item> 
+        <item>P9</item> 
+        <item>P10</item>
+    </string-array>
+    
+    <!-- 情境模式 -->
+    <string name="scene_TW">情境</string>
+    <string name="scene_EN">Scene</string>
+    <string-array name="strArraySceneTitle_EN">
+        <item>Start</item>
+        <item>Meeting</item>
+        <item>Present</item>
+        <item>Speech</item>
+        <item>Cafe</item>
+        <item>Movie</item>
+        <item>Relax</item>
+        <item>Sleep</item>
+        <item>Leave</item>
+        <item>Arrive</item>
+        <item>Romantic</item>
+        <item>Pray</item>
+        <item>Exercise</item>
+        <item>Concert</item>
+        <item>Drama</item>
+        <item>Office</item>
+        <item>Welcome</item>
+        <item>Natural</item>
+        <item>Game</item>
+        <item>KTV</item>
+        <item>Dining</item>
+        <item>Nap</item>
+        <item>Daytime</item>
+        <item>Nighttime</item>
+        <item>Celebrate</item>
+    </string-array>
+    <string-array name="strArraySceneTitle_TW">
+        <item>一般</item>
+        <item>開會</item>
+        <item>簡報</item>
+        <item>演講</item>
+        <item>咖啡</item>
+        <item>電影</item>
+        <item>休閒</item>
+        <item>睡眠</item>
+        <item>出門</item>
+        <item>回家</item>
+        <item>情調</item>
+        <item>禱告</item>
+        <item>運動</item>
+        <item>演唱會</item>
+        <item>劇場</item>
+        <item>工作</item>
+        <item>迎賓</item>
+        <item>自然光</item>
+        <item>遊戲</item>
+        <item>KTV</item>
+        <item>用餐</item>
+        <item>午休</item>
+        <item>日間</item>
+        <item>夜間</item>
+        <item>慶祝</item>
+    </string-array>
+    
+    <!-- Run Program -->
+    <string-array name="strArrayRunProgram"> 
+        <item>Show1Lamp</item> 
+        <item>MidWave</item> 
+        <item>SeaWave</item> 
+        <item>RGBSer.</item> 
+        <item>FadeById</item> 
+        <item>SmoothById</item>
+        <item>InterChg</item>
+        <item>Inter2Chg</item>
+        <item>Chg1Ball</item>
+        <item>ColorChg</item>
+    </string-array>
+    <string-array name="strArrayRunProgram_tw"> 
+        <item>單燈跑馬</item> 
+        <item>孔雀開屏</item> 
+        <item>波浪滾滾</item> 
+        <item>RGB滾動</item> 
+        <item>Fade漸變</item> 
+        <item>Smooth變</item>
+        <item>交錯變化</item>
+        <item>雙燈交錯</item>
+        <item>變色跑馬</item> 
+        <item>顏色漸變</item>
+    </string-array>
+    
+    
+    <!-- 窗簾控制 -->
+    <string name="curtain_TW">窗簾</string>
+    <string name="curtain_EN">Curtain</string>
+    <string name="curtainOpen_TW">開啟</string>
+    <string name="curtainOpen_EN">Open</string>
+    <string name="curtainStop_TW">停止</string>
+    <string name="curtainStop_EN">Stop</string>
+    <string name="curtainRotate_TW">旋轉</string>
+    <string name="curtainRotate_EN">Rotate</string>
+    <string name="curtainClose_TW">關閉</string>
+    <string name="curtainClose_EN">Close</string>
+     
+    <!-- iPlug -->
+    <string name="iPlug">iPlug</string>
+     
+    <!-- Color -->
+    <color name="myLightBlue">#ffa9c3db</color>
+    <color name="myBlue">#ff0000ff</color>
+    <color name="myGray">#ff808080</color>
+    <color name="myGrey">#ffd3d3d3</color>
+    <color name="myLightGray">#ffb0b0b0</color>
+    <color name="myDarkGray">#ff606060</color>
+    <color name="myIOSGray">#ff7f7f7f</color>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+     
+    
+</resources>
