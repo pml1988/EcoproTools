@@ -380,6 +380,15 @@ public class MainActivity extends Activity implements EcoproConnectorCallback {
                 break;
             case 1:
                 buttonF1.setSelected(true);
+//                textViewLightTurnOnTime.setText("(AM)07:00");
+//                textViewLightTurnOffTime.setText("(AM)07:00");
+//                textViewAirTurnOnTime.setText("(AM)07:00");
+//                textViewAirTurnOffTime.setText("(PM)09:00");
+//                textViewFanTurnOnTime.setText("(AM)07:00");
+//                textViewFanTurnOffTime.setText("(PM)11:00");
+
+
+
                 textViewLightTurnOnTime.setText(ProjectTools.getTimeString(LightOperatingTime.F1Mode_DefaultTurnOnTime));
                 textViewLightTurnOffTime.setText(ProjectTools.getTimeString(LightOperatingTime.F1Mode_DefaultTurnOffTime));
                 textViewAirTurnOnTime.setText(ProjectTools.getTimeString(AirOperatingTime.F1Mode_DefaultTurnOnTime));
@@ -509,7 +518,7 @@ public class MainActivity extends Activity implements EcoproConnectorCallback {
     /**
      * Timer 週期 控制硬體傳輸傳輸速度
      */
-    private static int ECOPRO_TIMER_PERIOD = 10000;
+    private static int ECOPRO_TIMER_PERIOD = 1000;
 
     private void startTimer() {
         myTimer = new Timer();
@@ -571,6 +580,9 @@ public class MainActivity extends Activity implements EcoproConnectorCallback {
 
     // region MyHandler
 
+
+
+
     /**
      * 更新畫面
      **/
@@ -581,6 +593,15 @@ public class MainActivity extends Activity implements EcoproConnectorCallback {
             ProjectTools.printEcoproStatusArray(byteArray);
 
             // 更改畫面上所顯示的時間  收到資料傳到 ProjectTools.getEcoproOnTime 做轉換
+
+            System.out.println("測試1:"+ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_LIGHT, ProjectTools.ECOPRO_ON_TIME, byteArray));
+            System.out.println("測試2:"+ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_LIGHT, ProjectTools.ECOPRO_OFF_TIME, byteArray));
+            System.out.println("測試3:"+ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_AIR, ProjectTools.ECOPRO_ON_TIME, byteArray));
+            System.out.println("測試4:"+ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_AIR, ProjectTools.ECOPRO_OFF_TIME, byteArray));
+            System.out.println("測試5:"+ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_FAN, ProjectTools.ECOPRO_ON_TIME, byteArray));
+            System.out.println("測試6:"+ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_FAN, ProjectTools.ECOPRO_OFF_TIME, byteArray));
+
+
             textViewLightTurnOnTime.setText(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_LIGHT, ProjectTools.ECOPRO_ON_TIME, byteArray));
             textViewLightTurnOffTime.setText(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_LIGHT, ProjectTools.ECOPRO_OFF_TIME, byteArray));
             textViewAirTurnOnTime.setText(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_AIR, ProjectTools.ECOPRO_ON_TIME, byteArray));

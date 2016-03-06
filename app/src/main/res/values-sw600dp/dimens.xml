@@ -15,7 +15,7 @@
     <dimen name="activityMain_textStatus_layoutWidth">100dp</dimen>
     <dimen name="activityMain_textStatus_layoutHeight">80dp</dimen>
     <dimen name="activityMain_textTitle_textSize">22sp</dimen>
-
+    <dimen name="activityIpCamera_surfaceView_layoutHeight">340dp</dimen>
     <dimen name="activitySettingsList_textView_textSize">18sp</dimen>
     <dimen name="activitySettingsList_textView_layoutHeight">70dp</dimen>
     <dimen name="activitySettingsList_textView_paddingLeft">16dp</dimen>

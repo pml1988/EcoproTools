@@ -52,114 +52,154 @@
 
         <LinearLayout
             android:id="@+id/activityMain_layoutInfoRow1"
-            android:layout_width="@dimen/activityMain_layoutInfoRow_layoutWidth"
+            android:layout_width="fill_parent"
             android:layout_height="@dimen/activityMain_layoutInfoRow_layoutHeight"
             android:orientation="horizontal">
-            <TextView
-                android:id="@+id/activityMain_textTitle"
-                style="@style/ActivityMain_TextTitle_Style"/>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/activityMain_textTitle"
+                    style="@style/ActivityMain_TextTitle_Style"
+                    android:layout_weight="1"
+                    android:text="24/AMPM" />
+
+                <ImageButton
+                    android:layout_width="60dp"
+                    android:layout_height="30dp"
+                    android:id="@+id/imageButton"
+                    android:src="@drawable/one"
+                    android:scaleType="centerInside"
+                    android:background="@null" />
+            </LinearLayout>
+
             <TextView
                 android:id="@+id/activityMain_textTurnOnTime"
                 style="@style/ActivityMain_TextTurnOnTime_Style"
-                android:text="On"/>
+                android:text="On"
+                android:layout_weight="10" />
             <TextView
                 android:id="@+id/activityMain_textTurnOffTime"
                 style="@style/ActivityMain_TextTurnOnTime_Style"
-                android:text="Off"/>
+                android:text="Off"
+                android:layout_weight="10" />
             <TextView
                 android:id="@+id/activityMain_textStatus"
                 style="@style/ActivityMain_TextStatus_Style"
-                android:text="Status"/>
+                android:text="Status"
+                android:layout_weight="1" />
+
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/activityMain_layoutInfoRow2"
-            android:layout_width="@dimen/activityMain_layoutInfoRow_layoutWidth"
+            android:layout_width="fill_parent"
             android:layout_height="@dimen/activityMain_layoutInfoRow_layoutHeight"
             android:orientation="horizontal">
             <TextView
                 android:id="@+id/activityMain_textLightTitle"
                 style="@style/ActivityMain_TextTitle_Style"
-                android:text="Light"/>
+                android:text="Light"
+                android:layout_weight="1" />
             <TextView
                 android:id="@+id/activityMain_textLightTurnOnTime"
                 style="@style/ActivityMain_TextTurnOnTime_Style"
-                android:text="06:00"/>
+                android:text="(AM)06:00"
+                android:layout_weight="10" />
             <TextView
                 android:id="@+id/activityMain_textLightTurnOffTime"
                 style="@style/ActivityMain_TextTurnOnTime_Style"
-                android:text="23:00"/>
+                android:text="(PM)11:00"
+                android:layout_weight="10" />
             <ImageView
                 android:id="@+id/activityMain_imageLightStatus"
                 style="@style/ActivityMain_TextStatus_Style"
-                android:src="@drawable/green_light"/>
+                android:src="@drawable/green_light"
+                android:layout_weight="1" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/activityMain_layoutInfoRow3"
-            android:layout_width="@dimen/activityMain_layoutInfoRow_layoutWidth"
+            android:layout_width="fill_parent"
             android:layout_height="@dimen/activityMain_layoutInfoRow_layoutHeight"
             android:orientation="horizontal">
             <TextView
                 android:id="@+id/activityMain_textAirTitle"
                 style="@style/ActivityMain_TextTitle_Style"
-                android:text="Air"/>
+                android:text="Air"
+                android:layout_weight="1" />
             <TextView
                 android:id="@+id/activityMain_textAirTurnOnTime"
                 style="@style/ActivityMain_TextTurnOnTime_Style"
-                android:text="06:00"/>
+                android:text="(AM)06:00"
+                android:layout_weight="10" />
             <TextView
                 android:id="@+id/activityMain_textAirTurnOffTime"
                 style="@style/ActivityMain_TextTurnOnTime_Style"
-                android:text="23:00"/>
+                android:text="(PM)11:00"
+                android:layout_weight="10" />
             <ImageView
                 android:id="@+id/activityMain_imageAirStatus"
                 style="@style/ActivityMain_TextStatus_Style"
-                android:src="@drawable/green_light"/>
+                android:src="@drawable/green_light"
+                android:layout_weight="1" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/activityMain_layoutInfoRow4"
-            android:layout_width="@dimen/activityMain_layoutInfoRow_layoutWidth"
+            android:layout_width="fill_parent"
             android:layout_height="@dimen/activityMain_layoutInfoRow_layoutHeight"
             android:orientation="horizontal">
             <TextView
                 android:id="@+id/activityMain_textFanTitle"
                 style="@style/ActivityMain_TextTitle_Style"
-                android:text="Fan"/>
+                android:text="Fan"
+                android:layout_weight="1" />
             <TextView
                 android:id="@+id/activityMain_textFanTurnOnTime"
                 style="@style/ActivityMain_TextTurnOnTime_Style"
-                android:text="06:00"/>
+                android:text="(AM)06:00"
+                android:layout_weight="10" />
             <TextView
                 android:id="@+id/activityMain_textFanTurnOffTime"
                 style="@style/ActivityMain_TextTurnOnTime_Style"
-                android:text="23:00"/>
+                android:text="(PM)11:00"
+                android:layout_weight="10" />
             <ImageView
                 android:id="@+id/activityMain_imageFanStatus"
                 style="@style/ActivityMain_TextStatus_Style"
-                android:src="@drawable/green_light"/>
+                android:src="@drawable/green_light"
+                android:layout_weight="1" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/activityMain_layoutInfoRow5"
-            android:layout_width="@dimen/activityMain_layoutInfoRow_layoutWidth"
+            android:layout_width="fill_parent"
             android:layout_height="@dimen/activityMain_layoutInfoRow_layoutHeight"
             android:orientation="horizontal">
             <TextView
                 android:id="@+id/activityMain_textWaterTitle"
                 style="@style/ActivityMain_TextTitle_Style"
-                android:text="Water"/>
+                android:text="Water"
+                android:layout_weight="1" />
             <TextView
                 style="@style/ActivityMain_TextTurnOnTime_Style"
-                android:text=""/>
+                android:text=""
+                android:layout_weight="10" />
             <TextView
                 style="@style/ActivityMain_TextTurnOnTime_Style"
-                android:text=""/>
+                android:text=""
+                android:layout_weight="10" />
             <ImageView
                 android:id="@+id/activityMain_imageWaterStatus"
                 style="@style/ActivityMain_TextStatus_Style"
-                android:src="@drawable/green_light"/>
+                android:src="@drawable/green_light"
+                android:layout_weight="1" />
         </LinearLayout>
 
 

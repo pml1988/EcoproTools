@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+
 import com.anteya.ecoprotools.object.DataControl;
 import com.anteya.ecoprotools.object.ProjectTools;
 import com.tutk.sample.AVAPI.IpCamThread;
@@ -31,6 +32,7 @@ public class IpCameraWifiSettingsActivity extends Activity implements IpCamThrea
     private String uid = "";
 
     private ArrayAdapter<String> adapterSecurityMode;
+
     private String[] stringArraySecurityMode = {"No Security", "TKIP", "AES"};
 
     private Spinner spinnerSecurity;
@@ -106,6 +108,7 @@ public class IpCameraWifiSettingsActivity extends Activity implements IpCamThrea
                 ipCamThread.setSecurityMode(convertSecurityModeToIOTCProtocol());
 
                 ipCamThread.startSetWifi();
+                System.out.println("ipcam wifi 啟動");
             }
         });
 

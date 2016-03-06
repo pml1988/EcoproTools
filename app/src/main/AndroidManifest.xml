@@ -42,6 +42,7 @@
         <activity
             android:name=".LanScanActivity"
             android:label="@string/title_activity_lan_scan"
+            android:screenOrientation="portrait"
             android:theme="@style/MySettingsTheme" />
 
 
@@ -49,18 +50,22 @@
 
             android:name=".IpCameraActivity"
             android:label="@string/title_activity_ip_camera"
+            android:screenOrientation="portrait"
             android:theme="@style/MySettingsTheme" />
         <activity
             android:name=".IpCameraSettingsActivity"
             android:label="@string/title_activity_ip_camera_settings"
+            android:screenOrientation="portrait"
             android:theme="@style/MySettingsTheme" />
         <activity
             android:name=".IpCameraUidSettingsActivity"
             android:label="@string/title_activity_ip_camera_uid_settings"
+            android:screenOrientation="portrait"
             android:theme="@style/MySettingsTheme" />
         <activity
             android:name=".IpCameraWifiSettingsActivity"
             android:label="@string/title_activity_ip_camera_wifi_settings"
+            android:screenOrientation="portrait"
             android:theme="@style/MySettingsTheme" />
     </application>
 

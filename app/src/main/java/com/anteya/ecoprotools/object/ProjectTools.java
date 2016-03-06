@@ -261,6 +261,7 @@ public class ProjectTools {
 
     public static String getEcoproOnTime(int deviceType, int onOffType, byte[] byteArray){
 
+
         return convertByteToHexString(byteArray[deviceType+onOffType]) + ":" + convertByteToHexString(byteArray[deviceType+onOffType+1]);
     }
 
@@ -430,6 +431,11 @@ public class ProjectTools {
             hexChars[j * 2] = hexArray[v >>> 4];
             hexChars[j * 2 + 1] = hexArray[v & 0x0F];
         }
+
+    //    int intValue = Integer.parseInt(new String(hexChars));
+
+     //   System.out.println("數值："+new String(hexChars);
+
         return new String(hexChars);
     }
 
@@ -515,6 +521,10 @@ public class ProjectTools {
         Log.d(TAG, "水位 " + tempWater(byteArray[21]));
 
     }
+
+
+
+
 
     public static String tempOnOff(int value){
         if(value == 0){
