@@ -442,9 +442,7 @@ public class IpCamThread {
             System.out.println("StreamClient start...");
 
             // use which Master base on location, port 0 means to get a random port
-            int ret = IOTCAPIs.IOTC_Initialize(0, "m1.iotcplatform.com",
-                    "m2.iotcplatform.com", "m4.iotcplatform.com",
-                    "m5.iotcplatform.com");
+            int ret = IOTCAPIs.IOTC_Initialize(0, "m1.iotcplatform.com", "m2.iotcplatform.com", "m4.iotcplatform.com", "m5.iotcplatform.com");
             System.out.printf("IOTC_Initialize() ret = %d\n", ret);
 
             if (ret != IOTCAPIs.IOTC_ER_NoERROR) {

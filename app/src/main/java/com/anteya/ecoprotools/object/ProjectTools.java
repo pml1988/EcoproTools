@@ -234,19 +234,19 @@ public class ProjectTools {
     public static int getEcoproModeIndex(byte[] byteArray){
         switch (byteArray[2]){
             case 0:
-                Log.d(TAG, "模式 " + byteArray[2] + "停止");
+                Log.d(TAG, "模式 " + byteArray[2] + " 停止");
                 break;
             case 1:
-                Log.d(TAG, "模式 " + byteArray[2] + "育苗");
+                Log.d(TAG, "模式 " + byteArray[2] + " 育苗");
                 break;
             case 2:
-                Log.d(TAG, "模式 " + byteArray[2] + "生長");
+                Log.d(TAG, "模式 " + byteArray[2] + " 生長");
                 break;
             case 3:
-                Log.d(TAG, "模式 " + byteArray[2] + "開花");
+                Log.d(TAG, "模式 " + byteArray[2] + " 開花");
                 break;
             case 4:
-                Log.d(TAG, "模式 " + byteArray[2] + "手動");
+                Log.d(TAG, "模式 " + byteArray[2] + " 手動");
                 break;
         }
         return byteArray[2] & 0xff;

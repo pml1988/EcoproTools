@@ -137,11 +137,6 @@ public class MainActivity extends Activity implements EcoproConnectorCallback {
         buttonManual.setTag(4);
 
 
-
-
-
-
-
         buttonShotDown.setOnClickListener(buttonClickListener);
         buttonF1.setOnClickListener(buttonClickListener);
         buttonF2.setOnClickListener(buttonClickListener);
@@ -180,12 +175,19 @@ public class MainActivity extends Activity implements EcoproConnectorCallback {
         textViewAirTurnOffTime.setOnClickListener(textViewClickListener);
         textViewFanTurnOffTime.setOnClickListener(textViewClickListener);
 
-        textViewLightTurnOnTime.setText(ProjectTools.getTimeString(LightOperatingTime.F1Mode_DefaultTurnOnTime));
-        textViewLightTurnOffTime.setText(ProjectTools.getTimeString(LightOperatingTime.F1Mode_DefaultTurnOffTime));
-        textViewAirTurnOnTime.setText(ProjectTools.getTimeString(AirOperatingTime.F1Mode_DefaultTurnOnTime));
-        textViewAirTurnOffTime.setText(ProjectTools.getTimeString(AirOperatingTime.F1Mode_DefaultTurnOffTime));
-        textViewFanTurnOnTime.setText(ProjectTools.getTimeString(FanOperatingTime.F1Mode_DefaultTurnOnTime));
-        textViewFanTurnOffTime.setText(ProjectTools.getTimeString(FanOperatingTime.F1Mode_DefaultTurnOffTime));
+//        textViewLightTurnOnTime.setText("AM00:00");
+//        textViewLightTurnOffTime.setText("AM00:00");
+//        textViewAirTurnOnTime.setText("AM00:00");
+//        textViewAirTurnOffTime.setText("AM00:00");
+//        textViewFanTurnOnTime.setText("AM00:00");
+//        textViewFanTurnOffTime.setText("AM00:00");
+
+//        textViewLightTurnOnTime.setText(ProjectTools.getTimeString(LightOperatingTime.F1Mode_DefaultTurnOnTime));
+//        textViewLightTurnOffTime.setText(ProjectTools.getTimeString(LightOperatingTime.F1Mode_DefaultTurnOffTime));
+//        textViewAirTurnOnTime.setText(ProjectTools.getTimeString(AirOperatingTime.F1Mode_DefaultTurnOnTime));
+//        textViewAirTurnOffTime.setText(ProjectTools.getTimeString(AirOperatingTime.F1Mode_DefaultTurnOffTime));
+//        textViewFanTurnOnTime.setText(ProjectTools.getTimeString(FanOperatingTime.F1Mode_DefaultTurnOnTime));
+//        textViewFanTurnOffTime.setText(ProjectTools.getTimeString(FanOperatingTime.F1Mode_DefaultTurnOffTime));
 
         imageViewLightWorkStatus = (ImageView) findViewById(R.id.activityMain_imageLightStatus);
         imageViewAirWorkStatus = (ImageView) findViewById(R.id.activityMain_imageAirStatus);
@@ -266,7 +268,7 @@ public class MainActivity extends Activity implements EcoproConnectorCallback {
 
             if (ipAddress != null && ipAddress.length() > 0) {
 
-                System.out.println("按下主控鍵傳遞的訊息："+ProjectTools.getCommandChangeMode((int) v.getTag()));
+                System.out.println("按下主控鍵傳遞的訊息：" + ProjectTools.getCommandChangeMode((int) v.getTag()));
 
                 ecoproConnector.sendCommand(ipAddress, ProjectTools.getCommandChangeMode((int) v.getTag()));
             }
@@ -277,7 +279,9 @@ public class MainActivity extends Activity implements EcoproConnectorCallback {
 
     // region function
 
-    /**手動模式 修改時間**/
+    /**
+     * 手動模式 修改時間
+     **/
     private void showTimePickerDialog(int hourTime, int minuteTime, boolean onOff) {
 
         TimePickerDialog tpd = new TimePickerDialog(this,
@@ -316,12 +320,12 @@ public class MainActivity extends Activity implements EcoproConnectorCallback {
                                 break;
                         }
 
-                        textViewLightTurnOnTime.setText(ProjectTools.getTimeString(lightOperatingTime.ManualMode_TurnOnTime, lightOperatingTime.ManualMode_TurnOnTime_minute));
-                        textViewLightTurnOffTime.setText(ProjectTools.getTimeString(lightOperatingTime.ManualMode_TurnOffTime, lightOperatingTime.ManualMode_TurnOffTime_minute));
-                        textViewAirTurnOnTime.setText(ProjectTools.getTimeString(airOperatingTime.ManualMode_TurnOnTime, airOperatingTime.ManualMode_TurnOnTime_minute));
-                        textViewAirTurnOffTime.setText(ProjectTools.getTimeString(airOperatingTime.ManualMode_TurnOffTime, airOperatingTime.ManualMode_TurnOffTime_minute));
-                        textViewFanTurnOnTime.setText(ProjectTools.getTimeString(fanOperatingTime.ManualMode_TurnOnTime, fanOperatingTime.ManualMode_TurnOnTime_minute));
-                        textViewFanTurnOffTime.setText(ProjectTools.getTimeString(fanOperatingTime.ManualMode_TurnOffTime, fanOperatingTime.ManualMode_TurnOffTime_minute));
+                        textViewLightTurnOnTime.setText(ampm(ProjectTools.getTimeString(lightOperatingTime.ManualMode_TurnOnTime, lightOperatingTime.ManualMode_TurnOnTime_minute)));
+                        textViewLightTurnOffTime.setText(ampm(ProjectTools.getTimeString(lightOperatingTime.ManualMode_TurnOffTime, lightOperatingTime.ManualMode_TurnOffTime_minute)));
+                        textViewAirTurnOnTime.setText(ampm(ProjectTools.getTimeString(airOperatingTime.ManualMode_TurnOnTime, airOperatingTime.ManualMode_TurnOnTime_minute)));
+                        textViewAirTurnOffTime.setText(ampm(ProjectTools.getTimeString(airOperatingTime.ManualMode_TurnOffTime, airOperatingTime.ManualMode_TurnOffTime_minute)));
+                        textViewFanTurnOnTime.setText(ampm(ProjectTools.getTimeString(fanOperatingTime.ManualMode_TurnOnTime, fanOperatingTime.ManualMode_TurnOnTime_minute)));
+                        textViewFanTurnOffTime.setText(ampm(ProjectTools.getTimeString(fanOperatingTime.ManualMode_TurnOffTime, fanOperatingTime.ManualMode_TurnOffTime_minute)));
 
 
                         byte[] commandArray = ProjectTools.COMMAND_MANUAL;
@@ -375,46 +379,62 @@ public class MainActivity extends Activity implements EcoproConnectorCallback {
 
         switch (statusValue) {
             case 0:
+                System.out.println("F0");
                 buttonShotDown.setSelected(true);
                 switchEnabled(false);
                 break;
             case 1:
                 buttonF1.setSelected(true);
-//                textViewLightTurnOnTime.setText("(AM)07:00");
-//                textViewLightTurnOffTime.setText("(AM)07:00");
-//                textViewAirTurnOnTime.setText("(AM)07:00");
-//                textViewAirTurnOffTime.setText("(PM)09:00");
-//                textViewFanTurnOnTime.setText("(AM)07:00");
-//                textViewFanTurnOffTime.setText("(PM)11:00");
+//                textViewLightTurnOnTime.setText("AM07:00");
+//                textViewLightTurnOffTime.setText("PM21:00");
+//                textViewAirTurnOnTime.setText("AM00:00");
+//                textViewAirTurnOffTime.setText("AM00:00");
+//                textViewFanTurnOnTime.setText("AM00:00");
+//                textViewFanTurnOffTime.setText("AM00:00");
 
 
-
-                textViewLightTurnOnTime.setText(ProjectTools.getTimeString(LightOperatingTime.F1Mode_DefaultTurnOnTime));
-                textViewLightTurnOffTime.setText(ProjectTools.getTimeString(LightOperatingTime.F1Mode_DefaultTurnOffTime));
-                textViewAirTurnOnTime.setText(ProjectTools.getTimeString(AirOperatingTime.F1Mode_DefaultTurnOnTime));
-                textViewAirTurnOffTime.setText(ProjectTools.getTimeString(AirOperatingTime.F1Mode_DefaultTurnOffTime));
-                textViewFanTurnOnTime.setText(ProjectTools.getTimeString(FanOperatingTime.F1Mode_DefaultTurnOnTime));
-                textViewFanTurnOffTime.setText(ProjectTools.getTimeString(FanOperatingTime.F1Mode_DefaultTurnOffTime));
+                textViewLightTurnOnTime.setText(ampm(ProjectTools.getTimeString(LightOperatingTime.F1Mode_DefaultTurnOnTime)));
+                textViewLightTurnOffTime.setText(ampm(ProjectTools.getTimeString(LightOperatingTime.F1Mode_DefaultTurnOffTime)));
+                textViewAirTurnOnTime.setText(ampm(ProjectTools.getTimeString(AirOperatingTime.F1Mode_DefaultTurnOnTime)));
+                textViewAirTurnOffTime.setText(ampm(ProjectTools.getTimeString(AirOperatingTime.F1Mode_DefaultTurnOffTime)));
+                textViewFanTurnOnTime.setText(ampm(ProjectTools.getTimeString(FanOperatingTime.F1Mode_DefaultTurnOnTime)));
+                textViewFanTurnOffTime.setText(ampm(ProjectTools.getTimeString(FanOperatingTime.F1Mode_DefaultTurnOffTime)));
                 switchEnabled(false);
                 break;
             case 2:
                 buttonF2.setSelected(true);
-                textViewLightTurnOnTime.setText(ProjectTools.getTimeString(LightOperatingTime.F2Mode_DefaultTurnOnTime));
-                textViewLightTurnOffTime.setText(ProjectTools.getTimeString(LightOperatingTime.F2Mode_DefaultTurnOffTime));
-                textViewAirTurnOnTime.setText(ProjectTools.getTimeString(AirOperatingTime.F2Mode_DefaultTurnOnTime));
-                textViewAirTurnOffTime.setText(ProjectTools.getTimeString(AirOperatingTime.F2Mode_DefaultTurnOffTime));
-                textViewFanTurnOnTime.setText(ProjectTools.getTimeString(FanOperatingTime.F2Mode_DefaultTurnOnTime));
-                textViewFanTurnOffTime.setText(ProjectTools.getTimeString(FanOperatingTime.F2Mode_DefaultTurnOffTime));
+
+//                textViewLightTurnOnTime.setText("AM06:00");
+//                textViewLightTurnOffTime.setText("AM00:00");
+//                textViewAirTurnOnTime.setText("AM00:00");
+//                textViewAirTurnOffTime.setText("AM00:00");
+//                textViewFanTurnOnTime.setText("AM00:00");
+//                textViewFanTurnOffTime.setText("AM00:00");
+
+                textViewLightTurnOnTime.setText(ampm(ProjectTools.getTimeString(LightOperatingTime.F2Mode_DefaultTurnOnTime)));
+                textViewLightTurnOffTime.setText(ampm(ProjectTools.getTimeString(LightOperatingTime.F2Mode_DefaultTurnOffTime)));
+                textViewAirTurnOnTime.setText(ampm(ProjectTools.getTimeString(AirOperatingTime.F2Mode_DefaultTurnOnTime)));
+                textViewAirTurnOffTime.setText(ampm(ProjectTools.getTimeString(AirOperatingTime.F2Mode_DefaultTurnOffTime)));
+                textViewFanTurnOnTime.setText(ampm(ProjectTools.getTimeString(FanOperatingTime.F2Mode_DefaultTurnOnTime)));
+                textViewFanTurnOffTime.setText(ampm(ProjectTools.getTimeString(FanOperatingTime.F2Mode_DefaultTurnOffTime)));
                 switchEnabled(false);
                 break;
             case 3:
                 buttonF3.setSelected(true);
-                textViewLightTurnOnTime.setText(ProjectTools.getTimeString(LightOperatingTime.F3Mode_DefaultTurnOnTime));
-                textViewLightTurnOffTime.setText(ProjectTools.getTimeString(LightOperatingTime.F3Mode_DefaultTurnOffTime));
-                textViewAirTurnOnTime.setText(ProjectTools.getTimeString(AirOperatingTime.F3Mode_DefaultTurnOnTime));
-                textViewAirTurnOffTime.setText(ProjectTools.getTimeString(AirOperatingTime.F3Mode_DefaultTurnOffTime));
-                textViewFanTurnOnTime.setText(ProjectTools.getTimeString(FanOperatingTime.F3Mode_DefaultTurnOnTime));
-                textViewFanTurnOffTime.setText(ProjectTools.getTimeString(FanOperatingTime.F3Mode_DefaultTurnOffTime));
+
+//                textViewLightTurnOnTime.setText("AM00:00");
+//                textViewLightTurnOffTime.setText("AM00:00");
+//                textViewAirTurnOnTime.setText("AM00:00");
+//                textViewAirTurnOffTime.setText("AM00:00");
+//                textViewFanTurnOnTime.setText("AM00:00");
+//                textViewFanTurnOffTime.setText("AM00:00");
+
+                textViewLightTurnOnTime.setText(ampm(ProjectTools.getTimeString(LightOperatingTime.F3Mode_DefaultTurnOnTime)));
+                textViewLightTurnOffTime.setText(ampm(ProjectTools.getTimeString(LightOperatingTime.F3Mode_DefaultTurnOffTime)));
+                textViewAirTurnOnTime.setText(ampm(ProjectTools.getTimeString(AirOperatingTime.F3Mode_DefaultTurnOnTime)));
+                textViewAirTurnOffTime.setText(ampm(ProjectTools.getTimeString(AirOperatingTime.F3Mode_DefaultTurnOffTime)));
+                textViewFanTurnOnTime.setText(ampm(ProjectTools.getTimeString(FanOperatingTime.F3Mode_DefaultTurnOnTime)));
+                textViewFanTurnOffTime.setText(ampm(ProjectTools.getTimeString(FanOperatingTime.F3Mode_DefaultTurnOffTime)));
                 switchEnabled(false);
                 break;
             case 4:
@@ -473,19 +493,19 @@ public class MainActivity extends Activity implements EcoproConnectorCallback {
 
         }
 
-
+        //控制Light Air Fan Water 灰暗的地方
         if (ProjectTools.getEcoproOnOffStatus(ProjectTools.ECOPRO_LIGHT, byteArray) == 0) {
-            textViewLight.setAlpha((float) 0.4);
+            textViewLight.setAlpha((float) 1.0);
         } else if (ProjectTools.getEcoproOnOffStatus(ProjectTools.ECOPRO_LIGHT, byteArray) == 1) {
             textViewLight.setAlpha((float) 1.0);
         }
         if (ProjectTools.getEcoproOnOffStatus(ProjectTools.ECOPRO_AIR, byteArray) == 0) {
-            textViewAir.setAlpha((float) 0.4);
-        } else if (ProjectTools.getEcoproOnOffStatus(ProjectTools.ECOPRO_AIR, byteArray) == 1) {
             textViewAir.setAlpha((float) 1.0);
+        } else if (ProjectTools.getEcoproOnOffStatus(ProjectTools.ECOPRO_AIR, byteArray) == 1) {
+            textViewAir.setAlpha((float) 0.4);
         }
         if (ProjectTools.getEcoproOnOffStatus(ProjectTools.ECOPRO_FAN, byteArray) == 0) {
-            textViewFan.setAlpha((float) 0.4);
+            textViewFan.setAlpha((float) 1.0);
         } else if (ProjectTools.getEcoproOnOffStatus(ProjectTools.ECOPRO_FAN, byteArray) == 1) {
             textViewFan.setAlpha((float) 1.0);
         }
@@ -580,7 +600,21 @@ public class MainActivity extends Activity implements EcoproConnectorCallback {
 
     // region MyHandler
 
+    /**
+     * 添加12小時制AM/PM
+     **/
+    private String ampm(String time) {
+        String time1 = time;
+        String[] temp = time1.split(":");
+        int temp1 = Integer.parseInt(temp[0]);
+        System.out.println("測試時間數值：" + temp1);
 
+        if (temp1 < 12)
+            return "AM" + time1;
+        else
+            return "PM" + time1;
+
+    }
 
 
     /**
@@ -594,20 +628,20 @@ public class MainActivity extends Activity implements EcoproConnectorCallback {
 
             // 更改畫面上所顯示的時間  收到資料傳到 ProjectTools.getEcoproOnTime 做轉換
 
-            System.out.println("測試1:"+ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_LIGHT, ProjectTools.ECOPRO_ON_TIME, byteArray));
-            System.out.println("測試2:"+ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_LIGHT, ProjectTools.ECOPRO_OFF_TIME, byteArray));
-            System.out.println("測試3:"+ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_AIR, ProjectTools.ECOPRO_ON_TIME, byteArray));
-            System.out.println("測試4:"+ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_AIR, ProjectTools.ECOPRO_OFF_TIME, byteArray));
-            System.out.println("測試5:"+ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_FAN, ProjectTools.ECOPRO_ON_TIME, byteArray));
-            System.out.println("測試6:"+ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_FAN, ProjectTools.ECOPRO_OFF_TIME, byteArray));
+//            System.out.println("測試1:" + ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_LIGHT, ProjectTools.ECOPRO_ON_TIME, byteArray)));
+//            System.out.println("測試2:" + ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_LIGHT, ProjectTools.ECOPRO_OFF_TIME, byteArray)));
+//            System.out.println("測試3:" + ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_AIR, ProjectTools.ECOPRO_ON_TIME, byteArray)));
+//            System.out.println("測試4:" + ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_AIR, ProjectTools.ECOPRO_OFF_TIME, byteArray)));
+//            System.out.println("測試5:" + ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_FAN, ProjectTools.ECOPRO_ON_TIME, byteArray)));
+//            System.out.println("測試6:" + ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_FAN, ProjectTools.ECOPRO_OFF_TIME, byteArray)));
 
 
-            textViewLightTurnOnTime.setText(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_LIGHT, ProjectTools.ECOPRO_ON_TIME, byteArray));
-            textViewLightTurnOffTime.setText(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_LIGHT, ProjectTools.ECOPRO_OFF_TIME, byteArray));
-            textViewAirTurnOnTime.setText(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_AIR, ProjectTools.ECOPRO_ON_TIME, byteArray));
-            textViewAirTurnOffTime.setText(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_AIR, ProjectTools.ECOPRO_OFF_TIME, byteArray));
-            textViewFanTurnOnTime.setText(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_FAN, ProjectTools.ECOPRO_ON_TIME, byteArray));
-            textViewFanTurnOffTime.setText(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_FAN, ProjectTools.ECOPRO_OFF_TIME, byteArray));
+            textViewLightTurnOnTime.setText(ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_LIGHT, ProjectTools.ECOPRO_ON_TIME, byteArray)));
+            textViewLightTurnOffTime.setText(ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_LIGHT, ProjectTools.ECOPRO_OFF_TIME, byteArray)));
+            textViewAirTurnOnTime.setText(ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_AIR, ProjectTools.ECOPRO_ON_TIME, byteArray)));
+            textViewAirTurnOffTime.setText(ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_AIR, ProjectTools.ECOPRO_OFF_TIME, byteArray)));
+            textViewFanTurnOnTime.setText(ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_FAN, ProjectTools.ECOPRO_ON_TIME, byteArray)));
+            textViewFanTurnOffTime.setText(ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_FAN, ProjectTools.ECOPRO_OFF_TIME, byteArray)));
 
             // 更改畫面上所顯示的模式
             changeMode(ProjectTools.getEcoproModeIndex(byteArray));
@@ -654,7 +688,7 @@ public class MainActivity extends Activity implements EcoproConnectorCallback {
                 // Do something with outer as your wish.
                 switch (msg.what) {
                     case RECEIVE_DATA:
-                     //   System.out.println("MainActivity MyHandler.RECEIVE_DATA");
+                        //   System.out.println("MainActivity MyHandler.RECEIVE_DATA");
                         activity.updateView((byte[]) msg.obj);
                         break;
                 }

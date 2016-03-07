@@ -27,4 +27,9 @@
     <dimen name="activityIpCamera_surfaceView_layoutWidth">445dp</dimen>
     <dimen name="activityIpCamera_surfaceView_layoutHeight">250dp</dimen>
     <dimen name="actionBar_titleTextSize">18sp</dimen>
+
+    <dimen name="activityMain_name_width">80dp</dimen>
+    <dimen name="activityMain_status_width">80dp</dimen>
+    <dimen name="activityMain_camera_width">60dp</dimen>
+    <dimen name="activityMain_camera_height">60dp</dimen>
 </resources>
