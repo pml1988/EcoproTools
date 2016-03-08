@@ -78,7 +78,7 @@ public class IpCameraActivity extends Activity implements IpCamThread.DataReceiv
         if (strUid.length() > 0) {
             Log.d(TAG, "strUid.length() > 0");
             System.out.println("偵測到UID");
-            flag_uid=true;
+            flag_uid = true;
             viewGroupQRCode.setVisibility(View.INVISIBLE);
             ipCamThread = new IpCamThread(strUid, IpCameraActivity.this);
             ipCamThread.start();
@@ -149,7 +149,7 @@ public class IpCameraActivity extends Activity implements IpCamThread.DataReceiv
 //        Log.d(TAG, "onStart strUid = " + strUid);
         if (strUid.length() < 1) {
             Log.d(TAG, "strUid.length() > 0");
-            flag_uid=false;
+            flag_uid = false;
             System.out.println("無偵測到UID：" + strUid);
             surfaceView.setVisibility(View.INVISIBLE);
             viewGroupQRCode.setVisibility(View.VISIBLE);
@@ -163,8 +163,8 @@ public class IpCameraActivity extends Activity implements IpCamThread.DataReceiv
             if (ipCamThread == null) {
                 viewGroupQRCode.setVisibility(View.INVISIBLE);
                 surfaceView.setVisibility(View.VISIBLE);
-                flag_restart=true;
-                flag_uid=true;
+                flag_restart = true;
+                flag_uid = true;
                 ipCamThread = new IpCamThread(strUid, IpCameraActivity.this);
                 ipCamThread.start();
                 System.out.println("啟動IPcam");
@@ -217,9 +217,8 @@ public class IpCameraActivity extends Activity implements IpCamThread.DataReceiv
 
             dataControl.saveIpCameraUid(strUid);
 
-            if(strUid!=null)
-            {
-                flag_uid=true;
+            if (strUid != null) {
+                flag_uid = true;
             }
 
 
@@ -312,43 +311,27 @@ public class IpCameraActivity extends Activity implements IpCamThread.DataReceiv
 
             switch (v.getId()) {
                 case R.id.activity_ipcam_down:
-//                    if(ipCamThread ==null)
-//                    {}
-//                    else
-
-                    try {
-                        System.out.println("執行" + ipCamThread);
+                    if (ipCamThread != null) {
                         ipCamThread.sendIOCtrl_2((byte) 2);
-                        System.out.println("動作記憶：" + ipCamThread);
-
-                    } catch (Exception e) {
-                        System.out.println("例外");
-
                     }
-
                     System.out.println("下");
                     break;
                 case R.id.activity_ipcam_up:
-
-//                    if(ipCamThread ==null)
-//                    {}
-//                    else
-                    ipCamThread.sendIOCtrl_2((byte) 1);
-
+                    if (ipCamThread != null) {
+                        ipCamThread.sendIOCtrl_2((byte) 1);
+                    }
                     System.out.println("上");
                     break;
                 case R.id.activity_ipcam_left:
-//                    if(ipCamThread ==null)
-//                    {}
-//                    else
-                    ipCamThread.sendIOCtrl_2((byte) 3);
+                    if (ipCamThread != null) {
+                        ipCamThread.sendIOCtrl_2((byte) 3);
+                    }
                     System.out.println("左");
                     break;
                 case R.id.activity_ipcam_right:
-//                    if(ipCamThread ==null)
-//                    {}
-//                    else
-                    ipCamThread.sendIOCtrl_2((byte) 6);
+                    if (ipCamThread != null) {
+                        ipCamThread.sendIOCtrl_2((byte) 6);
+                    }
                     System.out.println("右");
                     break;
 

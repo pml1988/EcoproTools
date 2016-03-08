@@ -320,8 +320,7 @@ public class IpCamThread {
                     continue;
                 }
                 else if (ret == AVAPIs.AV_ER_INCOMPLETE_FRAME) {
-                    System.out.printf("[%s] Incomplete video frame number[%d]\n",
-                            Thread.currentThread().getName(), frameNumber[0]);
+                 //   System.out.printf("[%s] Incomplete video frame number[%d]\n", Thread.currentThread().getName(), frameNumber[0]);
                     continue;
                 }
                 else if (ret == AVAPIs.AV_ER_SESSION_CLOSE_BY_REMOTE) {
@@ -433,7 +432,20 @@ public class IpCamThread {
 
         public void startSetWifi(){
 
-        threadIPCamWifiSettings.start();
+
+            System.out.println("執行緒 threadIPCamWifiSettings："+threadIPCamWifiSettings.isAlive());
+
+            if(!threadIPCamWifiSettings.isAlive())
+            {
+                try {
+                    threadIPCamWifiSettings.start();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    System.out.println("threadIPCamWifiSettings"+e);
+                }
+            }
+
+
     }
 
     private Thread threadIPCamWifiSettings = new Thread(){

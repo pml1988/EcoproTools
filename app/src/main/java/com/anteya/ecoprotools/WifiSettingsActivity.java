@@ -201,6 +201,7 @@ public class WifiSettingsActivity extends Activity implements EcoproConnector.Ec
         hashMap.put("data", byteArray);
 
         ecoproConnector.sendUDPUnicast(hashMap);
+        Toast.makeText(WifiSettingsActivity.this, "設定中請稍候", Toast.LENGTH_LONG).show();
     }
 
     /**
@@ -223,6 +224,7 @@ public class WifiSettingsActivity extends Activity implements EcoproConnector.Ec
         hashMap.put("data", byteArray);
 
         ecoproConnector.sendUDPUnicast(hashMap);
+        Toast.makeText(WifiSettingsActivity.this, "設定中請稍候", Toast.LENGTH_LONG).show();
     }
 
     public void updateView(List list){
