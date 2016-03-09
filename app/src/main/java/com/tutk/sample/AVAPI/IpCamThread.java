@@ -106,13 +106,11 @@ public class IpCamThread {
 
     public void sendIOCtrl_2(final byte direct){
 
-        System.out.println("啟動這裡1:"+index);
         new Thread(){
             @Override
             public void run(){
                 if(index >= 0){
 
-                    System.out.println("啟動這裡2:"+index);
 
                     AVAPIs av = new AVAPIs();
 
@@ -284,7 +282,7 @@ public class IpCamThread {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-
+             //  System.out.println("VIDEO_BUF_SIZE:"+VIDEO_BUF_SIZE);
                 int[] frameNumber = new int[1];
                 int ret = av.avRecvFrameData(avIndex, videoBuffer,
                         VIDEO_BUF_SIZE, frameInfo, FRAME_INFO_SIZE,
@@ -294,8 +292,12 @@ public class IpCamThread {
 
                     // return code 代表回傳資料的長度
                     // 準備一個相同長度的 byte array 來放置接收到的資料，不要直接將 100000長度的byte array 回傳到 MainActivity 去解碼
+
                     byte[] videoBufferNew = new byte[ret];
                     System.arraycopy(videoBuffer, 0, videoBufferNew, 0, videoBufferNew.length);
+
+                    System.out.println("videoBufferNew.length:"+ videoBufferNew.length);
+
 
                     if(listener != null && going){
                         listener.onVideoDataReceive(videoBufferNew);
@@ -387,9 +389,7 @@ public class IpCamThread {
                 }
 
                 int[] frameNumber = new int[1];
-                ret = av.avRecvAudioData(avIndex, audioBuffer,
-                        AUDIO_BUF_SIZE, frameInfo, FRAME_INFO_SIZE,
-                        frameNumber);
+                ret = av.avRecvAudioData(avIndex, audioBuffer, AUDIO_BUF_SIZE, frameInfo, FRAME_INFO_SIZE, frameNumber);
 
 
 

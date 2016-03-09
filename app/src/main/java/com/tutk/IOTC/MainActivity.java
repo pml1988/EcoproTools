@@ -188,7 +188,6 @@ public class MainActivity extends Activity implements IpCamThread.DataReceiveLis
     }
 
     public static void printByte(byte[] dataArray){
-
         String commandString = "{";
 
         for (int i = 0; i<dataArray.length; i++){
@@ -205,7 +204,6 @@ public class MainActivity extends Activity implements IpCamThread.DataReceiveLis
     public void onVideoDataReceive(byte[] data) {
 
         frameToBuffer(data);
-
     }
 
     private byte[] tempSPSData;
@@ -233,6 +231,9 @@ public class MainActivity extends Activity implements IpCamThread.DataReceiveLis
 
 //        printByteArray("tempSPSData", tempSPSData);
         printByteArray("receive frame data", data);
+
+
+        System.out.println("frametobuffer");
         if(decoder != null){
             decoder.onFrame(data,0, data.length, 0);
         }
@@ -240,15 +241,18 @@ public class MainActivity extends Activity implements IpCamThread.DataReceiveLis
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-        Log.e("","surfaceCreated");
+        Log.e("", "surfaceCreated");
+        System.out.println("畫面更新2");
     }
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
         Log.e("","surfaceChanged");
-
+        System.out.println("畫面更新1");
         if(decoder == null){
             decoder = new VideoDecoder(holder.getSurface());
+
+
         }
     }
 

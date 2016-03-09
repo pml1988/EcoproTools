@@ -459,8 +459,23 @@ public class IpCameraActivity extends Activity implements IpCamThread.DataReceiv
 
     public void updateView(byte[] data) {
         // 由 myHandler通知主執行緒更新UI
+
+
+
+
+        System.out.println("data[]:"+data.length);
+
+        for(int i =  10   ;i<20;i++  )
+        {
+            System.out.print(data[i]+" ");
+
+        }
+        System.out.println("");
+      //  System.out.println("updateView");
+
+        /**更新畫面最後地方**/
         if (decoder != null) {
-            decoder.onFrame(data, 0, data.length, 0);
+           decoder.onFrame(data, 0, data.length, 0);
         }
     }
 
