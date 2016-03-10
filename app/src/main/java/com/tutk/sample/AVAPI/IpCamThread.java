@@ -167,7 +167,7 @@ public class IpCamThread {
             AVAPIs.avInitialize(3);
 
             int sid = IOTCAPIs.IOTC_Connect_ByUID(UID);
-            System.out.printf("Step 2: call IOTC_Connect_ByUID(%s)... return sid(%d)\n", UID, sid);
+            System.out.printf("Step 1: call IOTC_Connect_ByUID(%s)... return sid(%d)\n", UID, sid);
 
             int[] srvType = new int[1];
             int avIndex = AVAPIs.avClientStart(sid, "admin", "admin", 20000, srvType, 0);
@@ -175,9 +175,9 @@ public class IpCamThread {
             Log.e("sendIOCtrl_1", "IP Cam 000 index = " + index);
 
 
-            System.out.println("avIndex:" + avIndex);
+           // System.out.println("avIndex:" + avIndex);
             index = avIndex;
-            System.out.println("index:" + index);
+           // System.out.println("index:" + index);
             Log.e("sendIOCtrl_1", "IP Cam 0000 index = " + index);
 
             if (avIndex < 0) {
@@ -188,28 +188,28 @@ public class IpCamThread {
             if (startIpcamStream(avIndex)) {
 
                 VideoThread videoT = new VideoThread(avIndex);
-                AudioThread audioT = new AudioThread(avIndex);
+              //  AudioThread audioT = new AudioThread(avIndex);
 
                 Thread videoThread = new Thread(videoT, "Video Thread");
-                Thread audioThread = new Thread(audioT, "Audio Thread");
+              //  Thread audioThread = new Thread(audioT, "Audio Thread");
 
                 videoThread.start();
-                audioThread.start();
+              //  audioThread.start();
 
                 try {
                     videoThread.join();
                 }
                 catch (InterruptedException e) {
-                    System.out.println(e.getMessage());
+                    System.out.println("threadIPCam 異常："+e.getMessage());
                     return;
                 }
-                try {
-                    audioThread.join();
-                }
-                catch (InterruptedException e) {
-                    System.out.println(e.getMessage());
-                    return;
-                }
+//                try {
+//                //    audioThread.join();
+//                }
+//                catch (InterruptedException e) {
+//                    System.out.println(e.getMessage());
+//                    return;
+//                }
             }
 
             AVAPIs.avClientStop(avIndex);
@@ -278,26 +278,20 @@ public class IpCamThread {
             while (going) {
 
                 try {
-                    Thread.sleep(80);
+                    Thread.sleep(20);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-             //  System.out.println("VIDEO_BUF_SIZE:"+VIDEO_BUF_SIZE);
                 int[] frameNumber = new int[1];
-                int ret = av.avRecvFrameData(avIndex, videoBuffer,
-                        VIDEO_BUF_SIZE, frameInfo, FRAME_INFO_SIZE,
-                        frameNumber);
+
+                /**主要影像資料來源**/
+                int ret = av.avRecvFrameData(avIndex, videoBuffer, VIDEO_BUF_SIZE, frameInfo, FRAME_INFO_SIZE, frameNumber);
 
                 if(ret > 0){
-
                     // return code 代表回傳資料的長度
                     // 準備一個相同長度的 byte array 來放置接收到的資料，不要直接將 100000長度的byte array 回傳到 MainActivity 去解碼
-
                     byte[] videoBufferNew = new byte[ret];
                     System.arraycopy(videoBuffer, 0, videoBufferNew, 0, videoBufferNew.length);
-
-                    System.out.println("videoBufferNew.length:"+ videoBufferNew.length);
-
 
                     if(listener != null && going){
                         listener.onVideoDataReceive(videoBufferNew);
@@ -317,27 +311,23 @@ public class IpCamThread {
                     }
                 }
                 else if (ret == AVAPIs.AV_ER_LOSED_THIS_FRAME) {
-                    System.out.printf("[%s] Lost video frame number[%d]\n",
-                            Thread.currentThread().getName(), frameNumber[0]);
+                    System.out.printf("[%s] Lost video frame number[%d]\n", Thread.currentThread().getName(), frameNumber[0]);
                     continue;
                 }
                 else if (ret == AVAPIs.AV_ER_INCOMPLETE_FRAME) {
-                 //   System.out.printf("[%s] Incomplete video frame number[%d]\n", Thread.currentThread().getName(), frameNumber[0]);
+                    System.out.printf("[%s] Incomplete video frame number[%d]\n", Thread.currentThread().getName(), frameNumber[0]);
                     continue;
                 }
                 else if (ret == AVAPIs.AV_ER_SESSION_CLOSE_BY_REMOTE) {
-                    System.out.printf("[%s] AV_ER_SESSION_CLOSE_BY_REMOTE\n",
-                            Thread.currentThread().getName());
+                    System.out.printf("AV_ER_SESSION_CLOSE_BY_REMOTE [%s]\n", Thread.currentThread().getName());
                     break;
                 }
                 else if (ret == AVAPIs.AV_ER_REMOTE_TIMEOUT_DISCONNECT) {
-                    System.out.printf("[%s] AV_ER_REMOTE_TIMEOUT_DISCONNECT\n",
-                            Thread.currentThread().getName());
+                    System.out.printf("AV_ER_REMOTE_TIMEOUT_DISCONNECT [%s]\n", Thread.currentThread().getName());
                     break;
                 }
                 else if (ret == AVAPIs.AV_ER_INVALID_SID) {
-                    System.out.printf("[%s] Session cant be used anymore\n",
-                            Thread.currentThread().getName());
+                    System.out.printf("Session cant be used anymore [%s]\n", Thread.currentThread().getName());
                     break;
                 }
 

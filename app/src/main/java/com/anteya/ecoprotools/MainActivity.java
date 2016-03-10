@@ -27,6 +27,8 @@ import com.anteya.ecoprotools.operatingtype.LightOperatingTime;
 import com.anteya.ecoprotools.object.ProjectTools;
 
 import java.lang.ref.WeakReference;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -80,6 +82,9 @@ public class MainActivity extends Activity implements EcoproConnectorCallback {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("MM 月 dd 日 HH 時 mm 分 ss 秒");
+        System.out.println("===========================(對時)" + sdf.format(new Date()) + "(校正)===========================");
 
         initData();
 
@@ -385,13 +390,6 @@ public class MainActivity extends Activity implements EcoproConnectorCallback {
                 break;
             case 1:
                 buttonF1.setSelected(true);
-//                textViewLightTurnOnTime.setText("AM07:00");
-//                textViewLightTurnOffTime.setText("PM21:00");
-//                textViewAirTurnOnTime.setText("AM00:00");
-//                textViewAirTurnOffTime.setText("AM00:00");
-//                textViewFanTurnOnTime.setText("AM00:00");
-//                textViewFanTurnOffTime.setText("AM00:00");
-
 
                 textViewLightTurnOnTime.setText(ampm(ProjectTools.getTimeString(LightOperatingTime.F1Mode_DefaultTurnOnTime)));
                 textViewLightTurnOffTime.setText(ampm(ProjectTools.getTimeString(LightOperatingTime.F1Mode_DefaultTurnOffTime)));
@@ -404,13 +402,6 @@ public class MainActivity extends Activity implements EcoproConnectorCallback {
             case 2:
                 buttonF2.setSelected(true);
 
-//                textViewLightTurnOnTime.setText("AM06:00");
-//                textViewLightTurnOffTime.setText("AM00:00");
-//                textViewAirTurnOnTime.setText("AM00:00");
-//                textViewAirTurnOffTime.setText("AM00:00");
-//                textViewFanTurnOnTime.setText("AM00:00");
-//                textViewFanTurnOffTime.setText("AM00:00");
-
                 textViewLightTurnOnTime.setText(ampm(ProjectTools.getTimeString(LightOperatingTime.F2Mode_DefaultTurnOnTime)));
                 textViewLightTurnOffTime.setText(ampm(ProjectTools.getTimeString(LightOperatingTime.F2Mode_DefaultTurnOffTime)));
                 textViewAirTurnOnTime.setText(ampm(ProjectTools.getTimeString(AirOperatingTime.F2Mode_DefaultTurnOnTime)));
@@ -421,13 +412,6 @@ public class MainActivity extends Activity implements EcoproConnectorCallback {
                 break;
             case 3:
                 buttonF3.setSelected(true);
-
-//                textViewLightTurnOnTime.setText("AM00:00");
-//                textViewLightTurnOffTime.setText("AM00:00");
-//                textViewAirTurnOnTime.setText("AM00:00");
-//                textViewAirTurnOffTime.setText("AM00:00");
-//                textViewFanTurnOnTime.setText("AM00:00");
-//                textViewFanTurnOffTime.setText("AM00:00");
 
                 textViewLightTurnOnTime.setText(ampm(ProjectTools.getTimeString(LightOperatingTime.F3Mode_DefaultTurnOnTime)));
                 textViewLightTurnOffTime.setText(ampm(ProjectTools.getTimeString(LightOperatingTime.F3Mode_DefaultTurnOffTime)));

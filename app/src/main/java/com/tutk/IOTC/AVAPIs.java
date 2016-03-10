@@ -167,7 +167,7 @@ public class AVAPIs {
 	public native static int  avClientCleanBuf(int avIndex);
 	public native static int  avClientCleanVideoBuf(int avIndex);
 	public native static int  avClientCleanAudioBuf(int avIndex);
-
+    /****/
 	public native static int  avServStart2(int nSID, String viewAcc, String viewPwd, int timeout_sec, int servType, int ChID);
 	public native static int  avServStart3(int nSID, String viewAcc, String viewPwd, int timeout_sec, int servType, int ChID, int[] bResend);
 	public native static void avServSetResendSize(int avIndex, int nSize);

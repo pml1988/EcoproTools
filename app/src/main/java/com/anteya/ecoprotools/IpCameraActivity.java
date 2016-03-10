@@ -371,6 +371,13 @@ public class IpCameraActivity extends Activity implements IpCamThread.DataReceiv
 
         surfaceView = (SurfaceView) findViewById(R.id.activityIpCamera_surfaceView);
         surfaceView.getHolder().addCallback(this);
+        surfaceView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("重新連結");
+            }
+        });
+
 
         initActionBar();
     }
@@ -463,14 +470,14 @@ public class IpCameraActivity extends Activity implements IpCamThread.DataReceiv
 
 
 
-        System.out.println("data[]:"+data.length);
+    //    System.out.println("data[]:"+data.length);
 
-        for(int i =  10   ;i<20;i++  )
-        {
-            System.out.print(data[i]+" ");
-
-        }
-        System.out.println("");
+//        for(int i =  10   ;i<20;i++  )
+//        {
+//            System.out.print(data[i]+" ");
+//
+//        }
+       // System.out.println("");
       //  System.out.println("updateView");
 
         /**更新畫面最後地方**/

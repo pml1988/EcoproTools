@@ -49,6 +49,8 @@ public class Client {
 
         if (avIndex < 0) {
             System.out.printf("avClientStart failed[%d]\n", avIndex);
+
+
             return;
         }
 
