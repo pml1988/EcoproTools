@@ -122,7 +122,7 @@ public class EcoproConnector {
                     System.out.println("checkLink 開啟 socket");
                     socket.setSoTimeout(TCP_SOCKET_TIMEOUT);
                     if (socket.isConnected()) {
-                        Log.i(TAG, "連線成功：" + socket.toString());
+                        Log.i(TAG, "連線 成功：" + socket.toString());
                         if (ecoproConnectorCallback != null) {
                             ecoproConnectorCallback.onCheckLink(true);
                         }
@@ -199,10 +199,10 @@ public class EcoproConnector {
             socket = SocketFactory.getDefault().createSocket();
             SocketAddress sa = new InetSocketAddress(ipAddress, port);
             socket.connect(sa, TCP_SOCKET_TIMEOUT);
-            System.out.println("executeCommand 開啟 socket");
+          //  System.out.println("executeCommand 開啟 socket");
             socket.setSoTimeout(TCP_SOCKET_TIMEOUT);
             if (socket.isConnected()) {
-                Log.i(TAG, "連線成功：" + socket.toString());
+                Log.i(TAG, "連線 成功：" + socket.toString());
             } else {
                 // 執行完畢，關閉連線。
                 try {
@@ -224,7 +224,7 @@ public class EcoproConnector {
 
         // 執行完畢，關閉連線。
         try {
-            System.out.println("executeCommand socket 關閉");
+          //  System.out.println("executeCommand socket 關閉");
             socket.close();
         } catch (IOException e) {
             e.printStackTrace();

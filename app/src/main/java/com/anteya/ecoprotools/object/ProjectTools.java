@@ -465,6 +465,7 @@ public class ProjectTools {
             }
         }
         Log.d(TAG, logTitle + " : \n 0 " + commandString);
+      //  System.out.println("控制機資料：\n"+commandString);
     }
 
     /**

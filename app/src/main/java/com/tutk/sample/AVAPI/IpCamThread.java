@@ -47,6 +47,7 @@ public class IpCamThread {
 
     public interface DataReceiveListener {
         void onVideoDataReceive(byte[] data);
+        void onProgressbarReceive(boolean close);
     }
 
     private DataReceiveListener listener;
@@ -182,6 +183,9 @@ public class IpCamThread {
 
             if (avIndex < 0) {
                 System.out.printf("avClientStart failed[%d]\n", avIndex);
+
+                listener.onProgressbarReceive(false);
+
                 return;
             }
 
@@ -270,6 +274,9 @@ public class IpCamThread {
         public void run() {
 
             System.out.printf("VideoThread implements Runnable　[%s] Start\n", Thread.currentThread().getName());
+
+            listener.onProgressbarReceive(true);
+
 
             AVAPIs av = new AVAPIs();
             byte[] frameInfo = new byte[FRAME_INFO_SIZE];
@@ -469,6 +476,10 @@ public class IpCamThread {
 
             if (avIndex < 0) {
                 System.out.printf("avClientStart failed[%d]\n", avIndex);
+
+
+
+
                 return;
             }
 

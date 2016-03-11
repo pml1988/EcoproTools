@@ -146,5 +146,10 @@ public class IpCameraWifiSettingsActivity extends Activity implements IpCamThrea
 
     }
 
+    @Override
+    public void onProgressbarReceive(boolean close) {
+
+    }
+
     // endregion
 }

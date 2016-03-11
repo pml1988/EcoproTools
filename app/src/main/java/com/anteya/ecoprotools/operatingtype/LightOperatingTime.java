@@ -5,8 +5,8 @@ package com.anteya.ecoprotools.operatingtype;
  */
 public class LightOperatingTime {
 
-    public static final int F1Mode_DefaultTurnOnTime = 7;
-    public static final int F1Mode_DefaultTurnOffTime = 21;
+    public static final int F1Mode_DefaultTurnOnTime = 8;
+    public static final int F1Mode_DefaultTurnOffTime = 14;
 
     public static final int F2Mode_DefaultTurnOnTime = 6;
     public static final int F2Mode_DefaultTurnOffTime = 0;

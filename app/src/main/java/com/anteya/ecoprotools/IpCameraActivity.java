@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
@@ -17,8 +18,10 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.anteya.ecoprotools.object.DataControl;
@@ -57,6 +60,8 @@ public class IpCameraActivity extends Activity implements IpCamThread.DataReceiv
 
     private ImageButton activity_ipcam_up;
 
+    private ProgressBar loading = null;
+
     private boolean flag = false;
 
     // region service
@@ -83,6 +88,8 @@ public class IpCameraActivity extends Activity implements IpCamThread.DataReceiv
             ipCamThread = new IpCamThread(strUid, IpCameraActivity.this);
             ipCamThread.start();
             System.out.println("啟動IPcam");
+            loading.setVisibility(View.VISIBLE);
+            surfaceView.setVisibility(View.VISIBLE);
 
 
         } else {
@@ -98,13 +105,15 @@ public class IpCameraActivity extends Activity implements IpCamThread.DataReceiv
     private boolean flag_restart = true;
     private boolean flag_uid = false;
 
+    int count ;
+
     @Override
     protected void onResume() {
         super.onResume();
         time_control = new Thread(new Runnable() {
             @Override
             public void run() {
-                int count = 0;
+                count = 0;
                 flag_restart = true;
                 while (flag_restart) {
 
@@ -167,6 +176,8 @@ public class IpCameraActivity extends Activity implements IpCamThread.DataReceiv
                 flag_uid = true;
                 ipCamThread = new IpCamThread(strUid, IpCameraActivity.this);
                 ipCamThread.start();
+
+
                 System.out.println("啟動IPcam");
 
 
@@ -347,6 +358,7 @@ public class IpCameraActivity extends Activity implements IpCamThread.DataReceiv
      */
     private void initView() {
 
+        loading = (ProgressBar) findViewById(R.id.progressBar);
 
         activity_ipcam_right = (ImageButton) findViewById(R.id.activity_ipcam_right);
         activity_ipcam_left = (ImageButton) findViewById(R.id.activity_ipcam_left);
@@ -374,9 +386,27 @@ public class IpCameraActivity extends Activity implements IpCamThread.DataReceiv
         surfaceView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                loading.setVisibility(View.VISIBLE);
+
+                if (ipCamThread != null) {
+                    ipCamThread.closeThread();
+                    ipCamThread = null;
+                }
+                if (ipCamThread == null) {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    ipCamThread = new IpCamThread(strUid, IpCameraActivity.this);
+                    ipCamThread.start();
+                }
                 System.out.println("重新連結");
             }
         });
+
+
 
 
         initActionBar();
@@ -468,21 +498,19 @@ public class IpCameraActivity extends Activity implements IpCamThread.DataReceiv
         // 由 myHandler通知主執行緒更新UI
 
 
-
-
-    //    System.out.println("data[]:"+data.length);
+        //    System.out.println("data[]:"+data.length);
 
 //        for(int i =  10   ;i<20;i++  )
 //        {
 //            System.out.print(data[i]+" ");
 //
 //        }
-       // System.out.println("");
-      //  System.out.println("updateView");
+        // System.out.println("");
+        //  System.out.println("updateView");
 
         /**更新畫面最後地方**/
         if (decoder != null) {
-           decoder.onFrame(data, 0, data.length, 0);
+            decoder.onFrame(data, 0, data.length, 0);
         }
     }
 
@@ -493,6 +521,27 @@ public class IpCameraActivity extends Activity implements IpCamThread.DataReceiv
         message.what = MyHandler.RECEIVE_DATA;
         message.obj = data;
         myHandler.sendMessage(message);
+    }
+
+    @Override
+    public void onProgressbarReceive(boolean close) {
+
+        if(close)
+        {
+            Message message = new Message();
+            message.arg1 = 1;
+            myHandler.sendMessage(message);
+        }
+        else
+        {
+            count = 0 ;
+            Message message = new Message();
+            message.arg1 = 2;
+            myHandler.sendMessage(message);
+        }
+
+
+
     }
 
     private MyHandler myHandler;
@@ -513,6 +562,17 @@ public class IpCameraActivity extends Activity implements IpCamThread.DataReceiv
             IpCameraActivity activity = mOuter.get();
             if (activity != null) {
                 // Do something with outer as your wish.
+
+                switch (msg.arg1) {
+                    case 1:
+                        activity.loading.setVisibility(View.INVISIBLE);
+                        System.out.println("關閉progressbar");
+                        break;
+
+                    case 2:
+                        Toast.makeText(activity ,"連結攝影機失敗，點擊畫面重新連結" ,Toast.LENGTH_SHORT );
+
+                }
 
 
                 switch (msg.what) {

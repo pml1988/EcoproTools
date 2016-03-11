@@ -206,6 +206,11 @@ public class MainActivity extends Activity implements IpCamThread.DataReceiveLis
         frameToBuffer(data);
     }
 
+    @Override
+    public void onProgressbarReceive(boolean close) {
+
+    }
+
     private byte[] tempSPSData;
 
     private void frameToBuffer(byte[] data) {

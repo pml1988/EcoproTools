@@ -479,17 +479,17 @@ public class MainActivity extends Activity implements EcoproConnectorCallback {
 
         //控制Light Air Fan Water 灰暗的地方
         if (ProjectTools.getEcoproOnOffStatus(ProjectTools.ECOPRO_LIGHT, byteArray) == 0) {
-            textViewLight.setAlpha((float) 1.0);
+            textViewLight.setAlpha((float) 0.4);
         } else if (ProjectTools.getEcoproOnOffStatus(ProjectTools.ECOPRO_LIGHT, byteArray) == 1) {
             textViewLight.setAlpha((float) 1.0);
         }
         if (ProjectTools.getEcoproOnOffStatus(ProjectTools.ECOPRO_AIR, byteArray) == 0) {
-            textViewAir.setAlpha((float) 1.0);
-        } else if (ProjectTools.getEcoproOnOffStatus(ProjectTools.ECOPRO_AIR, byteArray) == 1) {
             textViewAir.setAlpha((float) 0.4);
+        } else if (ProjectTools.getEcoproOnOffStatus(ProjectTools.ECOPRO_AIR, byteArray) == 1) {
+            textViewAir.setAlpha((float) 1.0);
         }
         if (ProjectTools.getEcoproOnOffStatus(ProjectTools.ECOPRO_FAN, byteArray) == 0) {
-            textViewFan.setAlpha((float) 1.0);
+            textViewFan.setAlpha((float) 0.4);
         } else if (ProjectTools.getEcoproOnOffStatus(ProjectTools.ECOPRO_FAN, byteArray) == 1) {
             textViewFan.setAlpha((float) 1.0);
         }
@@ -591,7 +591,7 @@ public class MainActivity extends Activity implements EcoproConnectorCallback {
         String time1 = time;
         String[] temp = time1.split(":");
         int temp1 = Integer.parseInt(temp[0]);
-        System.out.println("測試時間數值：" + temp1);
+        //   System.out.println("測試時間數值：" + temp1);
 
         if (temp1 < 12)
             return "AM" + time1;
@@ -627,8 +627,8 @@ public class MainActivity extends Activity implements EcoproConnectorCallback {
             textViewFanTurnOnTime.setText(ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_FAN, ProjectTools.ECOPRO_ON_TIME, byteArray)));
             textViewFanTurnOffTime.setText(ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_FAN, ProjectTools.ECOPRO_OFF_TIME, byteArray)));
 
-            // 更改畫面上所顯示的模式
-            changeMode(ProjectTools.getEcoproModeIndex(byteArray));
+            /**寫死的更改F1F2F3數值設定**/
+            //  changeMode(ProjectTools.getEcoproModeIndex(byteArray));
 
             // 更改畫面上的運作狀態
             changeWorkStatus(byteArray);

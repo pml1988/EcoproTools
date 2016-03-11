@@ -346,6 +346,11 @@ public class IpSettingsActivity extends Activity implements EcoproConnector.Ecop
         if(isLinked){
             Toast.makeText(IpSettingsActivity.this, "連線成功", Toast.LENGTH_SHORT).show();
         }
+        else
+        {
+
+            Toast.makeText(IpSettingsActivity.this, "連線失敗，請確認IP是否正確", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private MyHandler myHandler;
