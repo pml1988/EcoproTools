@@ -161,6 +161,7 @@ public class IpCamThread {
             System.out.printf("IOTC_Initialize() ret = %d\n", ret);
             if (ret != IOTCAPIs.IOTC_ER_NoERROR) {
                 System.out.printf("IOTCAPIs_Device exit...!!\n");
+                listener.onProgressbarReceive(false);
                 return;
             }
 
@@ -223,6 +224,8 @@ public class IpCamThread {
             AVAPIs.avDeInitialize();
             IOTCAPIs.IOTC_DeInitialize();
             System.out.printf("StreamClient exit...\n");
+          //  listener.onProgressbarReceive(false);
+
         }
     };
 
@@ -452,10 +455,11 @@ public class IpCamThread {
 
             // use which Master base on location, port 0 means to get a random port
             int ret = IOTCAPIs.IOTC_Initialize(0, "m1.iotcplatform.com", "m2.iotcplatform.com", "m4.iotcplatform.com", "m5.iotcplatform.com");
-            System.out.printf("IOTC_Initialize() ret = %d\n", ret);
+            System.out.printf("IOTC_wifi_Initialize() ret = %d\n", ret);
 
             if (ret != IOTCAPIs.IOTC_ER_NoERROR) {
-                System.out.printf("IOTCAPIs_Device exit...!!\n");
+                System.out.printf("IOTCAPIs_wifi_Device exit...!!\n");
+                listener.onProgressbarReceive(false);
                 return;
             }
 
@@ -463,11 +467,11 @@ public class IpCamThread {
             AVAPIs.avInitialize(3);
 
             int sid = IOTCAPIs.IOTC_Connect_ByUID(UID);
-            System.out.printf("Step 2: call IOTC_Connect_ByUID(%s)... return sid(%d)\n", UID, sid);
+            System.out.printf("Step 2: call IOTC_wifi_Connect_ByUID(%s)... return sid(%d)\n", UID, sid);
 
             int[] srvType = new int[1];
             int avIndex = AVAPIs.avClientStart(sid, "admin", "admin", 20000, srvType, 0);
-            System.out.printf("Step 2: call avClientStart(%d).......%d\n", avIndex, srvType[0]);
+            System.out.printf("Step 2: call_wifi_avClientStart(%d).......%d\n", avIndex, srvType[0]);
             Log.e("sendIOCtrl_1", "IP Cam 000 index = " + index);
 
 
@@ -475,7 +479,7 @@ public class IpCamThread {
             Log.e("sendIOCtrl_1", "IP Cam 0000 index = " + index);
 
             if (avIndex < 0) {
-                System.out.printf("avClientStart failed[%d]\n", avIndex);
+                System.out.printf("avClientStart_wifi_failed[%d]\n", avIndex);
 
 
 
@@ -486,12 +490,13 @@ public class IpCamThread {
             setWifi(avIndex, ProjectTools.getIOControlCommand_wifiSettings(ssid, password, securityMode));
 
             AVAPIs.avClientStop(avIndex);
-            System.out.printf("avClientStop OK\n");
+            System.out.printf("avClientStop wifi OK\n");
             IOTCAPIs.IOTC_Session_Close(sid);
-            System.out.printf("IOTC_Session_Close OK\n");
+            System.out.printf("IOTC_wifi_Session_Close OK\n");
             AVAPIs.avDeInitialize();
             IOTCAPIs.IOTC_DeInitialize();
-            System.out.printf("StreamClient exit...\n");
+            System.out.printf("StreamClient wifi exit...\n");
+           // listener.onProgressbarReceive(false);
         }
     };
 }

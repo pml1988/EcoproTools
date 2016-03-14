@@ -96,6 +96,7 @@ public class IpCameraActivity extends Activity implements IpCamThread.DataReceiv
             Log.d(TAG, "strUid.length() <= 0");
             // Don't do anything
             System.out.println("無偵測到UID");
+            loading.setVisibility(View.INVISIBLE);
             surfaceView.setVisibility(View.INVISIBLE);
             viewGroupQRCode.setVisibility(View.VISIBLE);
         }
@@ -105,7 +106,7 @@ public class IpCameraActivity extends Activity implements IpCamThread.DataReceiv
     private boolean flag_restart = true;
     private boolean flag_uid = false;
 
-    int count ;
+    int count;
 
     @Override
     protected void onResume() {
@@ -160,6 +161,7 @@ public class IpCameraActivity extends Activity implements IpCamThread.DataReceiv
             Log.d(TAG, "strUid.length() > 0");
             flag_uid = false;
             System.out.println("無偵測到UID：" + strUid);
+            loading.setVisibility(View.INVISIBLE);
             surfaceView.setVisibility(View.INVISIBLE);
             viewGroupQRCode.setVisibility(View.VISIBLE);
 
@@ -170,6 +172,7 @@ public class IpCameraActivity extends Activity implements IpCamThread.DataReceiv
                 ipCamThread = null;
             }
             if (ipCamThread == null) {
+                loading.setVisibility(View.VISIBLE);
                 viewGroupQRCode.setVisibility(View.INVISIBLE);
                 surfaceView.setVisibility(View.VISIBLE);
                 flag_restart = true;
@@ -220,6 +223,8 @@ public class IpCameraActivity extends Activity implements IpCamThread.DataReceiv
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         //QRcode
 
+
+        /**接收QRcode回傳的資料**/
         IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
 
         if (scanningResult != null) {
@@ -407,8 +412,6 @@ public class IpCameraActivity extends Activity implements IpCamThread.DataReceiv
         });
 
 
-
-
         initActionBar();
     }
 
@@ -526,20 +529,18 @@ public class IpCameraActivity extends Activity implements IpCamThread.DataReceiv
     @Override
     public void onProgressbarReceive(boolean close) {
 
-        if(close)
-        {
+        System.out.println("onProgressbarReceive:"+close);
+        if (close) {
             Message message = new Message();
             message.arg1 = 1;
             myHandler.sendMessage(message);
-        }
-        else
-        {
-            count = 0 ;
+        } else {
+            count = 0;
+
             Message message = new Message();
             message.arg1 = 2;
             myHandler.sendMessage(message);
         }
-
 
 
     }
@@ -570,7 +571,10 @@ public class IpCameraActivity extends Activity implements IpCamThread.DataReceiv
                         break;
 
                     case 2:
-                        Toast.makeText(activity ,"連結攝影機失敗，點擊畫面重新連結" ,Toast.LENGTH_SHORT );
+                        System.out.println("連結攝影機失敗，點擊畫面重新連結");
+
+                        activity.loading.setVisibility(View.INVISIBLE);
+                        Toast.makeText(activity, "連結攝影機失敗，點擊畫面重新連結", Toast.LENGTH_SHORT).show();
 
                 }
 

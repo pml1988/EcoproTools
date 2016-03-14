@@ -84,13 +84,14 @@ public class MainActivity extends Activity implements EcoproConnectorCallback {
         setContentView(R.layout.activity_main);
 
         SimpleDateFormat sdf = new SimpleDateFormat("MM 月 dd 日 HH 時 mm 分 ss 秒");
-        System.out.println("===========================(對時)" + sdf.format(new Date()) + "(校正)===========================");
+        System.out.println("======================(校正)" + sdf.format(new Date()) + "(校正)======================");
 
         initData();
 
         initView();
 
         SQLiteControl sqLiteControl = new SQLiteControl(this);
+
 
 //        dataControl.saveIpCameraUid("");
     }

@@ -50,7 +50,7 @@ public class IpCameraWifiSettingsActivity extends Activity implements IpCamThrea
         initView();
     }
 
-    // region initial
+    // region inioial
 
     private void initData(){
 
