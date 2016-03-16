@@ -513,13 +513,13 @@ public class ProjectTools {
                 break;
         }
 
-        Log.d(TAG, "燈光 開啟時間 " + convertByteToHexString(byteArray[3]) + ":" + convertByteToHexString(byteArray[4]) +  ", 關閉時間 " + convertByteToHexString(byteArray[5]) + ":" + convertByteToHexString(byteArray[6])
-                + " 控制狀態 " + tempOnOff(byteArray[7]) + ", 負載狀態 " + tempWork(byteArray[8]));
-        Log.d(TAG, "幫浦 開啟時間 " + convertByteToHexString(byteArray[9]) + ":" + convertByteToHexString(byteArray[10]) +  ", 關閉時間 " + convertByteToHexString(byteArray[11]) + ":" + convertByteToHexString(byteArray[12])
-                + " 控制狀態 " + tempOnOff(byteArray[13]) + ", 負載狀態 " + tempWork(byteArray[14]));
-        Log.d(TAG, "風扇 開啟時間 " + convertByteToHexString(byteArray[15]) + ":" + convertByteToHexString(byteArray[16]) +  ", 關閉時間 " + convertByteToHexString(byteArray[17]) + ":" + convertByteToHexString(byteArray[18])
-                + " 控制狀態 " + tempOnOff(byteArray[19]) + ", 負載狀態 " + tempWork(byteArray[20]));
-        Log.d(TAG, "水位 " + tempWater(byteArray[21]));
+//        Log.d(TAG, "燈光 開啟時間 " + convertByteToHexString(byteArray[3]) + ":" + convertByteToHexString(byteArray[4]) +  ", 關閉時間 " + convertByteToHexString(byteArray[5]) + ":" + convertByteToHexString(byteArray[6])
+//                + " 控制狀態 " + tempOnOff(byteArray[7]) + ", 負載狀態 " + tempWork(byteArray[8]));
+//        Log.d(TAG, "幫浦 開啟時間 " + convertByteToHexString(byteArray[9]) + ":" + convertByteToHexString(byteArray[10]) +  ", 關閉時間 " + convertByteToHexString(byteArray[11]) + ":" + convertByteToHexString(byteArray[12])
+//                + " 控制狀態 " + tempOnOff(byteArray[13]) + ", 負載狀態 " + tempWork(byteArray[14]));
+//        Log.d(TAG, "風扇 開啟時間 " + convertByteToHexString(byteArray[15]) + ":" + convertByteToHexString(byteArray[16]) +  ", 關閉時間 " + convertByteToHexString(byteArray[17]) + ":" + convertByteToHexString(byteArray[18])
+//                + " 控制狀態 " + tempOnOff(byteArray[19]) + ", 負載狀態 " + tempWork(byteArray[20]));
+//        Log.d(TAG, "水位 " + tempWater(byteArray[21]));
 
     }
 

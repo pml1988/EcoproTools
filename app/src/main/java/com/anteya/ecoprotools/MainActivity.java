@@ -628,8 +628,8 @@ public class MainActivity extends Activity implements EcoproConnectorCallback {
             textViewFanTurnOnTime.setText(ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_FAN, ProjectTools.ECOPRO_ON_TIME, byteArray)));
             textViewFanTurnOffTime.setText(ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_FAN, ProjectTools.ECOPRO_OFF_TIME, byteArray)));
 
-            /**寫死的更改F1F2F3數值設定**/
-            //  changeMode(ProjectTools.getEcoproModeIndex(byteArray));
+            /**寫死的更改F1F2F3數值設定 此處修改會影響控制機控制手機變動**/
+              changeMode(ProjectTools.getEcoproModeIndex(byteArray));
 
             // 更改畫面上的運作狀態
             changeWorkStatus(byteArray);
