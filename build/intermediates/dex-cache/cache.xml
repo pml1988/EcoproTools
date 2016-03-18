@@ -1,2 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<items version="2" />
+<items version="2" >
+
+    <item
+        jar="E:\Work\Anteya\EcoproTools\app\build\intermediates\exploded-aar\com.android.support\design\23.1.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="379471b2bd17d9737c050345c08e8c7d16589784">
+        <dex dex="E:\Work\Anteya\EcoproTools\app\build\intermediates\pre-dexed\debug\com.android.support-design-23.1.1_7dc78d9bd04b64b14876e482e0362e95544b406f.jar" />
+    </item>
+    <item
+        jar="E:\Work\Anteya\EcoproTools\app\build\intermediates\exploded-aar\com.journeyapps\zxing-android-integration\2.0.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="d4d7d4290dc3f13bdb95a92b2377d78e66084dfa">
+        <dex dex="E:\Work\Anteya\EcoproTools\app\build\intermediates\pre-dexed\debug\com.journeyapps-zxing-android-integration-2.0.1_0303060bb98fe24d78533c865379adf94e8b2cdd.jar" />
+    </item>
+    <item
+        jar="E:\Work\Anteya\EcoproTools\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\23.1.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="09c5e804bc67fc0580360043dff067df574a60d4">
+        <dex dex="E:\Work\Anteya\EcoproTools\app\build\intermediates\pre-dexed\debug\com.android.support-recyclerview-v7-23.1.1_7f20429af5e51c2eb6e655d73c7df47b6d92ab7c.jar" />
+    </item>
+    <item
+        jar="C:\Users\Marco\AppData\Local\Android\sdk1\extras\android\m2repository\com\android\support\support-annotations\23.1.1\support-annotations-23.1.1.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="8d680ba5a623724d1fb0e81c36a790f023a6cede">
+        <dex dex="E:\Work\Anteya\EcoproTools\app\build\intermediates\pre-dexed\debug\support-annotations-23.1.1_2953dc8080128f80f92c307ea15bee3a7b15a9cf.jar" />
+    </item>
+    <item
+        jar="E:\Work\Anteya\EcoproTools\app\build\intermediates\exploded-aar\com.journeyapps\zxing-android-legacy\2.0.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="7eb68150c290a271a716675ebdfd176eac694124">
+        <dex dex="E:\Work\Anteya\EcoproTools\app\build\intermediates\pre-dexed\debug\com.journeyapps-zxing-android-legacy-2.0.1_27eb3328c9a789e1cd8bb9bff414bc7c8b459d17.jar" />
+    </item>
+    <item
+        jar="E:\Work\Anteya\EcoproTools\app\build\intermediates\exploded-aar\com.journeyapps\zxing-android-embedded\2.0.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="f38c1fe0ee3d0ef717e7f32131719fccf07fd6c7">
+        <dex dex="E:\Work\Anteya\EcoproTools\app\build\intermediates\pre-dexed\debug\com.journeyapps-zxing-android-embedded-2.0.1_4bae401c95691aef2a37ccabbc9d5fa7a577aae1.jar" />
+    </item>
+    <item
+        jar="E:\Work\Anteya\EcoproTools\app\build\intermediates\exploded-aar\EcoproTools\anteyalibrary\unspecified\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="79edc0ac35f70087f47ca1a052263c4706cab579">
+        <dex dex="E:\Work\Anteya\EcoproTools\app\build\intermediates\pre-dexed\debug\EcoproTools-anteyalibrary-unspecified_78f4d5a5edb4b0570ed82207e73bce530a6aa6e0.jar" />
+    </item>
+    <item
+        jar="E:\Work\Anteya\EcoproTools\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.1.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="5c5699834e9722f1c288fea2de82725d078ba127">
+        <dex dex="E:\Work\Anteya\EcoproTools\app\build\intermediates\pre-dexed\debug\com.android.support-appcompat-v7-23.1.1_9919cd9f2caae0fe5bdce7af4a29b9b4b82f330e.jar" />
+    </item>
+    <item
+        jar="C:\Users\Marco\.gradle\caches\modules-2\files-2.1\com.google.zxing\core\3.2.0\e019d15a13a9786f881141d2df6654b8510bce8b\core-3.2.0.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="e019d15a13a9786f881141d2df6654b8510bce8b">
+        <dex dex="E:\Work\Anteya\EcoproTools\app\build\intermediates\pre-dexed\debug\core-3.2.0_51e69844db6700eb689061f89c1351e18c1f4cc3.jar" />
+    </item>
+    <item
+        jar="E:\Work\Anteya\EcoproTools\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.1\jars\libs\internal_impl-23.1.1.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="a4de9c81ae239414e1ed0f86441b02abaf29bca9">
+        <dex dex="E:\Work\Anteya\EcoproTools\app\build\intermediates\pre-dexed\debug\internal_impl-23.1.1_88e94697741c4e09a9fd5b3fa3772f229585f947.jar" />
+    </item>
+    <item
+        jar="E:\Work\Anteya\EcoproTools\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="6cbc7773921fcfedbe55657578f0cbfe614778dc">
+        <dex dex="E:\Work\Anteya\EcoproTools\app\build\intermediates\pre-dexed\debug\com.android.support-support-v4-23.1.1_2136df8a4862cc751b8344ce0a80acbb7e243241.jar" />
+    </item>
+
+</items>
