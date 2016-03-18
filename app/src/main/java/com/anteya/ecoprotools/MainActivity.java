@@ -625,7 +625,7 @@ public class MainActivity extends Activity implements EcoproConnectorCallback , 
                 if (temp1 < 12)
                     return "AM" + time1;
                 else
-                    return "PM" + (temp1-12)+":"+temp[1];
+                    return "PM" + String.format("%02d",temp1-12)+":"+temp[1];
             }
         } catch (NumberFormatException e) {
             e.printStackTrace();
