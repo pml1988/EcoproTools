@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -33,7 +34,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class MainActivity extends Activity implements EcoproConnectorCallback {
+public class MainActivity extends Activity implements EcoproConnectorCallback , View.OnClickListener {
 
     // region Data variables
 
@@ -73,6 +74,10 @@ public class MainActivity extends Activity implements EcoproConnectorCallback {
     private TextView textViewFanTurnOnTime, textViewFanTurnOffTime;
     private ImageView imageViewLightWorkStatus, imageViewAirWorkStatus, imageViewFanWorkStatus, imageViewWaterStatus;
     private TextView textViewLight, textViewAir, textViewFan;
+    private LinearLayout manual_layout ;
+
+    private TextView manual_m1,manual_m2,manual_m3,manual_m4,manual_m5;
+
 
     // endregion
 
@@ -141,6 +146,20 @@ public class MainActivity extends Activity implements EcoproConnectorCallback {
         buttonF3.setTag(3);
         buttonManual = (Button) findViewById(R.id.button4);
         buttonManual.setTag(4);
+
+        //控制手動模式 設定組別
+        manual_layout = (LinearLayout)findViewById(R.id.activityMain_Manual_control);
+        manual_m1 = (TextView)findViewById(R.id.manual_m1);
+        manual_m2 = (TextView)findViewById(R.id.manual_m2);
+        manual_m3 = (TextView)findViewById(R.id.manual_m3);
+        manual_m4 = (TextView)findViewById(R.id.manual_m4);
+        manual_m5 = (TextView)findViewById(R.id.manual_m5);
+        manual_m1.setOnClickListener(this);
+        manual_m2.setOnClickListener(this);
+        manual_m3.setOnClickListener(this);
+        manual_m4.setOnClickListener(this);
+        manual_m5.setOnClickListener(this);
+
 
 
         buttonShotDown.setOnClickListener(buttonClickListener);
@@ -387,43 +406,45 @@ public class MainActivity extends Activity implements EcoproConnectorCallback {
             case 0:
                 System.out.println("F0");
                 buttonShotDown.setSelected(true);
+                manual_layout.setVisibility(View.INVISIBLE);
                 switchEnabled(false);
                 break;
             case 1:
                 buttonF1.setSelected(true);
-
-                textViewLightTurnOnTime.setText(ampm(ProjectTools.getTimeString(LightOperatingTime.F1Mode_DefaultTurnOnTime)));
-                textViewLightTurnOffTime.setText(ampm(ProjectTools.getTimeString(LightOperatingTime.F1Mode_DefaultTurnOffTime)));
-                textViewAirTurnOnTime.setText(ampm(ProjectTools.getTimeString(AirOperatingTime.F1Mode_DefaultTurnOnTime)));
-                textViewAirTurnOffTime.setText(ampm(ProjectTools.getTimeString(AirOperatingTime.F1Mode_DefaultTurnOffTime)));
-                textViewFanTurnOnTime.setText(ampm(ProjectTools.getTimeString(FanOperatingTime.F1Mode_DefaultTurnOnTime)));
-                textViewFanTurnOffTime.setText(ampm(ProjectTools.getTimeString(FanOperatingTime.F1Mode_DefaultTurnOffTime)));
+                manual_layout.setVisibility(View.INVISIBLE);
+//                textViewLightTurnOnTime.setText(ampm(ProjectTools.getTimeString(LightOperatingTime.F1Mode_DefaultTurnOnTime)));
+//                textViewLightTurnOffTime.setText(ampm(ProjectTools.getTimeString(LightOperatingTime.F1Mode_DefaultTurnOffTime)));
+//                textViewAirTurnOnTime.setText(ampm(ProjectTools.getTimeString(AirOperatingTime.F1Mode_DefaultTurnOnTime)));
+//                textViewAirTurnOffTime.setText(ampm(ProjectTools.getTimeString(AirOperatingTime.F1Mode_DefaultTurnOffTime)));
+//                textViewFanTurnOnTime.setText(ampm(ProjectTools.getTimeString(FanOperatingTime.F1Mode_DefaultTurnOnTime)));
+//                textViewFanTurnOffTime.setText(ampm(ProjectTools.getTimeString(FanOperatingTime.F1Mode_DefaultTurnOffTime)));
                 switchEnabled(false);
                 break;
             case 2:
                 buttonF2.setSelected(true);
-
-                textViewLightTurnOnTime.setText(ampm(ProjectTools.getTimeString(LightOperatingTime.F2Mode_DefaultTurnOnTime)));
-                textViewLightTurnOffTime.setText(ampm(ProjectTools.getTimeString(LightOperatingTime.F2Mode_DefaultTurnOffTime)));
-                textViewAirTurnOnTime.setText(ampm(ProjectTools.getTimeString(AirOperatingTime.F2Mode_DefaultTurnOnTime)));
-                textViewAirTurnOffTime.setText(ampm(ProjectTools.getTimeString(AirOperatingTime.F2Mode_DefaultTurnOffTime)));
-                textViewFanTurnOnTime.setText(ampm(ProjectTools.getTimeString(FanOperatingTime.F2Mode_DefaultTurnOnTime)));
-                textViewFanTurnOffTime.setText(ampm(ProjectTools.getTimeString(FanOperatingTime.F2Mode_DefaultTurnOffTime)));
+                manual_layout.setVisibility(View.INVISIBLE);
+//                textViewLightTurnOnTime.setText(ampm(ProjectTools.getTimeString(LightOperatingTime.F2Mode_DefaultTurnOnTime)));
+//                textViewLightTurnOffTime.setText(ampm(ProjectTools.getTimeString(LightOperatingTime.F2Mode_DefaultTurnOffTime)));
+//                textViewAirTurnOnTime.setText(ampm(ProjectTools.getTimeString(AirOperatingTime.F2Mode_DefaultTurnOnTime)));
+//                textViewAirTurnOffTime.setText(ampm(ProjectTools.getTimeString(AirOperatingTime.F2Mode_DefaultTurnOffTime)));
+//                textViewFanTurnOnTime.setText(ampm(ProjectTools.getTimeString(FanOperatingTime.F2Mode_DefaultTurnOnTime)));
+//                textViewFanTurnOffTime.setText(ampm(ProjectTools.getTimeString(FanOperatingTime.F2Mode_DefaultTurnOffTime)));
                 switchEnabled(false);
                 break;
             case 3:
                 buttonF3.setSelected(true);
-
-                textViewLightTurnOnTime.setText(ampm(ProjectTools.getTimeString(LightOperatingTime.F3Mode_DefaultTurnOnTime)));
-                textViewLightTurnOffTime.setText(ampm(ProjectTools.getTimeString(LightOperatingTime.F3Mode_DefaultTurnOffTime)));
-                textViewAirTurnOnTime.setText(ampm(ProjectTools.getTimeString(AirOperatingTime.F3Mode_DefaultTurnOnTime)));
-                textViewAirTurnOffTime.setText(ampm(ProjectTools.getTimeString(AirOperatingTime.F3Mode_DefaultTurnOffTime)));
-                textViewFanTurnOnTime.setText(ampm(ProjectTools.getTimeString(FanOperatingTime.F3Mode_DefaultTurnOnTime)));
-                textViewFanTurnOffTime.setText(ampm(ProjectTools.getTimeString(FanOperatingTime.F3Mode_DefaultTurnOffTime)));
+                manual_layout.setVisibility(View.INVISIBLE);
+//                textViewLightTurnOnTime.setText(ampm(ProjectTools.getTimeString(LightOperatingTime.F3Mode_DefaultTurnOnTime)));
+//                textViewLightTurnOffTime.setText(ampm(ProjectTools.getTimeString(LightOperatingTime.F3Mode_DefaultTurnOffTime)));
+//                textViewAirTurnOnTime.setText(ampm(ProjectTools.getTimeString(AirOperatingTime.F3Mode_DefaultTurnOnTime)));
+//                textViewAirTurnOffTime.setText(ampm(ProjectTools.getTimeString(AirOperatingTime.F3Mode_DefaultTurnOffTime)));
+//                textViewFanTurnOnTime.setText(ampm(ProjectTools.getTimeString(FanOperatingTime.F3Mode_DefaultTurnOnTime)));
+//                textViewFanTurnOffTime.setText(ampm(ProjectTools.getTimeString(FanOperatingTime.F3Mode_DefaultTurnOffTime)));
                 switchEnabled(false);
                 break;
             case 4:
                 buttonManual.setSelected(true);
+                manual_layout.setVisibility(View.VISIBLE);
 //                textViewLightTurnOnTime.setText(ProjectTools.getTimeString(lightOperatingTime.ManualMode_TurnOnTime));
 //                textViewLightTurnOffTime.setText(ProjectTools.getTimeString(lightOperatingTime.ManualMode_TurnOffTime));
 //                textViewAirTurnOnTime.setText(ProjectTools.getTimeString(airOperatingTime.ManualMode_TurnOnTime));
@@ -538,6 +559,8 @@ public class MainActivity extends Activity implements EcoproConnectorCallback {
         }
     }
 
+
+
     /**
      * Timer 的 Task ， 每n秒發送一次指令
      **/
@@ -589,16 +612,27 @@ public class MainActivity extends Activity implements EcoproConnectorCallback {
      * 添加12小時制AM/PM
      **/
     private String ampm(String time) {
-        String time1 = time;
-        String[] temp = time1.split(":");
-        int temp1 = Integer.parseInt(temp[0]);
-        //   System.out.println("測試時間數值：" + temp1);
 
-        if (temp1 < 12)
-            return "AM" + time1;
-        else
-            return "PM" + time1;
+        try {
+           // System.out.println("ampm:"+time);
+            String time1 = time;
+            if(time !=null)
+            {
+                String[] temp = time1.split(":");
+                int temp1 = Integer.parseInt(temp[0]);
+                //   System.out.println("測試時間數值：" + temp1);
 
+                if (temp1 < 12)
+                    return "AM" + time1;
+                else
+                    return "PM" + (temp1-12)+":"+temp[1];
+            }
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            System.out.println("錯誤MainActivity_ampm:"+e);
+        }
+
+        return time;
     }
 
 
@@ -680,6 +714,62 @@ public class MainActivity extends Activity implements EcoproConnectorCallback {
             }
         }
     }
+
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId())
+        {
+            case R.id.manual_m1:
+                System.out.println("記錄1");
+                manual_m1.setAlpha((float) 1.0);
+                manual_m2.setAlpha((float) 0.4);
+                manual_m3.setAlpha((float) 0.4);
+                manual_m4.setAlpha((float) 0.4);
+                manual_m5.setAlpha((float) 0.4);
+                break;
+            case R.id.manual_m2:
+                System.out.println("記錄2");
+                manual_m1.setAlpha((float) 0.4);
+                manual_m2.setAlpha((float) 1.0);
+                manual_m3.setAlpha((float) 0.4);
+                manual_m4.setAlpha((float) 0.4);
+                manual_m5.setAlpha((float) 0.4);
+                break;
+            case R.id.manual_m3:
+                System.out.println("記錄3");
+                manual_m1.setAlpha((float) 0.4);
+                manual_m2.setAlpha((float) 0.4);
+                manual_m3.setAlpha((float) 1.0);
+                manual_m4.setAlpha((float) 0.4);
+                manual_m5.setAlpha((float) 0.4);
+                break;
+            case R.id.manual_m4:
+                System.out.println("記錄4");
+                manual_m1.setAlpha((float) 0.4);
+                manual_m2.setAlpha((float) 0.4);
+                manual_m3.setAlpha((float) 0.4);
+                manual_m4.setAlpha((float) 1.0);
+                manual_m5.setAlpha((float) 0.4);
+            break;
+            case R.id.manual_m5:
+                System.out.println("記錄5");
+                manual_m1.setAlpha((float) 0.4);
+                manual_m2.setAlpha((float) 0.4);
+                manual_m3.setAlpha((float) 0.4);
+                manual_m4.setAlpha((float) 0.4);
+                manual_m5.setAlpha((float) 1.0);
+            break;
+
+
+
+
+
+        }
+
+
+    }
+
 
     // endregion
 }

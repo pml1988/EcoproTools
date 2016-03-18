@@ -17,6 +17,7 @@
         android:layout_alignParentLeft="true"
         android:orientation="horizontal"
         android:gravity="center">
+
         <Button
             android:id="@+id/button0"
             android:text="Stop"
@@ -49,6 +50,64 @@
             android:layout_weight="1" />
     </LinearLayout>
 
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/activityMain_layoutMode"
+
+        android:layout_height="60dp"
+        android:layout_marginLeft="@dimen/activityMain_manual_left_margin"
+        android:id="@+id/activityMain_Manual_control"
+        android:visibility="invisible">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView"
+            android:layout_weight="1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="M1"
+            android:alpha="0.4"
+            android:id="@+id/manual_m1"
+            android:layout_weight="1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="M2"
+            android:alpha="0.4"
+            android:id="@+id/manual_m2"
+            android:layout_weight="1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="M3"
+            android:alpha="0.4"
+            android:id="@+id/manual_m3"
+            android:layout_weight="1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="M4"
+            android:alpha="0.4"
+            android:id="@+id/manual_m4"
+            android:layout_weight="1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="M5"
+            android:alpha="0.4"
+            android:id="@+id/manual_m5"
+            android:layout_weight="1" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/activityMain_layoutInfo"

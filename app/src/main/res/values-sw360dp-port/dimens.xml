@@ -32,4 +32,5 @@
     <dimen name="activityMain_status_width">60dp</dimen>
     <dimen name="activityMain_camera_width">60dp</dimen>
     <dimen name="activityMain_camera_height">60dp</dimen>
+    <dimen name="activityMain_manual_left_margin">120dp</dimen>
 </resources>

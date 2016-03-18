@@ -261,23 +261,55 @@ public class ProjectTools {
 
     public static String getEcoproOnTime(int deviceType, int onOffType, byte[] byteArray){
 
+        try {
+            return convertByteToHexString(byteArray[deviceType+onOffType]) + ":" + convertByteToHexString(byteArray[deviceType+onOffType+1]);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("錯誤ProjectTools_getEcoproOnTime:"+e);
+            return null;
+        }
 
-        return convertByteToHexString(byteArray[deviceType+onOffType]) + ":" + convertByteToHexString(byteArray[deviceType+onOffType+1]);
     }
 
     public static int getEcoproWorkStatus(int deviceType, byte[] byteArray){
 
-        return byteArray[deviceType+5];
+        try {
+            return byteArray[deviceType+5];
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("錯誤ProjectTools_getEcoproWorkStatus:"+e);
+            return 0;
+        }
+
     }
     public static int getEcoproWaterStatus(byte[] byteArray){
 
-        return byteArray[21];
+        try {
+            return byteArray[21];
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("ProjectTools_getEcoproWaterStatus:"+e);
+            return 0;
+        }
+
+
+
+
     }
 
 
     public static int getEcoproOnOffStatus(int deviceType, byte[] byteArray){
 
-        return byteArray[deviceType + 4];
+        try {
+            return byteArray[deviceType + 4];
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("錯誤ProjectTools_getEcoproOnOffStatus:"+e);
+            return 0;
+        }
+
+
+
     }
 
     // endregion
