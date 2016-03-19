@@ -4,8 +4,6 @@
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.anteya.ecoprotools.MainActivity">
 
@@ -23,31 +21,81 @@
             android:text="Stop"
             style="@style/ActivityMain_ButtonMode_Style"
             android:layout_width="wrap_content"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:visibility="gone" />
         <Button
             android:id="@+id/button1"
             style="@style/ActivityMain_ButtonMode_Style"
             android:text="Germinate"
             android:layout_width="wrap_content"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:visibility="gone" />
         <Button
             android:id="@+id/button2"
             style="@style/ActivityMain_ButtonMode_Style"
             android:text="Growth"
             android:layout_width="wrap_content"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:visibility="gone" />
         <Button
             android:id="@+id/button3"
             style="@style/ActivityMain_ButtonMode_Style"
             android:text="Flower"
             android:layout_width="wrap_content"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:visibility="gone" />
         <Button
             android:id="@+id/button4"
             style="@style/ActivityMain_ButtonMode_Style"
             android:text="Manual"
             android:layout_width="wrap_content"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:visibility="gone" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageButton2"
+            android:layout_weight="1"
+            android:src="@drawable/activity_main_stop_on"
+            android:scaleType="fitEnd"
+            android:background="@null" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageButton"
+            android:layout_weight="1"
+            android:src="@drawable/activity_main_germinate_off"
+            android:scaleType="fitEnd"
+            android:background="@null" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageButton4"
+            android:layout_weight="1"
+            android:src="@drawable/activity_main_growth_off"
+            android:scaleType="fitEnd"
+            android:background="@null" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageButton3"
+            android:layout_weight="1"
+            android:src="@drawable/activity_main_flower_off"
+            android:scaleType="fitEnd"
+            android:background="@null" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageButton6"
+            android:layout_weight="1"
+            android:src="@drawable/activity_main_manual_off"
+            android:scaleType="fitEnd"
+            android:background="@null" />
     </LinearLayout>
 
 
