@@ -5,7 +5,7 @@
     <dimen name="activityMain_buttonMode_height">60dp</dimen>
     <dimen name="activityMain_buttonMode_textSize">14sp</dimen>
     <dimen name="activityMain_layoutInfoRow_layoutWidth">300dp</dimen>
-    <dimen name="activityMain_layoutInfoRow_layoutHeight">50dp</dimen>
+    <dimen name="activityMain_layoutInfoRow_layoutHeight">30dp</dimen>
     <dimen name="activityMain_textTitle_layoutWidth">100dp</dimen>
     <dimen name="activityMain_textTitle_layoutHeight">50dp</dimen>
     <dimen name="activityMain_textTurnOnTime_layoutWidth">70dp</dimen>
@@ -23,13 +23,17 @@
     <dimen name="activitySettings_textViewTitle_textSize">18sp</dimen>
     <dimen name="activitySettings_textViewBigTitle_textSize">20sp</dimen>
     <dimen name="activitySettings_textViewBigTitle_layoutHeight">48dp</dimen>
-    <dimen name="activityMain_layoutInfo_marginTop">60dp</dimen>
+    <dimen name="activityMain_layoutInfo_marginTop">40dp</dimen>
     <dimen name="activityIpCamera_surfaceView_layoutWidth">524dp</dimen>
-    <dimen name="activityIpCamera_surfaceView_layoutHeight">290dp</dimen>
+    <dimen name="activityIpCamera_surfaceView_layoutHeight">200dp</dimen>
     <dimen name="actionBar_titleTextSize">18sp</dimen>
 
     <dimen name="activityMain_name_width">80dp</dimen>
     <dimen name="activityMain_status_width">80dp</dimen>
-    <dimen name="activityMain_camera_width">60dp</dimen>
-    <dimen name="activityMain_camera_height">60dp</dimen>
+    <dimen name="activityMain_camera_width">50dp</dimen>
+    <dimen name="activityMain_camera_margin">100dp</dimen>
+    <dimen name="activityMain_camera_height">50dp</dimen>
+    <dimen name="activity_vertical_margin">0dp</dimen>
+    <dimen name="activity_vertical_qrcode">60dp</dimen>
+    <dimen name="activity_vertical_nothing">20dp</dimen>
 </resources>
