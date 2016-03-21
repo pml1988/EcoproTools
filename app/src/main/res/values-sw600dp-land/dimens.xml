@@ -25,7 +25,7 @@
     <dimen name="activitySettings_textViewTitle_textSize">18sp</dimen>
     <dimen name="activitySettings_textViewBigTitle_textSize">18sp</dimen>
     <dimen name="activitySettings_textViewBigTitle_layoutHeight">60dp</dimen>
-    <dimen name="activityMain_layoutInfo_marginTop">60dp</dimen>
+    <dimen name="activityMain_layoutInfo_marginTop">50dp</dimen>
     <dimen name="actionBar_titleTextSize">18sp</dimen>
 
     <dimen name="activityMain_name_width">120dp</dimen>
@@ -33,7 +33,9 @@
     <dimen name="activityMain_camera_width">100dp</dimen>
     <dimen name="activityMain_camera_height">100dp</dimen>
     <dimen name="activityMain_camera_margin">160dp</dimen>
-    <dimen name="activityMain_manual_left_margin">160dp</dimen>
+    <dimen name="activityMain_manual_left_margin">385dp</dimen>
+    <dimen name="activityMain_manual_control_top">25dp</dimen>
+    <dimen name="activityMain_layoutinfo_width">120dp</dimen>
     <dimen name="activity_vertical_qrcode">120dp</dimen>
     <dimen name="activity_vertical_nothing">20dp</dimen>
 

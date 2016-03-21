@@ -262,11 +262,11 @@ public class ProjectTools {
     public static String getEcoproOnTime(int deviceType, int onOffType, byte[] byteArray){
 
         try {
-            return convertByteToHexString(byteArray[deviceType+onOffType]) + ":" + convertByteToHexString(byteArray[deviceType+onOffType+1]);
+              return convertByteToHexString(byteArray[deviceType+onOffType]) + ":" + convertByteToHexString(byteArray[deviceType+onOffType+1]);
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("錯誤ProjectTools_getEcoproOnTime:"+e);
-            return null;
+            return "00:00";
         }
 
     }

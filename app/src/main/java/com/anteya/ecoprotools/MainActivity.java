@@ -34,7 +34,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class MainActivity extends Activity implements EcoproConnectorCallback , View.OnClickListener {
+public class MainActivity extends Activity implements EcoproConnectorCallback, View.OnClickListener {
 
     // region Data variables
 
@@ -63,6 +63,19 @@ public class MainActivity extends Activity implements EcoproConnectorCallback , 
 
     // region View variables
 
+    private ImageButton lb_stop;
+    private ImageButton lb_F1;
+    private ImageButton lb_F2;
+    private ImageButton lb_F3;
+    private ImageButton lb_Manual;
+
+    private ImageButton mm1;
+    private ImageButton mm2;
+    private ImageButton mm3;
+    private ImageButton mm4;
+    private ImageButton mm5;
+
+
     private Button buttonShotDown;
     private Button buttonF1;
     private Button buttonF2;
@@ -74,9 +87,9 @@ public class MainActivity extends Activity implements EcoproConnectorCallback , 
     private TextView textViewFanTurnOnTime, textViewFanTurnOffTime;
     private ImageView imageViewLightWorkStatus, imageViewAirWorkStatus, imageViewFanWorkStatus, imageViewWaterStatus;
     private TextView textViewLight, textViewAir, textViewFan;
-    private LinearLayout manual_layout ;
+    private LinearLayout manual_layout;
 
-    private TextView manual_m1,manual_m2,manual_m3,manual_m4,manual_m5;
+    private TextView manual_m1, manual_m2, manual_m3, manual_m4, manual_m5;
 
 
     // endregion
@@ -136,30 +149,53 @@ public class MainActivity extends Activity implements EcoproConnectorCallback , 
     }
 
     private void initView() {
+
+        lb_stop = (ImageButton) findViewById(R.id.lb_stop);
+        lb_F1 = (ImageButton) findViewById(R.id.lb_germinate);
+        lb_F2 = (ImageButton) findViewById(R.id.lb_growth);
+        lb_F3 = (ImageButton) findViewById(R.id.lb_flower);
+        lb_Manual = (ImageButton) findViewById(R.id.lb_manual);
+        lb_stop.setOnClickListener(buttonClickListener);
+        lb_F1.setOnClickListener(buttonClickListener);
+        lb_F2.setOnClickListener(buttonClickListener);
+        lb_F3.setOnClickListener(buttonClickListener);
+        lb_Manual.setOnClickListener(buttonClickListener);
+        lb_stop.setTag(0);
+        lb_F1.setTag(1);
+        lb_F2.setTag(2);
+        lb_F3.setTag(3);
+        lb_Manual.setTag(4);
+        mm1 = (ImageButton) findViewById(R.id.mm1);
+        mm2 = (ImageButton) findViewById(R.id.mm2);
+        mm3 = (ImageButton) findViewById(R.id.mm3);
+        mm4 = (ImageButton) findViewById(R.id.mm4);
+        mm5 = (ImageButton) findViewById(R.id.mm5);
+        mm1.setOnClickListener(this);
+        mm2.setOnClickListener(this);
+        mm3.setOnClickListener(this);
+        mm4.setOnClickListener(this);
+        mm5.setOnClickListener(this);
+
+
         buttonShotDown = (Button) findViewById(R.id.button0);
-        buttonShotDown.setTag(0);
         buttonF1 = (Button) findViewById(R.id.button1);
-        buttonF1.setTag(1);
         buttonF2 = (Button) findViewById(R.id.button2);
-        buttonF2.setTag(2);
         buttonF3 = (Button) findViewById(R.id.button3);
-        buttonF3.setTag(3);
         buttonManual = (Button) findViewById(R.id.button4);
-        buttonManual.setTag(4);
+
 
         //控制手動模式 設定組別
-        manual_layout = (LinearLayout)findViewById(R.id.activityMain_Manual_control);
-        manual_m1 = (TextView)findViewById(R.id.manual_m1);
-        manual_m2 = (TextView)findViewById(R.id.manual_m2);
-        manual_m3 = (TextView)findViewById(R.id.manual_m3);
-        manual_m4 = (TextView)findViewById(R.id.manual_m4);
-        manual_m5 = (TextView)findViewById(R.id.manual_m5);
+        manual_layout = (LinearLayout) findViewById(R.id.activityMain_Manual_control);
+        manual_m1 = (TextView) findViewById(R.id.manual_m1);
+        manual_m2 = (TextView) findViewById(R.id.manual_m2);
+        manual_m3 = (TextView) findViewById(R.id.manual_m3);
+        manual_m4 = (TextView) findViewById(R.id.manual_m4);
+        manual_m5 = (TextView) findViewById(R.id.manual_m5);
         manual_m1.setOnClickListener(this);
         manual_m2.setOnClickListener(this);
         manual_m3.setOnClickListener(this);
         manual_m4.setOnClickListener(this);
         manual_m5.setOnClickListener(this);
-
 
 
         buttonShotDown.setOnClickListener(buttonClickListener);
@@ -200,19 +236,6 @@ public class MainActivity extends Activity implements EcoproConnectorCallback , 
         textViewAirTurnOffTime.setOnClickListener(textViewClickListener);
         textViewFanTurnOffTime.setOnClickListener(textViewClickListener);
 
-//        textViewLightTurnOnTime.setText("AM00:00");
-//        textViewLightTurnOffTime.setText("AM00:00");
-//        textViewAirTurnOnTime.setText("AM00:00");
-//        textViewAirTurnOffTime.setText("AM00:00");
-//        textViewFanTurnOnTime.setText("AM00:00");
-//        textViewFanTurnOffTime.setText("AM00:00");
-
-//        textViewLightTurnOnTime.setText(ProjectTools.getTimeString(LightOperatingTime.F1Mode_DefaultTurnOnTime));
-//        textViewLightTurnOffTime.setText(ProjectTools.getTimeString(LightOperatingTime.F1Mode_DefaultTurnOffTime));
-//        textViewAirTurnOnTime.setText(ProjectTools.getTimeString(AirOperatingTime.F1Mode_DefaultTurnOnTime));
-//        textViewAirTurnOffTime.setText(ProjectTools.getTimeString(AirOperatingTime.F1Mode_DefaultTurnOffTime));
-//        textViewFanTurnOnTime.setText(ProjectTools.getTimeString(FanOperatingTime.F1Mode_DefaultTurnOnTime));
-//        textViewFanTurnOffTime.setText(ProjectTools.getTimeString(FanOperatingTime.F1Mode_DefaultTurnOffTime));
 
         imageViewLightWorkStatus = (ImageView) findViewById(R.id.activityMain_imageLightStatus);
         imageViewAirWorkStatus = (ImageView) findViewById(R.id.activityMain_imageAirStatus);
@@ -394,6 +417,12 @@ public class MainActivity extends Activity implements EcoproConnectorCallback , 
      */
     private void changeMode(int statusValue) {
 
+        lb_stop.setImageResource(R.drawable.activity_main_stop_off);
+        lb_F1.setImageResource(R.drawable.activity_main_germinate_off);
+        lb_F2.setImageResource(R.drawable.activity_main_growth_off);
+        lb_F3.setImageResource(R.drawable.activity_main_flower_off);
+        lb_Manual.setImageResource(R.drawable.activity_main_manual_off);
+
         buttonShotDown.setSelected(false);
         buttonF1.setSelected(false);
         buttonF2.setSelected(false);
@@ -405,52 +434,33 @@ public class MainActivity extends Activity implements EcoproConnectorCallback , 
         switch (statusValue) {
             case 0:
                 System.out.println("F0");
+                lb_stop.setImageResource(R.drawable.activity_main_stop_on);
                 buttonShotDown.setSelected(true);
                 manual_layout.setVisibility(View.INVISIBLE);
                 switchEnabled(false);
                 break;
             case 1:
                 buttonF1.setSelected(true);
+                lb_F1.setImageResource(R.drawable.activity_main_germinate_on);
                 manual_layout.setVisibility(View.INVISIBLE);
-//                textViewLightTurnOnTime.setText(ampm(ProjectTools.getTimeString(LightOperatingTime.F1Mode_DefaultTurnOnTime)));
-//                textViewLightTurnOffTime.setText(ampm(ProjectTools.getTimeString(LightOperatingTime.F1Mode_DefaultTurnOffTime)));
-//                textViewAirTurnOnTime.setText(ampm(ProjectTools.getTimeString(AirOperatingTime.F1Mode_DefaultTurnOnTime)));
-//                textViewAirTurnOffTime.setText(ampm(ProjectTools.getTimeString(AirOperatingTime.F1Mode_DefaultTurnOffTime)));
-//                textViewFanTurnOnTime.setText(ampm(ProjectTools.getTimeString(FanOperatingTime.F1Mode_DefaultTurnOnTime)));
-//                textViewFanTurnOffTime.setText(ampm(ProjectTools.getTimeString(FanOperatingTime.F1Mode_DefaultTurnOffTime)));
                 switchEnabled(false);
                 break;
             case 2:
                 buttonF2.setSelected(true);
+                lb_F2.setImageResource(R.drawable.activity_main_growth_on);
                 manual_layout.setVisibility(View.INVISIBLE);
-//                textViewLightTurnOnTime.setText(ampm(ProjectTools.getTimeString(LightOperatingTime.F2Mode_DefaultTurnOnTime)));
-//                textViewLightTurnOffTime.setText(ampm(ProjectTools.getTimeString(LightOperatingTime.F2Mode_DefaultTurnOffTime)));
-//                textViewAirTurnOnTime.setText(ampm(ProjectTools.getTimeString(AirOperatingTime.F2Mode_DefaultTurnOnTime)));
-//                textViewAirTurnOffTime.setText(ampm(ProjectTools.getTimeString(AirOperatingTime.F2Mode_DefaultTurnOffTime)));
-//                textViewFanTurnOnTime.setText(ampm(ProjectTools.getTimeString(FanOperatingTime.F2Mode_DefaultTurnOnTime)));
-//                textViewFanTurnOffTime.setText(ampm(ProjectTools.getTimeString(FanOperatingTime.F2Mode_DefaultTurnOffTime)));
                 switchEnabled(false);
                 break;
             case 3:
                 buttonF3.setSelected(true);
+                lb_F3.setImageResource(R.drawable.activity_main_flower_on);
                 manual_layout.setVisibility(View.INVISIBLE);
-//                textViewLightTurnOnTime.setText(ampm(ProjectTools.getTimeString(LightOperatingTime.F3Mode_DefaultTurnOnTime)));
-//                textViewLightTurnOffTime.setText(ampm(ProjectTools.getTimeString(LightOperatingTime.F3Mode_DefaultTurnOffTime)));
-//                textViewAirTurnOnTime.setText(ampm(ProjectTools.getTimeString(AirOperatingTime.F3Mode_DefaultTurnOnTime)));
-//                textViewAirTurnOffTime.setText(ampm(ProjectTools.getTimeString(AirOperatingTime.F3Mode_DefaultTurnOffTime)));
-//                textViewFanTurnOnTime.setText(ampm(ProjectTools.getTimeString(FanOperatingTime.F3Mode_DefaultTurnOnTime)));
-//                textViewFanTurnOffTime.setText(ampm(ProjectTools.getTimeString(FanOperatingTime.F3Mode_DefaultTurnOffTime)));
                 switchEnabled(false);
                 break;
             case 4:
                 buttonManual.setSelected(true);
+                lb_Manual.setImageResource(R.drawable.activity_main_manual_on);
                 manual_layout.setVisibility(View.VISIBLE);
-//                textViewLightTurnOnTime.setText(ProjectTools.getTimeString(lightOperatingTime.ManualMode_TurnOnTime));
-//                textViewLightTurnOffTime.setText(ProjectTools.getTimeString(lightOperatingTime.ManualMode_TurnOffTime));
-//                textViewAirTurnOnTime.setText(ProjectTools.getTimeString(airOperatingTime.ManualMode_TurnOnTime));
-//                textViewAirTurnOffTime.setText(ProjectTools.getTimeString(airOperatingTime.ManualMode_TurnOffTime));
-//                textViewFanTurnOnTime.setText(ProjectTools.getTimeString(fanOperatingTime.ManualMode_TurnOnTime));
-//                textViewFanTurnOffTime.setText(ProjectTools.getTimeString(fanOperatingTime.ManualMode_TurnOffTime));
                 switchEnabled(true);
                 break;
         }
@@ -560,7 +570,6 @@ public class MainActivity extends Activity implements EcoproConnectorCallback , 
     }
 
 
-
     /**
      * Timer 的 Task ， 每n秒發送一次指令
      **/
@@ -614,10 +623,9 @@ public class MainActivity extends Activity implements EcoproConnectorCallback , 
     private String ampm(String time) {
 
         try {
-           // System.out.println("ampm:"+time);
+            // System.out.println("ampm:"+time);
             String time1 = time;
-            if(time !=null)
-            {
+            if (time != null) {
                 String[] temp = time1.split(":");
                 int temp1 = Integer.parseInt(temp[0]);
                 //   System.out.println("測試時間數值：" + temp1);
@@ -625,11 +633,11 @@ public class MainActivity extends Activity implements EcoproConnectorCallback , 
                 if (temp1 < 12)
                     return "AM" + time1;
                 else
-                    return "PM" + String.format("%02d",temp1-12)+":"+temp[1];
+                    return "PM" + String.format("%02d", temp1 - 12) + ":" + temp[1];
             }
         } catch (NumberFormatException e) {
             e.printStackTrace();
-            System.out.println("錯誤MainActivity_ampm:"+e);
+            System.out.println("錯誤MainActivity_ampm:" + e);
         }
 
         return time;
@@ -641,6 +649,13 @@ public class MainActivity extends Activity implements EcoproConnectorCallback , 
      **/
     public void updateView(byte[] byteArray) {
         ProjectTools.printByteArray(byteArray, "主執行緒收到 Ecopro 的 polling ack", 10);
+        
+        for(int i =  0  ;i< byteArray.length ;i++ )
+        {
+            System.out.println("解析："+byteArray[i]);
+        }
+
+
 
         if (byteArray[1] == (byte) 0x81) { // 詢問狀態
             ProjectTools.printEcoproStatusArray(byteArray);
@@ -663,7 +678,7 @@ public class MainActivity extends Activity implements EcoproConnectorCallback , 
             textViewFanTurnOffTime.setText(ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_FAN, ProjectTools.ECOPRO_OFF_TIME, byteArray)));
 
             /**寫死的更改F1F2F3數值設定 此處修改會影響控制機控制手機變動**/
-              changeMode(ProjectTools.getEcoproModeIndex(byteArray));
+            changeMode(ProjectTools.getEcoproModeIndex(byteArray));
 
             // 更改畫面上的運作狀態
             changeWorkStatus(byteArray);
@@ -707,7 +722,7 @@ public class MainActivity extends Activity implements EcoproConnectorCallback , 
                 // Do something with outer as your wish.
                 switch (msg.what) {
                     case RECEIVE_DATA:
-                        //   System.out.println("MainActivity MyHandler.RECEIVE_DATA");
+                        System.out.println("收到控制台原始資料："+msg.obj);
                         activity.updateView((byte[]) msg.obj);
                         break;
                 }
@@ -718,51 +733,46 @@ public class MainActivity extends Activity implements EcoproConnectorCallback , 
     @Override
     public void onClick(View v) {
 
-        switch (v.getId())
-        {
-            case R.id.manual_m1:
+//        manual_m1.setAlpha((float) 0.4);
+//        manual_m2.setAlpha((float) 0.4);
+//        manual_m3.setAlpha((float) 0.4);
+//        manual_m4.setAlpha((float) 0.4);
+//        manual_m5.setAlpha((float) 0.4);
+
+        mm1.setImageResource(R.drawable.activity_main_manual_m1_off);
+        mm2.setImageResource(R.drawable.activity_main_manual_m2_off);
+        mm3.setImageResource(R.drawable.activity_main_manual_m3_off);
+        mm4.setImageResource(R.drawable.activity_main_manual_m4_off);
+        mm5.setImageResource(R.drawable.activity_main_manual_m5_off);
+
+
+
+        switch (v.getId()) {
+            case R.id.mm1:
                 System.out.println("記錄1");
-                manual_m1.setAlpha((float) 1.0);
-                manual_m2.setAlpha((float) 0.4);
-                manual_m3.setAlpha((float) 0.4);
-                manual_m4.setAlpha((float) 0.4);
-                manual_m5.setAlpha((float) 0.4);
+                mm1.setImageResource(R.drawable.activity_main_manual_m1_on);
+               // manual_m1.setAlpha((float) 1.0);
                 break;
-            case R.id.manual_m2:
+            case R.id.mm2:
                 System.out.println("記錄2");
-                manual_m1.setAlpha((float) 0.4);
-                manual_m2.setAlpha((float) 1.0);
-                manual_m3.setAlpha((float) 0.4);
-                manual_m4.setAlpha((float) 0.4);
-                manual_m5.setAlpha((float) 0.4);
+                mm2.setImageResource(R.drawable.activity_main_manual_m2_on);
+                //manual_m2.setAlpha((float) 1.0);
                 break;
-            case R.id.manual_m3:
+            case R.id.mm3:
                 System.out.println("記錄3");
-                manual_m1.setAlpha((float) 0.4);
-                manual_m2.setAlpha((float) 0.4);
-                manual_m3.setAlpha((float) 1.0);
-                manual_m4.setAlpha((float) 0.4);
-                manual_m5.setAlpha((float) 0.4);
+                mm3.setImageResource(R.drawable.activity_main_manual_m3_on);
+              //  manual_m3.setAlpha((float) 1.0);
                 break;
-            case R.id.manual_m4:
+            case R.id.mm4:
                 System.out.println("記錄4");
-                manual_m1.setAlpha((float) 0.4);
-                manual_m2.setAlpha((float) 0.4);
-                manual_m3.setAlpha((float) 0.4);
-                manual_m4.setAlpha((float) 1.0);
-                manual_m5.setAlpha((float) 0.4);
-            break;
-            case R.id.manual_m5:
+                mm4.setImageResource(R.drawable.activity_main_manual_m4_on);
+             //   manual_m4.setAlpha((float) 1.0);
+                break;
+            case R.id.mm5:
                 System.out.println("記錄5");
-                manual_m1.setAlpha((float) 0.4);
-                manual_m2.setAlpha((float) 0.4);
-                manual_m3.setAlpha((float) 0.4);
-                manual_m4.setAlpha((float) 0.4);
-                manual_m5.setAlpha((float) 1.0);
-            break;
-
-
-
+                mm5.setImageResource(R.drawable.activity_main_manual_m5_on);
+                //manual_m5.setAlpha((float) 1.0);
+                break;
 
 
         }
