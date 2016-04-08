@@ -50,6 +50,8 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
     private AirOperatingTime airOperatingTime;
     private FanOperatingTime fanOperatingTime;
 
+    private byte manual_byte = 0x04;
+
     /**
      * 暫存目前是哪一種模式
      */
@@ -108,7 +110,7 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
 
         initView();
 
-        SQLiteControl sqLiteControl = new SQLiteControl(this);
+        //   SQLiteControl sqLiteControl = new SQLiteControl(this);
 
 
 //        dataControl.saveIpCameraUid("");
@@ -375,9 +377,9 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
                         textViewFanTurnOnTime.setText(ampm(ProjectTools.getTimeString(fanOperatingTime.ManualMode_TurnOnTime, fanOperatingTime.ManualMode_TurnOnTime_minute)));
                         textViewFanTurnOffTime.setText(ampm(ProjectTools.getTimeString(fanOperatingTime.ManualMode_TurnOffTime, fanOperatingTime.ManualMode_TurnOffTime_minute)));
 
-
+                        System.out.println("Test byte:" + manual_byte);
                         byte[] commandArray = ProjectTools.COMMAND_MANUAL;
-
+                        commandArray[2] = manual_byte;
                         commandArray[3] = Byte.parseByte("" + lightOperatingTime.ManualMode_TurnOnTime, 16);
                         commandArray[4] = Byte.parseByte("" + lightOperatingTime.ManualMode_TurnOnTime_minute, 16);
                         commandArray[5] = Byte.parseByte("" + lightOperatingTime.ManualMode_TurnOffTime, 16);
@@ -421,7 +423,7 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
         lb_F1.setImageResource(R.drawable.activity_main_germinate_off);
         lb_F2.setImageResource(R.drawable.activity_main_growth_off);
         lb_F3.setImageResource(R.drawable.activity_main_flower_off);
-        lb_Manual.setImageResource(R.drawable.activity_main_manual_off);
+        // lb_Manual.setImageResource(R.drawable.activity_main_manual_m1_off);
 
         buttonShotDown.setSelected(false);
         buttonF1.setSelected(false);
@@ -435,36 +437,92 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
             case 0:
                 System.out.println("F0");
                 lb_stop.setImageResource(R.drawable.activity_main_stop_on);
+                change_manual_main_states();
                 buttonShotDown.setSelected(true);
                 manual_layout.setVisibility(View.INVISIBLE);
                 switchEnabled(false);
                 break;
             case 1:
                 buttonF1.setSelected(true);
+                change_manual_main_states();
                 lb_F1.setImageResource(R.drawable.activity_main_germinate_on);
                 manual_layout.setVisibility(View.INVISIBLE);
                 switchEnabled(false);
                 break;
             case 2:
                 buttonF2.setSelected(true);
+                change_manual_main_states();
                 lb_F2.setImageResource(R.drawable.activity_main_growth_on);
                 manual_layout.setVisibility(View.INVISIBLE);
                 switchEnabled(false);
                 break;
             case 3:
                 buttonF3.setSelected(true);
+                change_manual_main_states();
                 lb_F3.setImageResource(R.drawable.activity_main_flower_on);
                 manual_layout.setVisibility(View.INVISIBLE);
                 switchEnabled(false);
                 break;
             case 4:
                 buttonManual.setSelected(true);
-                lb_Manual.setImageResource(R.drawable.activity_main_manual_on);
+                switch (manual_byte) {
+                    case 0x04:
+                        lb_Manual.setImageResource(R.drawable.activity_main_manual_m1_on);
+                        mm1.setImageResource(R.drawable.activity_main_manual_m1_on);
+                        break;
+                    case 0x05:
+                        lb_Manual.setImageResource(R.drawable.activity_main_manual_m2_on);
+                        mm2.setImageResource(R.drawable.activity_main_manual_m2_on);
+                        break;
+                    case 0x06:
+                        lb_Manual.setImageResource(R.drawable.activity_main_manual_m3_on);
+                        mm3.setImageResource(R.drawable.activity_main_manual_m3_on);
+                        break;
+                    case 0x07:
+                        lb_Manual.setImageResource(R.drawable.activity_main_manual_m4_on);
+                        mm4.setImageResource(R.drawable.activity_main_manual_m4_on);
+                        break;
+                    case 0x08:
+                        lb_Manual.setImageResource(R.drawable.activity_main_manual_m5_on);
+                        mm5.setImageResource(R.drawable.activity_main_manual_m5_on);
+                        break;
+                }
+//                lb_Manual.setImageResource(R.drawable.activity_main_manual_on);
                 manual_layout.setVisibility(View.VISIBLE);
                 switchEnabled(true);
                 break;
         }
     }
+
+    private void change_manual_main_states() {
+
+        System.out.println("會不會進來"+manual_byte);
+
+        switch (manual_byte) {
+            case 0x04:
+                lb_Manual.setImageResource(R.drawable.activity_main_manual_m1_off);
+                System.out.println("會不會04");
+                break;
+            case 0x05:
+                lb_Manual.setImageResource(R.drawable.activity_main_manual_m2_off);
+                System.out.println("會不會05");
+                break;
+            case 0x06:
+                lb_Manual.setImageResource(R.drawable.activity_main_manual_m3_off);
+                System.out.println("會不會06");
+                break;
+            case 0x07:
+                lb_Manual.setImageResource(R.drawable.activity_main_manual_m4_off);
+                System.out.println("會不會07");
+                break;
+            case 0x08:
+                lb_Manual.setImageResource(R.drawable.activity_main_manual_m5_off);
+                System.out.println("會不會08");
+                break;
+
+        }
+    }
+
 
     /**
      * 改變工作狀態
@@ -602,6 +660,10 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
      */
     @Override
     public void onReceiveAnteyaTCPCommandAck(byte[] ackArray) {
+        if(ackArray[2]>3)
+        {
+            manual_byte = ackArray[2];
+        }
         Message message = new Message();
         message.what = MyHandler.RECEIVE_DATA;
         message.obj = ackArray;
@@ -649,17 +711,22 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
      **/
     public void updateView(byte[] byteArray) {
         ProjectTools.printByteArray(byteArray, "主執行緒收到 Ecopro 的 polling ack", 10);
-        
-        for(int i =  0  ;i< byteArray.length ;i++ )
-        {
-            System.out.println("解析："+byteArray[i]);
+
+        for (int i = 0; i < byteArray.length; i++) {
+            System.out.println("第 " + i + " 解析：" + byteArray[i]);
         }
 
+if(byteArray[2]>3)
+{
+    manual_byte = byteArray[2];
+}
 
 
         if (byteArray[1] == (byte) 0x81) { // 詢問狀態
+
             ProjectTools.printEcoproStatusArray(byteArray);
 
+            // 更改畫面上所顯示的時間  收到資料傳到 ProjectTools.getEcoproOnTime 做轉換
             // 更改畫面上所顯示的時間  收到資料傳到 ProjectTools.getEcoproOnTime 做轉換
 
 //            System.out.println("測試1:" + ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_LIGHT, ProjectTools.ECOPRO_ON_TIME, byteArray)));
@@ -677,6 +744,10 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
             textViewFanTurnOnTime.setText(ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_FAN, ProjectTools.ECOPRO_ON_TIME, byteArray)));
             textViewFanTurnOffTime.setText(ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_FAN, ProjectTools.ECOPRO_OFF_TIME, byteArray)));
 
+            change_manual_main_states();
+
+            change_manual_status(byteArray);
+
             /**寫死的更改F1F2F3數值設定 此處修改會影響控制機控制手機變動**/
             changeMode(ProjectTools.getEcoproModeIndex(byteArray));
 
@@ -685,12 +756,61 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
 
             // 更改畫面上開啟關閉狀態
         } else if (byteArray[1] == (byte) 0x82) { // 設定模式
-
+            System.out.println("進入82");
         } else if (byteArray[1] == (byte) 0x83) { // 設定手動時間
-
+            System.out.println("進入83");
         }
 
     }
+
+    private void change_manual_status(byte[] byte_manual) {
+
+        mm1.setImageResource(R.drawable.activity_main_manual_m1_off);
+        mm2.setImageResource(R.drawable.activity_main_manual_m2_off);
+        mm3.setImageResource(R.drawable.activity_main_manual_m3_off);
+        mm4.setImageResource(R.drawable.activity_main_manual_m4_off);
+        mm5.setImageResource(R.drawable.activity_main_manual_m5_off);
+        manual_layout.setVisibility(View.VISIBLE);
+        switch (byte_manual[2]) {
+            case 0x04:
+                manual_byte = 0x04;
+                lb_Manual.setImageResource(R.drawable.activity_main_manual_m1_on);
+                mm1.setImageResource(R.drawable.activity_main_manual_m1_on);
+                break;
+
+            case 0x05:
+                manual_byte = 0x05;
+                lb_Manual.setImageResource(R.drawable.activity_main_manual_m2_on);
+                mm2.setImageResource(R.drawable.activity_main_manual_m2_on);
+
+                break;
+
+            case 0x06:
+                manual_byte = 0x06;
+                lb_Manual.setImageResource(R.drawable.activity_main_manual_m3_on);
+                mm3.setImageResource(R.drawable.activity_main_manual_m3_on);
+
+                break;
+
+            case 0x07:
+                manual_byte = 0x07;
+                lb_Manual.setImageResource(R.drawable.activity_main_manual_m4_on);
+                mm4.setImageResource(R.drawable.activity_main_manual_m4_on);
+
+                break;
+
+            case 0x08:
+                manual_byte = 0x08;
+                lb_Manual.setImageResource(R.drawable.activity_main_manual_m5_on);
+                mm5.setImageResource(R.drawable.activity_main_manual_m5_on);
+
+                break;
+
+        }
+
+
+    }
+
 
     private MyHandler myHandler;
 
@@ -722,11 +842,23 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
                 // Do something with outer as your wish.
                 switch (msg.what) {
                     case RECEIVE_DATA:
-                        System.out.println("收到控制台原始資料："+msg.obj);
+                        System.out.println("收到控制台原始資料：" + msg.obj);
                         activity.updateView((byte[]) msg.obj);
                         break;
                 }
             }
+        }
+    }
+
+    /**
+     * 更改手動模式狀態 M1(0x04) M2(0x05) M3(0x06) M4(0x07) M5(0x08)
+     **/
+    private void send_manual_state(byte m_byte) {
+        byte[] commandArray = ProjectTools.COMMAND_CHANGE_MODE_4;
+        commandArray[2] = manual_byte;
+        commandArray = ProjectTools.getChecksumArray(commandArray);
+        if (ipAddress != null && ipAddress.length() > 0) {
+            ecoproConnector.sendCommand(ipAddress, commandArray);
         }
     }
 
@@ -746,40 +878,48 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
         mm5.setImageResource(R.drawable.activity_main_manual_m5_off);
 
 
-
         switch (v.getId()) {
             case R.id.mm1:
                 System.out.println("記錄1");
+                lb_Manual.setImageResource(R.drawable.activity_main_manual_m1_on);
                 mm1.setImageResource(R.drawable.activity_main_manual_m1_on);
-               // manual_m1.setAlpha((float) 1.0);
+                manual_byte = 0x04;
+                send_manual_state(manual_byte);
+                // manual_m1.setAlpha((float) 1.0);
                 break;
             case R.id.mm2:
                 System.out.println("記錄2");
+                lb_Manual.setImageResource(R.drawable.activity_main_manual_m2_on);
                 mm2.setImageResource(R.drawable.activity_main_manual_m2_on);
+                manual_byte = 0x05;
+                send_manual_state(manual_byte);
                 //manual_m2.setAlpha((float) 1.0);
                 break;
             case R.id.mm3:
                 System.out.println("記錄3");
+                lb_Manual.setImageResource(R.drawable.activity_main_manual_m3_on);
                 mm3.setImageResource(R.drawable.activity_main_manual_m3_on);
-              //  manual_m3.setAlpha((float) 1.0);
+                manual_byte = 0x06;
+                send_manual_state(manual_byte);
+                //  manual_m3.setAlpha((float) 1.0);
                 break;
             case R.id.mm4:
                 System.out.println("記錄4");
+                lb_Manual.setImageResource(R.drawable.activity_main_manual_m4_on);
                 mm4.setImageResource(R.drawable.activity_main_manual_m4_on);
-             //   manual_m4.setAlpha((float) 1.0);
+                manual_byte = 0x07;
+                send_manual_state(manual_byte);
+                //   manual_m4.setAlpha((float) 1.0);
                 break;
             case R.id.mm5:
                 System.out.println("記錄5");
+                lb_Manual.setImageResource(R.drawable.activity_main_manual_m5_on);
                 mm5.setImageResource(R.drawable.activity_main_manual_m5_on);
+                manual_byte = 0x08;
+                send_manual_state(manual_byte);
                 //manual_m5.setAlpha((float) 1.0);
                 break;
-
-
         }
-
-
     }
-
-
     // endregion
 }

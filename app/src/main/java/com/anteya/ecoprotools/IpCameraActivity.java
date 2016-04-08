@@ -319,7 +319,45 @@ public class IpCameraActivity extends Activity implements IpCamThread.DataReceiv
 
 
     /**
-     * 接收IPCAM方向的指令
+     * 接收IPCAM的指令
+     *
+     *  AVIOCTRL_PTZ_STOP             = 0,
+     AVIOCTRL_PTZ_UP               = 1,   上
+     AVIOCTRL_PTZ_DOWN             = 2,   下
+     AVIOCTRL_PTZ_LEFT             = 3,   左
+     AVIOCTRL_PTZ_LEFT_UP          = 4,   左上
+     AVIOCTRL_PTZ_LEFT_DOWN        = 5,   左下
+     AVIOCTRL_PTZ_RIGHT            = 6,   右
+     AVIOCTRL_PTZ_RIGHT_UP         = 7,   右上
+     AVIOCTRL_PTZ_RIGHT_DOWN       = 8,   右下
+     AVIOCTRL_PTZ_AUTO             = 9,   自動(尋擺)
+     AVIOCTRL_PTZ_SET_POINT        = 10,
+     AVIOCTRL_PTZ_CLEAR_POINT      = 11,
+     AVIOCTRL_PTZ_GOTO_POINT       = 12,
+     AVIOCTRL_PTZ_SET_MODE_START   = 13,
+     AVIOCTRL_PTZ_SET_MODE_STOP    = 14,
+     AVIOCTRL_PTZ_MODE_RUN         = 15,
+     AVIOCTRL_PTZ_MENU_OPEN        = 16,
+     AVIOCTRL_PTZ_MENU_EXIT        = 17,
+     AVIOCTRL_PTZ_MENU_ENTER       = 18,
+     AVIOCTRL_PTZ_FLIP             = 19,
+     AVIOCTRL_PTZ_START            = 20,
+     AVIOCTRL_LENS_APERTURE_OPEN   = 21,
+     AVIOCTRL_LENS_APERTURE_CLOSE = 22,
+     AVIOCTRL_LENS_ZOOM_IN         = 23,
+     AVIOCTRL_LENS_ZOOM_OUT        = 24,
+     AVIOCTRL_LENS_FOCAL_NEAR      = 25,
+     AVIOCTRL_LENS_FOCAL_FAR       = 26,
+     AVIOCTRL_AUTO_PAN_SPEED       = 27,
+     AVIOCTRL_AUTO_PAN_LIMIT       = 28,
+     AVIOCTRL_AUTO_PAN_START       = 29,
+     AVIOCTRL_PATTERN_START        = 30,
+     AVIOCTRL_PATTERN_STOP         = 31,
+     AVIOCTRL_PATTERN_RUN          = 32,
+     AVIOCTRL_SET_AUX              = 33,
+     AVIOCTRL_CLEAR_AUX            = 34,
+     AVIOCTRL_MOTOR_RESET_POSITION= 35,
+     *
      **/
     private View.OnClickListener acitvity_ipcam_direction = new View.OnClickListener() {
         @Override

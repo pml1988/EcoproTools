@@ -161,6 +161,12 @@ public class EcoproConnector {
             @Override
             public void run() {
 
+                for(int i = 0  ; i<commandArray.length ; i++)
+                {
+                    System.out.println(i+" byte:"+commandArray[i]);
+
+                }
+
                 if (commandArray != null) {
                     byte[] tempArray;
                     //tempArray回傳訊息
