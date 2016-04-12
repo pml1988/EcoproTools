@@ -6,24 +6,58 @@
     android:paddingRight="10dp"
     android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/dialogFragmentEdit_textViewNameTitle"
-        style="@style/MySettingsBigTitle"
-        android:text="Ecopro Name"/>
-    <EditText
-        android:id="@+id/dialogFragmentEdit_editTextName"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/activitySettings_textViewTitle_layoutHeight"
-        android:hint="請輸入名稱"/>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/dialogFragmentEdit_textViewIpAddressTitle"
-        style="@style/MySettingsBigTitle"
-        android:text="Ecopro IP"/>
-    <EditText
-        android:id="@+id/dialogFragmentEdit_editTextIpAddress"
+        <TextView
+            android:id="@+id/dialogFragmentEdit_textViewNameTitle"
+            style="@style/MySettingsBigTitle"
+            android:text="Ecopro Name:"/>
+
+        <EditText
+            android:id="@+id/dialogFragmentEdit_editTextName"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/activitySettings_textViewTitle_layoutHeight"
+            android:hint="Input Name"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/activitySettings_textViewTitle_layoutHeight"
-        android:hint="請輸入IP"/>
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/dialogFragmentEdit_textViewIpAddressTitle"
+            style="@style/MySettingsBigTitle"
+            android:text="Ecopro IP:"
+            android:layout_width="wrap_content" />
+
+        <EditText
+            android:id="@+id/dialogFragmentEdit_editTextIpAddress"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/activitySettings_textViewTitle_layoutHeight"
+            android:hint="Input IP"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            style="@style/MySettingsBigTitle"
+            android:id="@+id/dialogFragmentEdit_textView"
+            android:text="Ecopro Password:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/dialogFragmentEdit_textViewPassword"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/activitySettings_textViewTitle_layoutHeight"
+            android:hint="Input Password" />
+    </LinearLayout>
 
 </LinearLayout>

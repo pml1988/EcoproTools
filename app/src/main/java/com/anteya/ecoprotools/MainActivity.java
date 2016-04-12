@@ -11,6 +11,8 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.AnimationSet;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -39,6 +41,8 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
     // region Data variables
 
     private String TAG = "MainActivity";
+
+    private String title = "EcoproTools";
 
     private DataControl dataControl;
 
@@ -93,6 +97,9 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
 
     private TextView manual_m1, manual_m2, manual_m3, manual_m4, manual_m5;
 
+    private ActionBar actionBar;
+
+    private TextView actionBar_mainActivity_textTitle;
 
     // endregion
 
@@ -110,6 +117,11 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
 
         initView();
 
+
+
+        actionBar_mainActivity_textTitle = (TextView)findViewById(R.id.actionBar_mainActivity_textTitle);
+
+        actionBar_mainActivity_textTitle.setText(title +"(Guest)");
         //   SQLiteControl sqLiteControl = new SQLiteControl(this);
 
 
@@ -258,7 +270,7 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
                 R.layout.action_bar_main_activity, null);
 
         // Set up your ActionBar
-        final ActionBar actionBar = getActionBar();
+        actionBar = getActionBar();
 
         actionBar.setDisplayShowHomeEnabled(false);
         actionBar.setDisplayShowTitleEnabled(false);
@@ -277,7 +289,7 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
 
             }
         });
-
+        actionBar.setTitle("測試");
     }
 
     // endregion
@@ -460,6 +472,7 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
                 buttonF3.setSelected(true);
                 change_manual_main_states();
                 lb_F3.setImageResource(R.drawable.activity_main_flower_on);
+
                 manual_layout.setVisibility(View.INVISIBLE);
                 switchEnabled(false);
                 break;
@@ -488,6 +501,13 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
                         break;
                 }
 //                lb_Manual.setImageResource(R.drawable.activity_main_manual_on);
+
+
+                AnimationSet animationSet = new AnimationSet(true);  //動畫
+                AlphaAnimation alphaAnimation = new AlphaAnimation(0, 1);
+                alphaAnimation.setDuration(1000);
+                animationSet.addAnimation(alphaAnimation);
+                manual_layout.startAnimation(animationSet);
                 manual_layout.setVisibility(View.VISIBLE);
                 switchEnabled(true);
                 break;
@@ -496,7 +516,7 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
 
     private void change_manual_main_states() {
 
-        System.out.println("會不會進來"+manual_byte);
+        System.out.println("會不會進來" + manual_byte);
 
         switch (manual_byte) {
             case 0x04:
@@ -660,8 +680,7 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
      */
     @Override
     public void onReceiveAnteyaTCPCommandAck(byte[] ackArray) {
-        if(ackArray[2]>3)
-        {
+        if (ackArray[2] > 3) {
             manual_byte = ackArray[2];
         }
         Message message = new Message();
@@ -716,10 +735,9 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
             System.out.println("第 " + i + " 解析：" + byteArray[i]);
         }
 
-if(byteArray[2]>3)
-{
-    manual_byte = byteArray[2];
-}
+        if (byteArray[2] > 3) {
+            manual_byte = byteArray[2];
+        }
 
 
         if (byteArray[1] == (byte) 0x81) { // 詢問狀態
