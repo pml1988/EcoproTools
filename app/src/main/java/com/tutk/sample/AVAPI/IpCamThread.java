@@ -117,7 +117,7 @@ public class IpCamThread {
                     //IOTYPE_USER_IPCAM_PTZ_COMMAND = 0x1001 對IPCAM下指令
                     int IOTYPE_USER_IPCAM_SETSTREAMCTRL_REQ = 0x1001;
 
-                    byte[] tempArray1 = SMsgAVIoctrlSetStreamCtrlReq.parseContent(direct, (byte)0, (byte)0, (byte)0, (byte)0, (byte)0);
+                    byte[] tempArray1 = SMsgAVIoctrlSetStreamCtrlReq.parseContent((byte)direct, (byte)0, (byte)0, (byte)0, (byte)0, (byte)0);
 
                     int ret = av.avSendIOCtrl(index, IOTYPE_USER_IPCAM_SETSTREAMCTRL_REQ, tempArray1, 8);
 
@@ -157,7 +157,12 @@ public class IpCamThread {
             System.out.println("StreamClient start...");
 
             // use which Master base on location, port 0 means to get a random port
-            int ret = IOTCAPIs.IOTC_Initialize(0, "m1.iotcplatform.com", "m2.iotcplatform.com", "m4.iotcplatform.com", "m5.iotcplatform.com");
+       //     int ret = IOTCAPIs.IOTC_Initialize(0, "m1.iotcplatform.com", "m2.iotcplatform.com", "m4.iotcplatform.com", "m5.iotcplatform.com");
+
+           int ret = IOTCAPIs.IOTC_Initialize2(0);
+
+       //     int ret = 0;
+
             System.out.printf("IOTC_Initialize() ret = %d\n", ret);
             if (ret != IOTCAPIs.IOTC_ER_NoERROR) {
                 System.out.printf("IOTCAPIs_Device exit...!!\n");
@@ -169,18 +174,18 @@ public class IpCamThread {
             AVAPIs.avInitialize(3);
 
             int sid = IOTCAPIs.IOTC_Connect_ByUID(UID);
-            System.out.printf("Step 1: call IOTC_Connect_ByUID(%s)... return sid(%d)\n", UID, sid);
+          //  System.out.printf("Step 1: call IOTC_Connect_ByUID(%s)... return sid(%d)\n", UID, sid);
 
             int[] srvType = new int[1];
             int avIndex = AVAPIs.avClientStart(sid, "admin", "admin", 20000, srvType, 0);
-            System.out.printf("Step 2: call avClientStart(%d).......%d\n", avIndex, srvType[0]);
-            Log.e("sendIOCtrl_1", "IP Cam 000 index = " + index);
+          //  System.out.printf("Step 2: call avClientStart(%d).......%d\n", avIndex, srvType[0]);
+         //   Log.e("sendIOCtrl_1", "IP Cam 000 index = " + index);
 
 
            // System.out.println("avIndex:" + avIndex);
-            index = avIndex;
-           // System.out.println("index:" + index);
-            Log.e("sendIOCtrl_1", "IP Cam 0000 index = " + index);
+            index = 0;
+//            System.out.println("index:" + index);
+//            Log.e("sendIOCtrl_1", "IP Cam 0000 index = " + index);
 
             if (avIndex < 0) {
                 System.out.printf("avClientStart failed[%d]\n", avIndex);
@@ -190,9 +195,9 @@ public class IpCamThread {
                 return;
             }
 
-            if (startIpcamStream(avIndex)) {
+            if (startIpcamStream(0)) {
 
-                VideoThread videoT = new VideoThread(avIndex);
+                VideoThread videoT = new VideoThread(0);
               //  AudioThread audioT = new AudioThread(avIndex);
 
                 Thread videoThread = new Thread(videoT, "Video Thread");
@@ -276,7 +281,7 @@ public class IpCamThread {
         @Override
         public void run() {
 
-            System.out.printf("VideoThread implements Runnable　[%s] Start\n", Thread.currentThread().getName());
+          //  System.out.printf("VideoThread implements Runnable　[%s] Start\n", Thread.currentThread().getName());
 
             listener.onProgressbarReceive(true);
 

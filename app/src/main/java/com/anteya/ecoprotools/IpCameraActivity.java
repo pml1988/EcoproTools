@@ -64,6 +64,8 @@ public class IpCameraActivity extends Activity implements IpCamThread.DataReceiv
 
     private boolean flag = false;
 
+    private Button button;
+
     // region service
 
     @Override
@@ -71,7 +73,7 @@ public class IpCameraActivity extends Activity implements IpCamThread.DataReceiv
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate");
 
-        System.out.println("創立");
+       // System.out.println("創立");
 
         setContentView(R.layout.activity_ip_camera);
 
@@ -82,12 +84,12 @@ public class IpCameraActivity extends Activity implements IpCamThread.DataReceiv
         strUid = dataControl.getIpCameraUid();
         if (strUid.length() > 0) {
             Log.d(TAG, "strUid.length() > 0");
-            System.out.println("偵測到UID");
+          //  System.out.println("偵測到UID");
             flag_uid = true;
             viewGroupQRCode.setVisibility(View.INVISIBLE);
             ipCamThread = new IpCamThread(strUid, IpCameraActivity.this);
             ipCamThread.start();
-            System.out.println("啟動IPcam");
+           // System.out.println("啟動IPcam");
             loading.setVisibility(View.VISIBLE);
             surfaceView.setVisibility(View.VISIBLE);
 
@@ -95,7 +97,7 @@ public class IpCameraActivity extends Activity implements IpCamThread.DataReceiv
         } else {
             Log.d(TAG, "strUid.length() <= 0");
             // Don't do anything
-            System.out.println("無偵測到UID");
+          //  System.out.println("無偵測到UID");
             loading.setVisibility(View.INVISIBLE);
             surfaceView.setVisibility(View.INVISIBLE);
             viewGroupQRCode.setVisibility(View.VISIBLE);
@@ -124,7 +126,7 @@ public class IpCameraActivity extends Activity implements IpCamThread.DataReceiv
                             count++;
 
                             if (count % 10 == 0) {
-                                System.out.println("數數中：" + count);
+                            //    System.out.println("數數中：" + count);
                             }
                             if (strUid.length() > 1 && flag && count > 180) {
 
@@ -138,7 +140,7 @@ public class IpCameraActivity extends Activity implements IpCamThread.DataReceiv
                                     ipCamThread.start();
 
                                     count = 0;
-                                    System.out.println("循環重新畫面：" + count);
+                               //     System.out.println("循環重新畫面：" + count);
                                 }
                             }
                         } catch (InterruptedException e) {
@@ -160,13 +162,13 @@ public class IpCameraActivity extends Activity implements IpCamThread.DataReceiv
         if (strUid.length() < 1) {
             Log.d(TAG, "strUid.length() > 0");
             flag_uid = false;
-            System.out.println("無偵測到UID：" + strUid);
+           // System.out.println("無偵測到UID：" + strUid);
             loading.setVisibility(View.INVISIBLE);
             surfaceView.setVisibility(View.INVISIBLE);
             viewGroupQRCode.setVisibility(View.VISIBLE);
 
         } else if (strUid.length() > 1 && flag) {
-            System.out.println("偵測到UID：" + strUid);
+          //  System.out.println("偵測到UID：" + strUid);
             if (ipCamThread != null) {
                 ipCamThread.closeThread();
                 ipCamThread = null;
@@ -181,7 +183,7 @@ public class IpCameraActivity extends Activity implements IpCamThread.DataReceiv
                 ipCamThread.start();
 
 
-                System.out.println("啟動IPcam");
+              //  System.out.println("啟動IPcam");
 
 
             }
@@ -197,9 +199,9 @@ public class IpCameraActivity extends Activity implements IpCamThread.DataReceiv
         flag_uid = false;
         time_control.interrupt();
         time_control = null;
-        System.out.println("停止 onPause()");
+       // System.out.println("停止 onPause()");
         if (ipCamThread != null && strUid.length() > 0) {
-            System.out.println("Pause 停止 ipcamthread");
+        //    System.out.println("Pause 停止 ipcamthread");
             ipCamThread.closeThread();
             ipCamThread = null;
 
@@ -209,7 +211,7 @@ public class IpCameraActivity extends Activity implements IpCamThread.DataReceiv
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        System.out.println("中止");
+      //  System.out.println("中止");
         Log.d(TAG, "onDestroy strUid = " + strUid);
     }
 
@@ -248,7 +250,7 @@ public class IpCameraActivity extends Activity implements IpCamThread.DataReceiv
                 flag = false;
                 ipCamThread = new IpCamThread(strUid, IpCameraActivity.this);
                 ipCamThread.start();
-                System.out.println("啟動IPcam");
+              //  System.out.println("啟動IPcam");
 
 
             }
@@ -264,7 +266,7 @@ public class IpCameraActivity extends Activity implements IpCamThread.DataReceiv
     public boolean onOptionsItemSelected(MenuItem item) {
         // ActionBar Menu OnclickListener
 
-        System.out.println("onOptionsItemSelected");
+       // System.out.println("onOptionsItemSelected");
         int id = item.getItemId();
         if (id == android.R.id.home) {
             finish();
@@ -298,12 +300,12 @@ public class IpCameraActivity extends Activity implements IpCamThread.DataReceiv
             int grantResult = grantResults[0];
             boolean granted = grantResult == PackageManager.PERMISSION_GRANTED;
             Log.i(TAG, "onRequestPermissionsResult granted=" + granted);
-            System.out.println("權限" + granted);
+           // System.out.println("權限" + granted);
             if (granted) {
                 checkVersion_and_CameraPermission();
             } else {
                 Toast.makeText(this, "請確定開啟權限", Toast.LENGTH_SHORT);
-                System.out.println("請確定開啟權限");
+               // System.out.println("請確定開啟權限");
             }
 
 
@@ -368,38 +370,88 @@ public class IpCameraActivity extends Activity implements IpCamThread.DataReceiv
                     if (ipCamThread != null) {
                         ipCamThread.sendIOCtrl_2((byte) 2);
                     }
-                    System.out.println("下");
+                   // System.out.println("下");
                     break;
                 case R.id.activity_ipcam_up:
                     if (ipCamThread != null) {
                         ipCamThread.sendIOCtrl_2((byte) 1);
                     }
-                    System.out.println("上");
+                   // System.out.println("上");
                     break;
                 case R.id.activity_ipcam_left:
                     if (ipCamThread != null) {
                         ipCamThread.sendIOCtrl_2((byte) 3);
                     }
-                    System.out.println("左");
+                  //  System.out.println("左");
                     break;
                 case R.id.activity_ipcam_right:
                     if (ipCamThread != null) {
                         ipCamThread.sendIOCtrl_2((byte) 6);
                     }
-                    System.out.println("右");
+                  //  System.out.println("右");
                     break;
 
             }
-
-
         }
     };
 
-
+    /**
+     * 接收IPCAM的指令
+     *
+     *  AVIOCTRL_PTZ_STOP             = 0,
+     AVIOCTRL_PTZ_UP               = 1,   上
+     AVIOCTRL_PTZ_DOWN             = 2,   下
+     AVIOCTRL_PTZ_LEFT             = 3,   左
+     AVIOCTRL_PTZ_LEFT_UP          = 4,   左上
+     AVIOCTRL_PTZ_LEFT_DOWN        = 5,   左下
+     AVIOCTRL_PTZ_RIGHT            = 6,   右
+     AVIOCTRL_PTZ_RIGHT_UP         = 7,   右上
+     AVIOCTRL_PTZ_RIGHT_DOWN       = 8,   右下
+     AVIOCTRL_PTZ_AUTO             = 9,   自動(尋擺)
+     AVIOCTRL_PTZ_SET_POINT        = 10,
+     AVIOCTRL_PTZ_CLEAR_POINT      = 11,
+     AVIOCTRL_PTZ_GOTO_POINT       = 12,
+     AVIOCTRL_PTZ_SET_MODE_START   = 13,
+     AVIOCTRL_PTZ_SET_MODE_STOP    = 14,
+     AVIOCTRL_PTZ_MODE_RUN         = 15,
+     AVIOCTRL_PTZ_MENU_OPEN        = 16,
+     AVIOCTRL_PTZ_MENU_EXIT        = 17,
+     AVIOCTRL_PTZ_MENU_ENTER       = 18,
+     AVIOCTRL_PTZ_FLIP             = 19,
+     AVIOCTRL_PTZ_START            = 20,
+     AVIOCTRL_LENS_APERTURE_OPEN   = 21,
+     AVIOCTRL_LENS_APERTURE_CLOSE = 22,
+     AVIOCTRL_LENS_ZOOM_IN         = 23,
+     AVIOCTRL_LENS_ZOOM_OUT        = 24,
+     AVIOCTRL_LENS_FOCAL_NEAR      = 25,
+     AVIOCTRL_LENS_FOCAL_FAR       = 26,
+     AVIOCTRL_AUTO_PAN_SPEED       = 27,
+     AVIOCTRL_AUTO_PAN_LIMIT       = 28,
+     AVIOCTRL_AUTO_PAN_START       = 29,
+     AVIOCTRL_PATTERN_START        = 30,
+     AVIOCTRL_PATTERN_STOP         = 31,
+     AVIOCTRL_PATTERN_RUN          = 32,
+     AVIOCTRL_SET_AUX              = 33,
+     AVIOCTRL_CLEAR_AUX            = 34,
+     AVIOCTRL_MOTOR_RESET_POSITION= 35,
+     *
+     **/
     /**
      * 初始化 UI
      */
     private void initView() {
+
+        button = (Button)findViewById(R.id.button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ipCamThread != null) {
+                    ipCamThread.sendIOCtrl_2((byte) 23);
+                  //  System.out.println("測試");
+                }
+            }
+        });
+
 
         loading = (ProgressBar) findViewById(R.id.progressBar);
 
@@ -433,19 +485,21 @@ public class IpCameraActivity extends Activity implements IpCamThread.DataReceiv
                 loading.setVisibility(View.VISIBLE);
 
                 if (ipCamThread != null) {
+                    System.out.println("關閉ipcamthread");
+                    ipCamThread.closeThread();
                     ipCamThread.closeThread();
                     ipCamThread = null;
                 }
                 if (ipCamThread == null) {
                     try {
-                        Thread.sleep(1000);
+                        Thread.sleep(3000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                     ipCamThread = new IpCamThread(strUid, IpCameraActivity.this);
                     ipCamThread.start();
                 }
-                System.out.println("重新連結");
+               /// System.out.println("重新連結");
             }
         });
 
@@ -547,7 +601,7 @@ public class IpCameraActivity extends Activity implements IpCamThread.DataReceiv
 //
 //        }
         // System.out.println("");
-        //  System.out.println("updateView");
+        //  /.println("updateView");
 
         /**更新畫面最後地方**/
         if (decoder != null) {
@@ -567,7 +621,7 @@ public class IpCameraActivity extends Activity implements IpCamThread.DataReceiv
     @Override
     public void onProgressbarReceive(boolean close) {
 
-        System.out.println("onProgressbarReceive:"+close);
+       // System.out.println("onProgressbarReceive:"+close);
         if (close) {
             Message message = new Message();
             message.arg1 = 1;
@@ -605,11 +659,11 @@ public class IpCameraActivity extends Activity implements IpCamThread.DataReceiv
                 switch (msg.arg1) {
                     case 1:
                         activity.loading.setVisibility(View.INVISIBLE);
-                        System.out.println("關閉progressbar");
+                      //  System.out.println("關閉progressbar");
                         break;
 
                     case 2:
-                        System.out.println("連結攝影機失敗，點擊畫面重新連結");
+                     //   System.out.println("連結攝影機失敗，點擊畫面重新連結");
 
                         activity.loading.setVisibility(View.INVISIBLE);
                         Toast.makeText(activity, "連結攝影機失敗，點擊畫面重新連結", Toast.LENGTH_SHORT).show();
@@ -619,7 +673,6 @@ public class IpCameraActivity extends Activity implements IpCamThread.DataReceiv
 
                 switch (msg.what) {
                     case RECEIVE_DATA:
-                        Log.d("", "RECEIVE_DATA");
                         activity.updateView((byte[]) msg.obj);
                         break;
                     case CHECK_LINK:

@@ -47,28 +47,23 @@
 
 
         <activity
-
             android:name=".IpCameraActivity"
             android:label="@string/title_activity_ip_camera"
-            android:windowSoftInputMode="stateVisible|adjustResize"
             android:screenOrientation="landscape"
             android:theme="@style/MySettingsTheme" />
         <activity
             android:name=".IpCameraSettingsActivity"
             android:label="@string/title_activity_ip_camera_settings"
-            android:windowSoftInputMode="stateVisible|adjustResize"
             android:screenOrientation="landscape"
             android:theme="@style/MySettingsTheme" />
         <activity
             android:name=".IpCameraUidSettingsActivity"
             android:label="@string/title_activity_ip_camera_uid_settings"
-            android:windowSoftInputMode="stateVisible|adjustResize"
             android:screenOrientation="landscape"
             android:theme="@style/MySettingsTheme" />
         <activity
             android:name=".IpCameraWifiSettingsActivity"
             android:label="@string/title_activity_ip_camera_wifi_settings"
-            android:windowSoftInputMode="stateVisible|adjustResize"
             android:screenOrientation="landscape"
             android:theme="@style/MySettingsTheme" />
     </application>
