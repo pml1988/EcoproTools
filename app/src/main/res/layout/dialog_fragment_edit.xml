@@ -41,23 +41,4 @@
             android:hint="Input IP"/>
     </LinearLayout>
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            style="@style/MySettingsBigTitle"
-            android:id="@+id/dialogFragmentEdit_textView"
-            android:text="Ecopro Password:"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <EditText
-            android:id="@+id/dialogFragmentEdit_textViewPassword"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/activitySettings_textViewTitle_layoutHeight"
-            android:hint="Input Password" />
-    </LinearLayout>
-
 </LinearLayout>

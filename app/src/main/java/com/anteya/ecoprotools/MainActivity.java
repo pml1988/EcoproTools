@@ -2,18 +2,25 @@ package com.anteya.ecoprotools;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.AnimationSet;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -46,6 +53,15 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
 
     private DataControl dataControl;
 
+    public int one;
+
+    private int two;
+
+    private int three;
+
+    private int four;
+
+
     private EcoproConnector ecoproConnector;
 
     private String ipAddress;
@@ -53,6 +69,8 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
     private LightOperatingTime lightOperatingTime;
     private AirOperatingTime airOperatingTime;
     private FanOperatingTime fanOperatingTime;
+
+    private String golbe_password;
 
     private byte manual_byte = 0x04;
 
@@ -114,25 +132,56 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
         System.out.println("======================(校正)" + sdf.format(new Date()) + "(校正)======================");
 
         initData();
-
         initView();
 
+        actionBar_mainActivity_textTitle.setText(title + "(Guest)");
+        golbe_password = readData();
+
+        if (golbe_password == "") {
+
+            first_input_password();
+        } else {
+
+            //  startTimer();
+        }
 
 
-        actionBar_mainActivity_textTitle = (TextView)findViewById(R.id.actionBar_mainActivity_textTitle);
+        System.out.print("數字：" + golbe_password);
 
-        actionBar_mainActivity_textTitle.setText(title +"(Guest)");
-        //   SQLiteControl sqLiteControl = new SQLiteControl(this);
-
-
-//        dataControl.saveIpCameraUid("");
     }
+
+    public void first_input_password() {
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.activity_main_first_passwrod, null);
+        final EditText activity_main_password_editText = (EditText) view.findViewById(R.id.activity_main_password_editText);
+        AlertDialog.Builder adb = new AlertDialog.Builder(this);
+        adb.setTitle("INPUT Password").setView(view).setPositiveButton("確定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                System.out.println("確定" + activity_main_password_editText.getText().toString());
+                saveData(activity_main_password_editText.getText().toString());
+                golbe_password = readData();
+
+                stopTimer();
+                startTimer();
+            }
+        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                System.out.println("取消");
+                startTimer();
+            }
+        }).show();
+    }
+
 
     @Override
     protected void onStart() {
         super.onStart();
         ipAddress = dataControl.getIpAddress();
         startTimer();
+
+
     }
 
     @Override
@@ -159,10 +208,13 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
         ecoproConnector = new EcoproConnector();
         ecoproConnector.setEcoproConnectorCallback(this);  //interface
 
+
+
 //        dataControl.saveIpCameraUid("");
     }
 
     private void initView() {
+
 
         lb_stop = (ImageButton) findViewById(R.id.lb_stop);
         lb_F1 = (ImageButton) findViewById(R.id.lb_germinate);
@@ -278,7 +330,7 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
         actionBar.setCustomView(actionBarLayout);
 
         Button buttonSetting = (Button) actionBarLayout.findViewById(R.id.actionBar_mainActivity_buttonSetting);
-
+        actionBar_mainActivity_textTitle = (TextView) actionBarLayout.findViewById(R.id.actionBar_mainActivity_textTitle);
         buttonSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -299,20 +351,23 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
     private View.OnClickListener textViewClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+
+            System.out.println("寶寶哭哭");
+
             TextView tempTextView = (TextView) v;
             int textViewTag = (int) tempTextView.getTag();
             currentTag = textViewTag;
             boolean isOnOff = (textViewTag % 10 == 1);
-
+            System.out.println("寶寶哭哭："+isOnOff);
             switch (textViewTag / 10) {
                 case 1:
-                    showTimePickerDialog(lightOperatingTime.getTimeByModeOnOff(currentModeValue, isOnOff), lightOperatingTime.getTimeByModeOnOff_minute(currentModeValue, isOnOff), isOnOff);
+                    showTimePickerDialog(lightOperatingTime.getTimeByModeOnOff(currentModeValue, isOnOff),    lightOperatingTime.getTimeByModeOnOff_minute(currentModeValue, isOnOff), isOnOff);
                     break;
                 case 2:
-                    showTimePickerDialog(airOperatingTime.getTimeByModeOnOff(currentModeValue, isOnOff), airOperatingTime.getTimeByModeOnOff_minute(currentModeValue, isOnOff), isOnOff);
+                    showTimePickerDialog(airOperatingTime.getTimeByModeOnOff(currentModeValue, isOnOff),     airOperatingTime.getTimeByModeOnOff_minute(currentModeValue, isOnOff), isOnOff);
                     break;
                 case 3:
-                    showTimePickerDialog(fanOperatingTime.getTimeByModeOnOff(currentModeValue, isOnOff), fanOperatingTime.getTimeByModeOnOff_minute(currentModeValue, isOnOff), isOnOff);
+                    showTimePickerDialog(fanOperatingTime.getTimeByModeOnOff(currentModeValue, isOnOff),    fanOperatingTime.getTimeByModeOnOff_minute(currentModeValue, isOnOff), isOnOff);
                     break;
             }
         }
@@ -332,7 +387,17 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
 
                 System.out.println("按下主控鍵傳遞的訊息：" + ProjectTools.getCommandChangeMode((int) v.getTag()));
 
-                ecoproConnector.sendCommand(ipAddress, ProjectTools.getCommandChangeMode((int) v.getTag()));
+                byte[] temp_commandchangmode = ProjectTools.getCommandChangeMode((int) v.getTag());
+
+
+                temp_commandchangmode[3] = (byte) dataControl.getPd_one();
+                temp_commandchangmode[4] = (byte) dataControl.getPd_two();
+                temp_commandchangmode[5] = (byte) dataControl.getPd_three();
+                temp_commandchangmode[6] = (byte) dataControl.getPd_four();
+
+                temp_commandchangmode = ProjectTools.getChecksumArray(temp_commandchangmode);
+
+                ecoproConnector.sendCommand(ipAddress, temp_commandchangmode);
             }
         }
     };
@@ -406,11 +471,33 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
                         commandArray[12] = Byte.parseByte("" + fanOperatingTime.ManualMode_TurnOnTime_minute, 16);
                         commandArray[13] = Byte.parseByte("" + fanOperatingTime.ManualMode_TurnOffTime, 16);
                         commandArray[14] = Byte.parseByte("" + fanOperatingTime.ManualMode_TurnOffTime_minute, 16);
+                        /**
+                         * 密碼
+                         * **/
+//                        commandArray[15] = (byte)4;
+//                        commandArray[16] = (byte)4;
+//                        commandArray[17] = (byte)9;
+//                        commandArray[18] = (byte)3;
+
+                        commandArray[15] = (byte) dataControl.getPd_one();
+                        commandArray[16] = (byte) dataControl.getPd_two();
+                        commandArray[17] = (byte) dataControl.getPd_three();
+                        commandArray[18] = (byte) dataControl.getPd_four();
 
                         // 計算 checksum
                         commandArray = ProjectTools.getChecksumArray(commandArray);
 
+
+                        for (int i = 0; i < commandArray.length; i++) {
+
+                            System.out.println(i + "項 寶寶灑掉了：" + commandArray[i]);
+                        }
+
                         if (ipAddress != null && ipAddress.length() > 0) {
+                            System.out.println("寶寶已送出 " + commandArray.length);
+                            System.out.println("寶寶已送出" + dataControl.getPd_one() + " " + dataControl.getPd_two() + " " + dataControl.getPd_three() + " " + dataControl.getPd_four());
+
+
                             ecoproConnector.sendCommand(ipAddress, commandArray);
                         }
                     }
@@ -503,11 +590,11 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
 //                lb_Manual.setImageResource(R.drawable.activity_main_manual_on);
 
 
-                AnimationSet animationSet = new AnimationSet(true);  //動畫
-                AlphaAnimation alphaAnimation = new AlphaAnimation(0, 1);
-                alphaAnimation.setDuration(1000);
-                animationSet.addAnimation(alphaAnimation);
-                manual_layout.startAnimation(animationSet);
+//                AnimationSet animationSet = new AnimationSet(true);  //動畫
+//                AlphaAnimation alphaAnimation = new AlphaAnimation(0, 1);
+//                alphaAnimation.setDuration(1000);
+//                animationSet.addAnimation(alphaAnimation);
+//                manual_layout.startAnimation(animationSet);
                 manual_layout.setVisibility(View.VISIBLE);
                 switchEnabled(true);
                 break;
@@ -647,14 +734,20 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
         }
     }
 
-
     /**
      * Timer 的 Task ， 每n秒發送一次指令
      **/
     private class EcoproTimerTask extends TimerTask {
         public void run() {
             if (ipAddress.length() > 0) {
-                ecoproConnector.sendCommand(ipAddress, ProjectTools.COMMAND_POLLING);
+                System.out.println("寶寶" + dataControl.getPd_one() + " " + dataControl.getPd_two() + " " + dataControl.getPd_three() + " " + dataControl.getPd_four());
+                byte[] COMMAND_POLLING = new byte[]{(byte) 0xf0, (byte) 0x01, (byte) dataControl.getPd_one(), (byte) dataControl.getPd_two(), (byte) dataControl.getPd_three(), (byte) dataControl.getPd_four(), (byte) 0x00};
+                //  byte[] COMMAND_POLLING = new byte[]{(byte) 0xf0, (byte) 0x01,(byte) 4, (byte) 4, (byte)9, (byte) 3,(byte) 0x00};
+
+                COMMAND_POLLING = ProjectTools.getChecksumArray(COMMAND_POLLING);
+
+
+                ecoproConnector.sendCommand(ipAddress, COMMAND_POLLING);
             }
         }
     }
@@ -724,12 +817,39 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
         return time;
     }
 
+    /**
+     * 改變activity bar 使用者狀態
+     **/
+    public void change_user(int user) {
+        System.out.println("寶寶哭了：" + user);
+
+        switch (user) {
+            case -125:
+            case -126:
+            case -127:
+                actionBar_mainActivity_textTitle.setText(title + "(User)");
+                break;
+
+            case 1:
+            case 2:
+            case 3:
+                actionBar_mainActivity_textTitle.setText(title + "(Guest)");
+                break;
+
+        }
+
+
+    }
+
 
     /**
      * 更新畫面
      **/
     public void updateView(byte[] byteArray) {
         ProjectTools.printByteArray(byteArray, "主執行緒收到 Ecopro 的 polling ack", 10);
+
+
+        change_user(byteArray[1]);
 
         for (int i = 0; i < byteArray.length; i++) {
             System.out.println("第 " + i + " 解析：" + byteArray[i]);
@@ -777,6 +897,8 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
             System.out.println("進入82");
         } else if (byteArray[1] == (byte) 0x83) { // 設定手動時間
             System.out.println("進入83");
+        } else if (byteArray[1] == (byte) 0x01) { // 設定手動時間
+            System.out.println("進入guest狀態");
         }
 
     }
@@ -939,5 +1061,47 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
                 break;
         }
     }
-    // endregion
+
+    private SharedPreferences settings;
+    private static final String data = "DATA";
+    private static final String password = "PASSWORD";
+
+
+    public String readData() {
+        settings = getSharedPreferences(data, 0);
+        String temp_pw = settings.getString(password, "");
+
+        if (temp_pw.length() == 4) {
+
+            System.out.println("怒1：" + Integer.parseInt(temp_pw.substring(0, 1)));
+            System.out.println("怒2：" + Integer.parseInt(temp_pw.substring(1, 2)));
+            System.out.println("怒3：" + Integer.parseInt(temp_pw.substring(2, 3)));
+            System.out.println("怒4：" + Integer.parseInt(temp_pw.substring(3, 4)));
+
+
+            one = Integer.parseInt(temp_pw.substring(0, 1));
+            two = Integer.parseInt(temp_pw.substring(1, 2));
+            three = Integer.parseInt(temp_pw.substring(2, 3));
+            four = Integer.parseInt(temp_pw.substring(3, 4));
+
+
+            dataControl.setPd_one(Integer.parseInt(temp_pw.substring(0, 1)));
+            dataControl.setPd_two(Integer.parseInt(temp_pw.substring(1, 2)));
+            dataControl.setPd_three(Integer.parseInt(temp_pw.substring(2, 3)));
+            dataControl.setPd_four(Integer.parseInt(temp_pw.substring(3, 4)));
+        } else {
+            System.out.println("怒 四位密碼");
+        }
+
+        return temp_pw;
+    }
+
+    public void saveData(String number) {
+
+        settings = getSharedPreferences(data, 0);
+        settings.edit()
+                .putString(password, number)
+                .commit();
+
+    }
 }

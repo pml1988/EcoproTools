@@ -179,6 +179,14 @@ public class EcoproConnector {
                             Log.d(TAG, "ecoproConnectorCallback == null");
                         } else {
                             ecoproConnectorCallback.onReceiveAnteyaTCPCommandAck(tempArray);
+
+                            for(int i = 0  ; i<tempArray.length;i++)
+                            {
+
+                                System.out.println("大數據："+tempArray[i]);
+
+                            }
+
                         }
                     }
                 }

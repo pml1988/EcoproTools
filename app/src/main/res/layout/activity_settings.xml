@@ -32,6 +32,18 @@
                 android:background="@color/myLightGray"/>
 
             <TextView
+                android:id="@+id/activitySettings_password"
+                style="@style/SettingsActivity_TextView"
+                android:text="Password Settings "/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/myLightGray"/>
+
+
+
+            <TextView
                 android:id="@+id/activitySettings_textView2"
                 style="@style/SettingsActivity_TextView"
                 android:text="Wi-Fi Settings"/>

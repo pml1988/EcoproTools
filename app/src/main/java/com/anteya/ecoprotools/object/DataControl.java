@@ -18,6 +18,42 @@ public class DataControl extends Application {
     private final static String PREF_IP_ADDRESS = "PREF_IP_ADDRESS";
     private final static String PREF_MAC_ADDRESS = "PREF_MAC_ADDRESS";
 
+    private  int pd_one = 0;
+    private int pd_two = 0;
+    private  int pd_three = 0;
+    private  int pd_four = 0;
+
+    public void setPd_one(int pd_one) {
+        this.pd_one = pd_one;
+    }
+
+    public void setPd_two(int pd_two) {
+        this.pd_two = pd_two;
+    }
+
+    public void setPd_three(int pd_three) {
+        this.pd_three = pd_three;
+    }
+
+    public void setPd_four(int pd_four) {
+        this.pd_four = pd_four;
+    }
+
+    public int getPd_one() {
+        return pd_one;
+    }
+
+    public int getPd_two() {
+        return pd_two;
+    }
+
+    public int getPd_three() {
+        return pd_three;
+    }
+
+    public int getPd_four() {
+        return pd_four;
+    }
 
     /**
      * 紀錄 UID

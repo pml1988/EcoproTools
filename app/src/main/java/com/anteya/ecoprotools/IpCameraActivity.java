@@ -440,19 +440,6 @@ public class IpCameraActivity extends Activity implements IpCamThread.DataReceiv
      * 初始化 UI
      */
     private void initView() {
-
-        button = (Button)findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (ipCamThread != null) {
-                    ipCamThread.sendIOCtrl_2((byte) 23);
-                  //  System.out.println("測試");
-                }
-            }
-        });
-
-
         loading = (ProgressBar) findViewById(R.id.progressBar);
 
         activity_ipcam_right = (ImageButton) findViewById(R.id.activity_ipcam_right);
