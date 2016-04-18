@@ -26,6 +26,8 @@ public class EditDialogFragment extends DialogFragment {
 
     private String ipAddress;
 
+    private int password;
+
     private Ecopro ecopro;
 
     public boolean isNewEcopro = false;
@@ -34,7 +36,7 @@ public class EditDialogFragment extends DialogFragment {
 
     private TextView textViewNameTitle, textViewIpAddressTitle;
 
-    private EditText editTextName, editTextIpAddress;
+    private EditText editTextName, editTextIpAddress , editTextPassword;
 
     public EditDialogFragment(){
 
@@ -102,7 +104,7 @@ public class EditDialogFragment extends DialogFragment {
         textViewIpAddressTitle = (TextView) view.findViewById(R.id.dialogFragmentEdit_textViewIpAddressTitle);
         editTextName = (EditText) view.findViewById(R.id.dialogFragmentEdit_editTextName);
         editTextIpAddress = (EditText) view.findViewById(R.id.dialogFragmentEdit_editTextIpAddress);
-
+        editTextPassword = (EditText) view.findViewById(R.id.dialogFragmentEdit_editTextIpassword);
 
         // setup
         builder.setView(view);
@@ -117,7 +119,7 @@ public class EditDialogFragment extends DialogFragment {
             editTextName.setText(ecopro.getName());
 
             editTextIpAddress.setText(ecopro.getIpAddress());
-
+            editTextPassword.setText(ecopro.getPassword());
         }
 
         return builder.create();
@@ -135,6 +137,8 @@ public class EditDialogFragment extends DialogFragment {
 
             ecopro.setIpAddress(editTextIpAddress.getText().toString());
 
+            ecopro.setPassword(editTextPassword.getText().toString());
+
             if(editDialogFragmentCallback != null){
                 editDialogFragmentCallback.addNewEcopro(ecopro);
             }
@@ -148,6 +152,8 @@ public class EditDialogFragment extends DialogFragment {
             ecopro.setName(editTextName.getText().toString());
 
             ecopro.setIpAddress(editTextIpAddress.getText().toString());
+
+            ecopro.setPassword(editTextPassword.getText().toString());
 
             if(editDialogFragmentCallback != null){
                 editDialogFragmentCallback.updateEcopro(ecopro);

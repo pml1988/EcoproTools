@@ -8,17 +8,18 @@
 
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/dialogFragmentEdit_textViewNameTitle"
             style="@style/MySettingsBigTitle"
-            android:text="Ecopro Name:"/>
+            android:text="Ecopro Name:"
+            android:layout_width="wrap_content" />
 
         <EditText
             android:id="@+id/dialogFragmentEdit_editTextName"
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_height="@dimen/activitySettings_textViewTitle_layoutHeight"
             android:hint="Input Name"/>
     </LinearLayout>
@@ -39,6 +40,26 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/activitySettings_textViewTitle_layoutHeight"
             android:hint="Input IP"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/MySettingsBigTitle">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ecopro Password:"
+            android:id="@+id/dialogFragmentEdit_password"
+            style="@style/MySettingsBigTitle" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/activitySettings_textViewTitle_layoutHeight"
+            android:id="@+id/dialogFragmentEdit_editTextIpassword"
+            android:hint="password" />
     </LinearLayout>
 
 </LinearLayout>

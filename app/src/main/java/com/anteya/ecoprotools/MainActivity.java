@@ -490,12 +490,12 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
 
                         for (int i = 0; i < commandArray.length; i++) {
 
-                            System.out.println(i + "項 寶寶灑掉了：" + commandArray[i]);
+                            System.out.println(i + "項 丟出修改時間資料：" + commandArray[i]);
                         }
 
                         if (ipAddress != null && ipAddress.length() > 0) {
-                            System.out.println("寶寶已送出 " + commandArray.length);
-                            System.out.println("寶寶已送出" + dataControl.getPd_one() + " " + dataControl.getPd_two() + " " + dataControl.getPd_three() + " " + dataControl.getPd_four());
+                            System.out.println("已送出 " + commandArray.length);
+                            System.out.println("已送出" + dataControl.getPd_one() + " " + dataControl.getPd_two() + " " + dataControl.getPd_three() + " " + dataControl.getPd_four());
 
 
                             ecoproConnector.sendCommand(ipAddress, commandArray);
@@ -947,7 +947,7 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
                 break;
 
         }
-
+        switchEnabled(true);
 
     }
 

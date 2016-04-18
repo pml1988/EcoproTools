@@ -38,6 +38,7 @@ public class SQLiteControl {
         values.put(EcoproString.ECOPRO_NAME, ecopro.getName());
         values.put(EcoproString.ECOPRO_IP_ADDRESS, ecopro.getIpAddress());
         values.put(EcoproString.ECOPRO_MAC_ADDRESS, ecopro.getMacAddress());
+        values.put(EcoproString.ECOPRO_PASSWORD, ecopro.getPassword());
         long result = db.insert(EcoproString.ECOPRO_TABLE_NAME, null, values);
         db.close();
 
@@ -61,7 +62,7 @@ public class SQLiteControl {
         values.put(EcoproString.ECOPRO_NAME, ecopro.getName());
         values.put(EcoproString.ECOPRO_IP_ADDRESS, ecopro.getIpAddress());
         values.put(EcoproString.ECOPRO_MAC_ADDRESS, ecopro.getMacAddress());
-
+        values.put(EcoproString.ECOPRO_PASSWORD, ecopro.getPassword());
         String where = EcoproString.ECOPRO_ID + "=" + ecopro.getId();
 
         int result = db.update(EcoproString.ECOPRO_TABLE_NAME, values, where, null);
@@ -114,6 +115,7 @@ public class SQLiteControl {
             ecopro.setName(result.getString(result.getColumnIndex(EcoproString.ECOPRO_NAME)));
             ecopro.setIpAddress(result.getString(result.getColumnIndex(EcoproString.ECOPRO_IP_ADDRESS)));
             ecopro.setMacAddress(result.getString(result.getColumnIndex(EcoproString.ECOPRO_MAC_ADDRESS)));
+            ecopro.setPassword(result.getString(result.getColumnIndex(EcoproString.ECOPRO_PASSWORD)));
 
             list.add(ecopro);
         }

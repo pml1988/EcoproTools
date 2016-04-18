@@ -40,9 +40,8 @@ public class SettingsActivity extends Activity implements Serializable {
         dataControl = (DataControl) getApplicationContext();
 
         text1 = (TextView) findViewById(R.id.activitySettings_textView1);
-        text2 = (TextView) findViewById(R.id.activitySettings_password);
         text3 = (TextView) findViewById(R.id.activitySettings_textView2);
-
+        text2 = (TextView) findViewById(R.id.activitySettings_password);
         text1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,10 +67,18 @@ public class SettingsActivity extends Activity implements Serializable {
 
                         saveData(ed.getText().toString());
 
-                        dataControl.setPd_one(Integer.parseInt(ed.getText().toString().substring(0, 1)));
-                        dataControl.setPd_two(Integer.parseInt(ed.getText().toString().substring(1, 2)));
-                        dataControl.setPd_three(Integer.parseInt(ed.getText().toString().substring(2, 3)));
-                        dataControl.setPd_four(Integer.parseInt(ed.getText().toString().substring(3, 4)));
+                        String temp = ed.getText().toString();
+
+                        if(ed.getText().toString().length()!=4)
+                        {
+                            temp = "3259";
+
+                        }
+                            dataControl.setPd_one(Integer.parseInt(temp.substring(0, 1)));
+                            dataControl.setPd_two(Integer.parseInt(temp.substring(1, 2)));
+                            dataControl.setPd_three(Integer.parseInt(temp.substring(2, 3)));
+                            dataControl.setPd_four(Integer.parseInt(temp.substring(3, 4)));
+
 
 
                         Toast.makeText(SettingsActivity.this, "設定完成", Toast.LENGTH_SHORT).show();

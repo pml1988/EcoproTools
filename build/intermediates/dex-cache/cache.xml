@@ -1,2 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<items version="2" />
+<items version="2" >
+
+    <item
+        jar="/Users/marco/Documents/Git/ANTEYA/android/EcoproTools/app/build/intermediates/exploded-aar/com.android.support/design/23.1.1/jars/classes.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="379471b2bd17d9737c050345c08e8c7d16589784">
+        <dex dex="/Users/marco/Documents/Git/ANTEYA/android/EcoproTools/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-design-23.1.1_c91c72707abb33ce326a656ace762b31e77f084b/classes.dex" />
+    </item>
+    <item
+        jar="/Users/marco/Documents/Git/ANTEYA/android/EcoproTools/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="ca0eccbf04d6b295c17c963f723738722ebd205c">
+        <dex dex="/Users/marco/Documents/Git/ANTEYA/android/EcoproTools/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_e507410bbf7cdd9f043b4f6e0a965a739254547f/classes.dex" />
+    </item>
+    <item
+        jar="/Users/marco/Documents/Git/ANTEYA/android/EcoproTools/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/jars/classes.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="6cbc7773921fcfedbe55657578f0cbfe614778dc">
+        <dex dex="/Users/marco/Documents/Git/ANTEYA/android/EcoproTools/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-v4-23.1.1_22c0145079e5123b0bdaf14e542a7bff010abe25/classes.dex" />
+    </item>
+    <item
+        jar="/Users/marco/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/23.1.1/support-annotations-23.1.1.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="8d680ba5a623724d1fb0e81c36a790f023a6cede">
+        <dex dex="/Users/marco/Documents/Git/ANTEYA/android/EcoproTools/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-23.1.1_2e71509a803abf1f36c8bd126b625a833aaca5eb/classes.dex" />
+    </item>
+    <item
+        jar="/Users/marco/Documents/Git/ANTEYA/android/EcoproTools/app/build/intermediates/exploded-aar/com.journeyapps/zxing-android-integration/2.0.1/jars/classes.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="d4d7d4290dc3f13bdb95a92b2377d78e66084dfa">
+        <dex dex="/Users/marco/Documents/Git/ANTEYA/android/EcoproTools/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.journeyapps-zxing-android-integration-2.0.1_043ddec2433a28880d497373d04dfb814bd1f9b7/classes.dex" />
+    </item>
+    <item
+        jar="/Users/marco/Documents/Git/ANTEYA/android/EcoproTools/app/build/intermediates/exploded-aar/com.journeyapps/zxing-android-embedded/2.0.1/jars/classes.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="f38c1fe0ee3d0ef717e7f32131719fccf07fd6c7">
+        <dex dex="/Users/marco/Documents/Git/ANTEYA/android/EcoproTools/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.journeyapps-zxing-android-embedded-2.0.1_deae84a7f17c1c5d6c69f521b9bc92bd2a0916eb/classes.dex" />
+    </item>
+    <item
+        jar="/Users/marco/Documents/Git/ANTEYA/android/EcoproTools/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/jars/classes.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="5c5699834e9722f1c288fea2de82725d078ba127">
+        <dex dex="/Users/marco/Documents/Git/ANTEYA/android/EcoproTools/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-appcompat-v7-23.1.1_1ece30e3d0bea183931a75361cbadc7b43aaf09d/classes.dex" />
+    </item>
+    <item
+        jar="/Users/marco/Documents/Git/ANTEYA/android/EcoproTools/app/build/intermediates/exploded-aar/com.journeyapps/zxing-android-legacy/2.0.1/jars/classes.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="7eb68150c290a271a716675ebdfd176eac694124">
+        <dex dex="/Users/marco/Documents/Git/ANTEYA/android/EcoproTools/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.journeyapps-zxing-android-legacy-2.0.1_3a5cb4a1aef5b0c9d9ef700a0f71698b2d60b295/classes.dex" />
+    </item>
+    <item
+        jar="/Users/marco/Documents/Git/ANTEYA/android/EcoproTools/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/jars/libs/internal_impl-23.1.1.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="a4de9c81ae239414e1ed0f86441b02abaf29bca9">
+        <dex dex="/Users/marco/Documents/Git/ANTEYA/android/EcoproTools/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-23.1.1_02fc288da87fd269a46fb31bdcc3a105100dd535/classes.dex" />
+    </item>
+    <item
+        jar="/Users/marco/Documents/Git/ANTEYA/android/EcoproTools/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="ea1b54a91b0afc2c4bf15bfcbcacc2e34eb7fd26">
+        <dex dex="/Users/marco/Documents/Git/ANTEYA/android/EcoproTools/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_ab7df8e6b6efa8de0eebe88825afb05c60c5c3ad/classes.dex" />
+    </item>
+    <item
+        jar="/Users/marco/.gradle/caches/modules-2/files-2.1/com.google.zxing/core/3.2.0/e019d15a13a9786f881141d2df6654b8510bce8b/core-3.2.0.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="e019d15a13a9786f881141d2df6654b8510bce8b">
+        <dex dex="/Users/marco/Documents/Git/ANTEYA/android/EcoproTools/app/build/intermediates/transforms/dex/debug/folders/1000/10/core-3.2.0_416f65f045acca03e4ceb5addbb16336ce6f2e54/classes.dex" />
+    </item>
+    <item
+        jar="/Users/marco/Documents/Git/ANTEYA/android/EcoproTools/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/23.1.1/jars/classes.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="09c5e804bc67fc0580360043dff067df574a60d4">
+        <dex dex="/Users/marco/Documents/Git/ANTEYA/android/EcoproTools/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-recyclerview-v7-23.1.1_9a8dc195bb56101d887fef325600216ea134e1fe/classes.dex" />
+    </item>
+
+</items>

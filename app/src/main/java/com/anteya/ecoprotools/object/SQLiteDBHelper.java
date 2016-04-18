@@ -28,7 +28,8 @@ public class SQLiteDBHelper extends SQLiteOpenHelper{
                 EcoproString.ECOPRO_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 EcoproString.ECOPRO_NAME + " TEXT NOT NULL DEFAULT '', " +
                 EcoproString.ECOPRO_IP_ADDRESS + " TEXT NOT NULL DEFAULT '', " +
-                EcoproString.ECOPRO_MAC_ADDRESS + " TEXT NOT NULL DEFAULT '');";
+                EcoproString.ECOPRO_MAC_ADDRESS + " TEXT NOT NULL DEFAULT '', " +
+                EcoproString.ECOPRO_PASSWORD + " TEXT NOT NULL DEFAULT '');";
         db.execSQL(INIT_TABLE);
     }
 

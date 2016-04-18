@@ -14,6 +14,7 @@ public class EcoproString {
     public final static String ECOPRO_NAME = "Name";
     public final static String ECOPRO_IP_ADDRESS = "IP";
     public final static String ECOPRO_MAC_ADDRESS = "Mac";
+    public final static String ECOPRO_PASSWORD = "PW";
 
 
     public final static String HASH_MAP_KEY_ID = "id";
@@ -21,4 +22,5 @@ public class EcoproString {
     public final static String HASH_MAP_KEY_DATA = "data";
     public final static String HASH_MAP_KEY_IP = "ip";
     public final static String HASH_MAP_KEY_MAC = "mac";
+    public final static String HASH_MAP_KEY_PW = "pw";
 }

@@ -29,6 +29,14 @@ public class Ecopro {
      * Ecopro Mac 位址
      */
     private String macAddress = "";
+    /**
+     * Ecopro Password 密碼
+     */
+    private String password = "";
+
+
+
+
 
     public Ecopro() {
     }
@@ -67,5 +75,12 @@ public class Ecopro {
         this.macAddress = macAddress;
     }
 
-    // endregion
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+// endregion
 }
