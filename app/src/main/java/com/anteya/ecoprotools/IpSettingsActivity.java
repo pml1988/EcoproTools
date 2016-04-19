@@ -32,7 +32,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class IpSettingsActivity extends Activity implements EcoproConnector.EcoproConnectorCallback
-, EditDialogFragment.EditDialogFragmentCallback{
+        , EditDialogFragment.EditDialogFragmentCallback {
 
     private final String TAG = "IpSettingsActivity";
 
@@ -53,6 +53,8 @@ public class IpSettingsActivity extends Activity implements EcoproConnector.Ecop
 
     private String ipAddress = "";
 
+
+    private Button btn;
     // endregion
 
     // region View
@@ -60,6 +62,8 @@ public class IpSettingsActivity extends Activity implements EcoproConnector.Ecop
     private TextView text1;
 
     private EditText editTextIpAddress;
+
+    private EditText activityIpSettings_editText_password;
 
     private ListView listView;
 
@@ -87,7 +91,7 @@ public class IpSettingsActivity extends Activity implements EcoproConnector.Ecop
     protected void onStart() {
         super.onStart();
         String tempIp = dataControl.getIpAddress();
-        if(tempIp.length() > 0){
+        if (tempIp.length() > 0) {
             editTextIpAddress.setText(tempIp);
         }
         updateListView();
@@ -114,11 +118,11 @@ public class IpSettingsActivity extends Activity implements EcoproConnector.Ecop
 
     // region initial
 
-    private void initData(){
+    private void initData() {
 
         myHandler = new MyHandler(this);
 
-        dataControl = (DataControl)getApplicationContext();
+        dataControl = (DataControl) getApplicationContext();
 
         ecoproConnector = new EcoproConnector();
         ecoproConnector.setEcoproConnectorCallback(this);
@@ -128,15 +132,25 @@ public class IpSettingsActivity extends Activity implements EcoproConnector.Ecop
         ipAddress = dataControl.getIpAddress();
     }
 
-    private void initView(){
+    private void initView() {
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setTitle("Link");
 
         text1 = (TextView) findViewById(R.id.activityIpSettings_textView);
 
-        editTextIpAddress = (EditText) findViewById(R.id.activityIpSettings_editText);
 
+        btn = (Button) findViewById(R.id.button);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("檢查密碼" + dataControl.getPd_one() + " " + dataControl.getPd_two() + " " + dataControl.getPd_three() + " " + dataControl.getPd_four());
+            }
+        });
+
+
+        editTextIpAddress = (EditText) findViewById(R.id.activityIpSettings_editText);
+        activityIpSettings_editText_password = (EditText) findViewById(R.id.activityIpSettings_editText_password);
         buttonAddEcopro = (ImageButton) findViewById(R.id.activityIpSettings_buttonAdd);
         buttonAddEcopro.setOnClickListener(buttonAddEcoproClickListener);
 
@@ -148,7 +162,7 @@ public class IpSettingsActivity extends Activity implements EcoproConnector.Ecop
         listView.setOnItemLongClickListener(listViewLongClickListener);
 
 
-        if(ipAddress.length() > 0){
+        if (ipAddress.length() > 0) {
             editTextIpAddress.setText(ipAddress);
         }
 
@@ -201,11 +215,28 @@ public class IpSettingsActivity extends Activity implements EcoproConnector.Ecop
     private View.OnClickListener buttonLinkEcoproClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            dataControl.saveIpAddress(editTextIpAddress.getText().toString());
-            ipAddress = dataControl.getIpAddress();
-            if(ipAddress != null && ipAddress.length() > 0){
-                ecoproConnector.checkLink(ipAddress);
+
+            if(activityIpSettings_editText_password.getText().toString().length()!=4)
+            {
+                Toast.makeText(getApplication() , "最多四碼",Toast.LENGTH_SHORT).show();
             }
+            else
+            {
+                dataControl.saveIpAddress(editTextIpAddress.getText().toString());
+
+                dataControl.setPd_one(Integer.parseInt(activityIpSettings_editText_password.getText().toString().substring(0, 1)));
+                dataControl.setPd_two(Integer.parseInt(activityIpSettings_editText_password.getText().toString().substring(1, 2)));
+                dataControl.setPd_three(Integer.parseInt(activityIpSettings_editText_password.getText().toString().substring(2, 3)));
+                dataControl.setPd_four(Integer.parseInt(activityIpSettings_editText_password.getText().toString().substring(3, 4)));
+
+                ipAddress = dataControl.getIpAddress();
+                if (ipAddress != null && ipAddress.length() > 0) {
+                    ecoproConnector.checkLink(ipAddress);
+                }
+
+            }
+
+
         }
     };
 
@@ -220,15 +251,20 @@ public class IpSettingsActivity extends Activity implements EcoproConnector.Ecop
 
             String tempIp = ecopro.getIpAddress();
             String tempMac = ecopro.getMacAddress();
-
+            String temppw = ecopro.getPassword();
             dataControl.saveIpAddress(tempIp);
             dataControl.saveMacAddress(tempMac);
-
             editTextIpAddress.setText(tempIp);
+            dataControl.setPd_one(Integer.parseInt(temppw.substring(0, 1)));
+            dataControl.setPd_two(Integer.parseInt(temppw.substring(1, 2)));
+            dataControl.setPd_three(Integer.parseInt(temppw.substring(2, 3)));
+            dataControl.setPd_four(Integer.parseInt(temppw.substring(3, 4)));
+
+            activityIpSettings_editText_password.setText(temppw);
 
             ipAddress = tempIp;
 
-            if(ipAddress != null && ipAddress.length() > 0){
+            if (ipAddress != null && ipAddress.length() > 0) {
                 ecoproConnector.checkLink(ipAddress);
             }
 
@@ -303,7 +339,7 @@ public class IpSettingsActivity extends Activity implements EcoproConnector.Ecop
     }
 
     @Override
-    public void deleteEcopro(Ecopro ecopro){
+    public void deleteEcopro(Ecopro ecopro) {
         Log.d(TAG, "deleteEcopro 收到 event");
         sqLiteControl.deleteEcopro(ecopro);
         updateListView();
@@ -313,12 +349,12 @@ public class IpSettingsActivity extends Activity implements EcoproConnector.Ecop
 
     // region MyHandler
 
-    public void updateListView(){
+    public void updateListView() {
 
         listEcopro = sqLiteControl.getEcoproArray();
         listMacData.clear();
 
-        for (Ecopro ecopro : listEcopro){
+        for (Ecopro ecopro : listEcopro) {
 
             HashMap<String, Object> hashMap = new HashMap<>();
 
@@ -330,24 +366,24 @@ public class IpSettingsActivity extends Activity implements EcoproConnector.Ecop
             listMacData.add(hashMap);
         }
 
-        if(keepGoing){
-            listItemAdapter = new SimpleAdapter(this,listMacData, //套入動態資訊
+        if (keepGoing) {
+            listItemAdapter = new SimpleAdapter(this, listMacData, //套入動態資訊
                     R.layout.listview_ip_mac,//套用自訂的XML
-                    new String[] {EcoproString.HASH_MAP_KEY_NAME,EcoproString.HASH_MAP_KEY_IP}, //動態資訊取出順序
-                    new int[] {R.id.layoutMac_ip,R.id.layoutMac_mac} //將動態資訊對應到元件ID
+                    new String[]{EcoproString.HASH_MAP_KEY_NAME, EcoproString.HASH_MAP_KEY_IP}, //動態資訊取出順序
+                    new int[]{R.id.layoutMac_ip, R.id.layoutMac_mac} //將動態資訊對應到元件ID
             );
 
             listView.setAdapter(listItemAdapter);
         }
     }
 
-    public void receiveLinkCheck(boolean isLinked){
+    public void receiveLinkCheck(boolean isLinked) {
 
-        if(isLinked){
+        if (isLinked) {
             Toast.makeText(IpSettingsActivity.this, "連線成功", Toast.LENGTH_SHORT).show();
-        }
-        else
-        {
+
+
+        } else {
 
             Toast.makeText(IpSettingsActivity.this, "連線失敗，請確認IP是否正確", Toast.LENGTH_SHORT).show();
         }
@@ -361,22 +397,25 @@ public class IpSettingsActivity extends Activity implements EcoproConnector.Ecop
     private static class MyHandler extends Handler {
         // WeakReference to the outer class's instance.
         private WeakReference<IpSettingsActivity> mOuter;
+
         public MyHandler(IpSettingsActivity activity) {
             mOuter = new WeakReference<>(activity);
         }
+
         public static final int RECEIVE_BROADCAST_DATA = 1;
         public static final int CHECK_LINK = 2;
+
         @Override
-        public void handleMessage(Message msg){
+        public void handleMessage(Message msg) {
             IpSettingsActivity activity = mOuter.get();
             if (activity != null) {
                 // Do something with outer as your wish.
-                switch(msg.what){
-                    case RECEIVE_BROADCAST_DATA :
+                switch (msg.what) {
+                    case RECEIVE_BROADCAST_DATA:
                         System.out.println("IpSettingsActivity MyHandler.RECEIVE_BROADCAST_DATA");
 //                        activity.updateListView((List)msg.obj);
                         break;
-                    case CHECK_LINK :
+                    case CHECK_LINK:
                         System.out.println("IpSettingsActivity MyHandler.CHECK_LINK");
                         activity.receiveLinkCheck((boolean) msg.obj);
                         break;

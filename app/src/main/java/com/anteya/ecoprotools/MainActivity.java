@@ -118,7 +118,6 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
     private ActionBar actionBar;
 
     private TextView actionBar_mainActivity_textTitle;
-
     // endregion
 
     // region service
@@ -134,16 +133,18 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
         initData();
         initView();
 
+
+
         actionBar_mainActivity_textTitle.setText(title + "(Guest)");
         golbe_password = readData();
 
-        if (golbe_password == "") {
-
-            first_input_password();
-        } else {
-
-            //  startTimer();
-        }
+//        if (golbe_password == "") {
+//
+//            first_input_password();
+//        } else {
+//
+//            //  startTimer();
+//        }
 
 
         System.out.print("數字：" + golbe_password);
@@ -899,6 +900,24 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
             System.out.println("進入83");
         } else if (byteArray[1] == (byte) 0x01) { // 設定手動時間
             System.out.println("進入guest狀態");
+            ProjectTools.printEcoproStatusArray(byteArray);
+            textViewLightTurnOnTime.setText(ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_LIGHT, ProjectTools.ECOPRO_ON_TIME, byteArray)));
+            textViewLightTurnOffTime.setText(ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_LIGHT, ProjectTools.ECOPRO_OFF_TIME, byteArray)));
+            textViewAirTurnOnTime.setText(ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_AIR, ProjectTools.ECOPRO_ON_TIME, byteArray)));
+            textViewAirTurnOffTime.setText(ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_AIR, ProjectTools.ECOPRO_OFF_TIME, byteArray)));
+            textViewFanTurnOnTime.setText(ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_FAN, ProjectTools.ECOPRO_ON_TIME, byteArray)));
+            textViewFanTurnOffTime.setText(ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_FAN, ProjectTools.ECOPRO_OFF_TIME, byteArray)));
+            change_manual_main_states();
+            change_manual_status(byteArray);
+
+            /**寫死的更改F1F2F3數值設定 此處修改會影響控制機控制手機變動**/
+            changeMode(ProjectTools.getEcoproModeIndex(byteArray));
+
+            // 更改畫面上的運作狀態
+            changeWorkStatus(byteArray);
+            switchEnabled(false);
+            // 更改畫面上開啟關閉狀態
+
         }
 
     }

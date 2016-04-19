@@ -2,11 +2,10 @@ package com.anteya.ecoprotools.object;
 
 /**
  * Created by yenlungchen on 2016/2/24.
- *
+ * <p/>
  * 以 Ecopro 為單位的物件
- *
+ * <p/>
  * 裡面包含了 Ecopro 的所有資訊
- *
  */
 public class Ecopro {
 
@@ -33,9 +32,6 @@ public class Ecopro {
      * Ecopro Password 密碼
      */
     private String password = "";
-
-
-
 
 
     public Ecopro() {

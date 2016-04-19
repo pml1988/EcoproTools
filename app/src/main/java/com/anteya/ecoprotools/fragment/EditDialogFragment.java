@@ -11,7 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.anteya.ecoprotools.MainActivity;
 import com.anteya.ecoprotools.R;
 import com.anteya.ecoprotools.object.Ecopro;
 
@@ -117,7 +119,6 @@ public class EditDialogFragment extends DialogFragment {
             builder.setNeutralButton("Delete", deleteEcoproDialogClickListener);
 
             editTextName.setText(ecopro.getName());
-
             editTextIpAddress.setText(ecopro.getIpAddress());
             editTextPassword.setText(ecopro.getPassword());
         }
@@ -131,17 +132,26 @@ public class EditDialogFragment extends DialogFragment {
         @Override
         public void onClick(DialogInterface dialog, int which) {
 
-            ecopro = new Ecopro();
-
-            ecopro.setName(editTextName.getText().toString());
-
-            ecopro.setIpAddress(editTextIpAddress.getText().toString());
-
-            ecopro.setPassword(editTextPassword.getText().toString());
-
-            if(editDialogFragmentCallback != null){
-                editDialogFragmentCallback.addNewEcopro(ecopro);
+            if(editTextPassword.getText().toString().length()!=4)
+            {
+                Toast.makeText(getActivity().getApplicationContext(), "最多四碼，請重新輸入",Toast.LENGTH_SHORT).show();
             }
+            else {
+
+                ecopro = new Ecopro();
+
+                ecopro.setName(editTextName.getText().toString());
+
+                ecopro.setIpAddress(editTextIpAddress.getText().toString());
+
+                ecopro.setPassword(editTextPassword.getText().toString());
+
+                if(editDialogFragmentCallback != null){
+                    editDialogFragmentCallback.addNewEcopro(ecopro);
+                }
+
+            }
+
         }
     };
 

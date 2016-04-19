@@ -59,7 +59,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/activitySettings_textViewTitle_layoutHeight"
             android:id="@+id/dialogFragmentEdit_editTextIpassword"
-            android:hint="password" />
+            android:hint="請輸入四碼數字" />
     </LinearLayout>
 
 </LinearLayout>

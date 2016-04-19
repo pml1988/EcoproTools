@@ -34,12 +34,14 @@
             <TextView
                 android:id="@+id/activitySettings_password"
                 style="@style/SettingsActivity_TextView"
-                android:text="Password Settings "/>
+                android:text="Password Settings "
+                android:visibility="gone" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/myLightGray"/>
+                android:background="@color/myLightGray"
+                android:visibility="gone" />
 
 
 
