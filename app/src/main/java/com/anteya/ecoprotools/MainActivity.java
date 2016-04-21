@@ -37,6 +37,7 @@ import com.anteya.ecoprotools.operatingtype.LightOperatingTime;
 import com.anteya.ecoprotools.object.ProjectTools;
 
 import java.lang.ref.WeakReference;
+import java.security.interfaces.ECKey;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -134,7 +135,6 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
         initView();
 
 
-
         actionBar_mainActivity_textTitle.setText(title + "(Guest)");
         golbe_password = readData();
 
@@ -208,7 +208,6 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
 
         ecoproConnector = new EcoproConnector();
         ecoproConnector.setEcoproConnectorCallback(this);  //interface
-
 
 
 //        dataControl.saveIpCameraUid("");
@@ -359,22 +358,22 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
             int textViewTag = (int) tempTextView.getTag();
             currentTag = textViewTag;
             boolean isOnOff = (textViewTag % 10 == 1);
-            System.out.println("寶寶哭哭："+isOnOff);
+            System.out.println("寶寶哭哭：" + isOnOff);
             switch (textViewTag / 10) {
                 case 1:
-                    showTimePickerDialog(lightOperatingTime.getTimeByModeOnOff(currentModeValue, isOnOff),    lightOperatingTime.getTimeByModeOnOff_minute(currentModeValue, isOnOff), isOnOff);
+                    showTimePickerDialog(lightOperatingTime.getTimeByModeOnOff(currentModeValue, isOnOff), lightOperatingTime.getTimeByModeOnOff_minute(currentModeValue, isOnOff), isOnOff);
                     break;
                 case 2:
-                    showTimePickerDialog(airOperatingTime.getTimeByModeOnOff(currentModeValue, isOnOff),     airOperatingTime.getTimeByModeOnOff_minute(currentModeValue, isOnOff), isOnOff);
+                    showTimePickerDialog(airOperatingTime.getTimeByModeOnOff(currentModeValue, isOnOff), airOperatingTime.getTimeByModeOnOff_minute(currentModeValue, isOnOff), isOnOff);
                     break;
                 case 3:
-                    showTimePickerDialog(fanOperatingTime.getTimeByModeOnOff(currentModeValue, isOnOff),    fanOperatingTime.getTimeByModeOnOff_minute(currentModeValue, isOnOff), isOnOff);
+                    showTimePickerDialog(fanOperatingTime.getTimeByModeOnOff(currentModeValue, isOnOff), fanOperatingTime.getTimeByModeOnOff_minute(currentModeValue, isOnOff), isOnOff);
                     break;
             }
         }
     };
 
-
+    private boolean manual_flag = true;
     /**
      * 按下主畫面控制的選項 變更 F1 F2 F3 F4
      **/
@@ -382,6 +381,16 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
         @Override
         public void onClick(View v) {
             //依照button tag 選擇不同功能 0=停止 1=育苗模式 2=生長模式 3= 開花模式 4=手動模式
+            if ((int) v.getTag() == 4) {
+                if (manual_flag == true) {
+                    manual_layout.setVisibility(View.INVISIBLE);
+                    manual_flag = false;
+                } else {
+                    manual_layout.setVisibility(View.VISIBLE);
+                    manual_flag = true;
+                }
+            }
+
             changeMode((int) v.getTag());
 
             if (ipAddress != null && ipAddress.length() > 0) {
@@ -596,7 +605,7 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
 //                alphaAnimation.setDuration(1000);
 //                animationSet.addAnimation(alphaAnimation);
 //                manual_layout.startAnimation(animationSet);
-                manual_layout.setVisibility(View.VISIBLE);
+
                 switchEnabled(true);
                 break;
         }
@@ -915,7 +924,7 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
 
             // 更改畫面上的運作狀態
             changeWorkStatus(byteArray);
-            switchEnabled(false);
+            // switchEnabled(false);
             // 更改畫面上開啟關閉狀態
 
         }
@@ -929,7 +938,7 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
         mm3.setImageResource(R.drawable.activity_main_manual_m3_off);
         mm4.setImageResource(R.drawable.activity_main_manual_m4_off);
         mm5.setImageResource(R.drawable.activity_main_manual_m5_off);
-        manual_layout.setVisibility(View.VISIBLE);
+       // manual_layout.setVisibility(View.VISIBLE);
         switch (byte_manual[2]) {
             case 0x04:
                 manual_byte = 0x04;
