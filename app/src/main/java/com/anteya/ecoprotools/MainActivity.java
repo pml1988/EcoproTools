@@ -352,13 +352,12 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
         @Override
         public void onClick(View v) {
 
-            System.out.println("寶寶哭哭");
 
             TextView tempTextView = (TextView) v;
             int textViewTag = (int) tempTextView.getTag();
             currentTag = textViewTag;
             boolean isOnOff = (textViewTag % 10 == 1);
-            System.out.println("寶寶哭哭：" + isOnOff);
+            System.out.println(isOnOff);
             switch (textViewTag / 10) {
                 case 1:
                     showTimePickerDialog(lightOperatingTime.getTimeByModeOnOff(currentModeValue, isOnOff), lightOperatingTime.getTimeByModeOnOff_minute(currentModeValue, isOnOff), isOnOff);
@@ -373,7 +372,7 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
         }
     };
 
-    private boolean manual_flag = true;
+    // private boolean manual_flag = true;
     /**
      * 按下主畫面控制的選項 變更 F1 F2 F3 F4
      **/
@@ -382,33 +381,44 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
         public void onClick(View v) {
             //依照button tag 選擇不同功能 0=停止 1=育苗模式 2=生長模式 3= 開花模式 4=手動模式
             if ((int) v.getTag() == 4) {
-                if (manual_flag == true) {
-                    manual_layout.setVisibility(View.INVISIBLE);
-                    manual_flag = false;
-                } else {
-                    manual_layout.setVisibility(View.VISIBLE);
-                    manual_flag = true;
+                //   if (manual_flag == true) {
+                manual_layout.setVisibility(View.VISIBLE);
+            }
+            changeMode((int) v.getTag());
+            if (ipAddress != null && ipAddress.length() > 0 && (int) v.getTag() < 4) {
+                try {
+                    System.out.println("按下主控鍵傳遞的訊息：" + ProjectTools.getCommandChangeMode((int) v.getTag()));
+                    byte[] temp_commandchangmode = ProjectTools.getCommandChangeMode((int) v.getTag());
+                    temp_commandchangmode[3] = (byte) dataControl.getPd_one();
+                    temp_commandchangmode[4] = (byte) dataControl.getPd_two();
+                    temp_commandchangmode[5] = (byte) dataControl.getPd_three();
+                    temp_commandchangmode[6] = (byte) dataControl.getPd_four();
+                    temp_commandchangmode = ProjectTools.getChecksumArray(temp_commandchangmode);
+                    ecoproConnector.sendCommand(ipAddress, temp_commandchangmode);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else if ((int) v.getTag() == 4) {
+                try {
+                    System.out.println("按下主控鍵傳遞的訊息：::::::::");
+                    byte[] temp_commandchangmode = ProjectTools.getCommandChangeMode((int) v.getTag());
+                    temp_commandchangmode[2] = manual_byte;
+                    temp_commandchangmode[3] = (byte) dataControl.getPd_one();
+                    temp_commandchangmode[4] = (byte) dataControl.getPd_two();
+                    temp_commandchangmode[5] = (byte) dataControl.getPd_three();
+                    temp_commandchangmode[6] = (byte) dataControl.getPd_four();
+                    temp_commandchangmode = ProjectTools.getChecksumArray(temp_commandchangmode);
+                    ecoproConnector.sendCommand(ipAddress, temp_commandchangmode);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
-
-            changeMode((int) v.getTag());
-
-            if (ipAddress != null && ipAddress.length() > 0) {
-
-                System.out.println("按下主控鍵傳遞的訊息：" + ProjectTools.getCommandChangeMode((int) v.getTag()));
-
-                byte[] temp_commandchangmode = ProjectTools.getCommandChangeMode((int) v.getTag());
-
-
-                temp_commandchangmode[3] = (byte) dataControl.getPd_one();
-                temp_commandchangmode[4] = (byte) dataControl.getPd_two();
-                temp_commandchangmode[5] = (byte) dataControl.getPd_three();
-                temp_commandchangmode[6] = (byte) dataControl.getPd_four();
-
-                temp_commandchangmode = ProjectTools.getChecksumArray(temp_commandchangmode);
-
-                ecoproConnector.sendCommand(ipAddress, temp_commandchangmode);
+            else
+            {
+                System.out.println("按下主控鍵傳遞的訊息：============");
             }
+
+
         }
     };
 
@@ -750,7 +760,7 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
     private class EcoproTimerTask extends TimerTask {
         public void run() {
             if (ipAddress.length() > 0) {
-                System.out.println("寶寶" + dataControl.getPd_one() + " " + dataControl.getPd_two() + " " + dataControl.getPd_three() + " " + dataControl.getPd_four());
+                System.out.println(dataControl.getPd_one() + " " + dataControl.getPd_two() + " " + dataControl.getPd_three() + " " + dataControl.getPd_four());
                 byte[] COMMAND_POLLING = new byte[]{(byte) 0xf0, (byte) 0x01, (byte) dataControl.getPd_one(), (byte) dataControl.getPd_two(), (byte) dataControl.getPd_three(), (byte) dataControl.getPd_four(), (byte) 0x00};
                 //  byte[] COMMAND_POLLING = new byte[]{(byte) 0xf0, (byte) 0x01,(byte) 4, (byte) 4, (byte)9, (byte) 3,(byte) 0x00};
 
@@ -831,7 +841,7 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
      * 改變activity bar 使用者狀態
      **/
     public void change_user(int user) {
-        System.out.println("寶寶哭了：" + user);
+        System.out.println(user);
 
         switch (user) {
             case -125:
@@ -938,7 +948,7 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
         mm3.setImageResource(R.drawable.activity_main_manual_m3_off);
         mm4.setImageResource(R.drawable.activity_main_manual_m4_off);
         mm5.setImageResource(R.drawable.activity_main_manual_m5_off);
-       // manual_layout.setVisibility(View.VISIBLE);
+        // manual_layout.setVisibility(View.VISIBLE);
         switch (byte_manual[2]) {
             case 0x04:
                 manual_byte = 0x04;
@@ -1023,7 +1033,8 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
      **/
     private void send_manual_state(byte m_byte) {
         byte[] commandArray = ProjectTools.COMMAND_CHANGE_MODE_4;
-        commandArray[2] = manual_byte;
+        System.out.println("奇怪勒：" + m_byte);
+        commandArray[2] = m_byte;
         commandArray = ProjectTools.getChecksumArray(commandArray);
         if (ipAddress != null && ipAddress.length() > 0) {
             ecoproConnector.sendCommand(ipAddress, commandArray);

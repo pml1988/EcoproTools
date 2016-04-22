@@ -368,7 +368,7 @@ public class IpCameraActivity extends Activity implements IpCamThread.DataReceiv
             switch (v.getId()) {
                 case R.id.activity_ipcam_down:
                     if (ipCamThread != null) {
-                        ipCamThread.sendIOCtrl_2((byte) 2);
+                        ipCamThread.sendIOCtrl_2((byte) 0);
                     }
                    // System.out.println("下");
                     break;

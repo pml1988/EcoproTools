@@ -117,7 +117,7 @@ public class IpCamThread {
                     //IOTYPE_USER_IPCAM_PTZ_COMMAND = 0x1001 對IPCAM下指令
                     int IOTYPE_USER_IPCAM_SETSTREAMCTRL_REQ = 0x1001;
 
-                    byte[] tempArray1 = SMsgAVIoctrlSetStreamCtrlReq.parseContent((byte)direct, (byte)0, (byte)0, (byte)0, (byte)0, (byte)0);
+                    byte[] tempArray1 = SMsgAVIoctrlSetStreamCtrlReq.parseContent(direct, (byte)0, (byte)0, (byte)0, (byte)0, (byte)0);
 
                     int ret = av.avSendIOCtrl(index, IOTYPE_USER_IPCAM_SETSTREAMCTRL_REQ, tempArray1, 8);
 

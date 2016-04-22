@@ -63,7 +63,7 @@ public class SettingsActivity extends Activity implements Serializable {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                        System.out.println("寶寶寶寶：" + ed.getText().toString());
+                        System.out.println( ed.getText().toString());
 
                         saveData(ed.getText().toString());
 

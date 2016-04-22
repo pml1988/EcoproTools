@@ -101,10 +101,6 @@ public class ProjectTools {
     public static byte[] getCommandChangeMode(int mode) {
         switch (mode) {
             case 0:
-
-
-
-
                 return COMMAND_CHANGE_MODE_0;
             case 1:
                 return COMMAND_CHANGE_MODE_1;
