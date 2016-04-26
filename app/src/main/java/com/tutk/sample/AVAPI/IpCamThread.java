@@ -47,19 +47,20 @@ public class IpCamThread {
 
     public interface DataReceiveListener {
         void onVideoDataReceive(byte[] data);
+
         void onProgressbarReceive(boolean close);
     }
 
     private DataReceiveListener listener;
 
-    public IpCamThread(String uid, DataReceiveListener listener){
+    public IpCamThread(String uid, DataReceiveListener listener) {
         this.listener = listener;
         this.UID = uid;
     }
 
-    public void start(){
+    public void start() {
 
-        if(going == false){
+        if (going == false) {
             going = true;
             threadIPCam.start();
             System.out.println("threadIPCam.start();");
@@ -67,22 +68,21 @@ public class IpCamThread {
         }
     }
 
-    public void closeThread(){
+    public void closeThread() {
         going = false;
     }
 
     // 整數轉成 byte array
-    public static final byte[] intToByteArray_Little(int paramInt)
-    {
+    public static final byte[] intToByteArray_Little(int paramInt) {
         byte[] arrayOfByte = new byte[4];
-        arrayOfByte[0] = ((byte)paramInt);
-        arrayOfByte[1] = ((byte)(paramInt >>> 8));
-        arrayOfByte[2] = ((byte)(paramInt >>> 16));
-        arrayOfByte[3] = ((byte)(paramInt >>> 24));
+        arrayOfByte[0] = ((byte) paramInt);
+        arrayOfByte[1] = ((byte) (paramInt >>> 8));
+        arrayOfByte[2] = ((byte) (paramInt >>> 16));
+        arrayOfByte[3] = ((byte) (paramInt >>> 24));
         return arrayOfByte;
     }
 
-    public static boolean setWifi(int avIndex, byte[] byteArray){
+    public static boolean setWifi(int avIndex, byte[] byteArray) {
         AVAPIs av = new AVAPIs();
 
         int IOTYPE_USER_IPCAM_SETSTREAMCTRL_REQ = 0x0342;
@@ -105,42 +105,76 @@ public class IpCamThread {
     }
 
 
-    public void sendIOCtrl_2(final byte direct){
+    public void sendIOCtrl_2(final byte direct) {
 
-        new Thread(){
+        new Thread() {
             @Override
-            public void run(){
-                if(index >= 0){
+            public void run() {
+                if (index >= 0) {
 
 
                     AVAPIs av = new AVAPIs();
                     //IOTYPE_USER_IPCAM_PTZ_COMMAND = 0x1001 對IPCAM下指令
                     int IOTYPE_USER_IPCAM_SETSTREAMCTRL_REQ = 0x1001;
 
-                    byte[] tempArray1 = SMsgAVIoctrlSetStreamCtrlReq.parseContent(direct, (byte)0, (byte)0, (byte)0, (byte)0, (byte)0);
+                    byte[] tempArray1 = SMsgAVIoctrlSetStreamCtrlReq.parseContent(direct, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0);
 
                     int ret = av.avSendIOCtrl(index, IOTYPE_USER_IPCAM_SETSTREAMCTRL_REQ, tempArray1, 8);
 
                     if (ret < 0) {
 
                         System.out.printf("IOTYPE_USER_IPCAM_SETSTREAMCTRL_REQ failed[%d]\n", ret);
-                    }else{
+                    } else {
                         System.out.printf("IOTYPE_USER_IPCAM_SETSTREAMCTRL_REQ success[%d]\n", ret);
                     }
 
-
-                    if (ret < 0) {
-                        System.out.printf("IOTYPE_USER_IPCAM_SETSTREAMCTRL_REQ failed[%d]\n", ret);
-                    }else{
-                        System.out.printf("IOTYPE_USER_IPCAM_SETSTREAMCTRL_REQ success[%d]\n", ret);
-                    }
-                }else{
-                    Log.e("","IP Cam is not connect.");
+                } else {
+                    Log.e("", "IP Cam is not connect.");
                 }
 
             }
         }.start();
     }
+
+//    public void sendIOCtrl_3() {
+//
+//        new Thread() {
+//            @Override
+//            public void run() {
+//                if (index >= 0) {
+//
+//
+//                    AVAPIs av = new AVAPIs();
+//                    //IOTYPE_USER_IPCAM_PTZ_COMMAND = 0x1001 對IPCAM下指令
+//                    int IOTYPE_USER_IPCAM_SETSTREAMCTRL_REQ = 0x02FF;
+//
+//                    byte[] tempArray1 = new byte[1];
+//
+//                    int[] te = new int[1];
+//                    te[0] = IOTYPE_USER_IPCAM_SETSTREAMCTRL_REQ;
+//
+//                    int ret = 0;
+//                    try {
+//                        ret = av.avRecvIOCtrl(index, IOTYPE_USER_IPCAM_SETSTREAMCTRL_REQ, tempArray1, 5 , 100);
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//                    // int ret = av.avSendIOCtrl(index, IOTYPE_USER_IPCAM_SETSTREAMCTRL_REQ, tempArray1, 5);
+//
+//                    if (ret < 0) {
+//
+//                        System.out.printf("寶寶IOTYPE_USER_IPCAM_SETSTREAMCTRL_REQ failed[%d]\n", ret);
+//                    } else {
+//                        System.out.printf("寶寶寶IOTYPE_USER_IPCAM_SETSTREAMCTRL_REQ success[%d]\n", ret);
+//                    }
+//
+//                } else {
+//                    Log.e("", "IP Cam is not connect.");
+//                }
+//
+//            }
+//        }.start();
+//    }
 
 
     private String ssid = "";
@@ -148,20 +182,17 @@ public class IpCamThread {
     private int securityMode = 0;
 
 
-
-
-
-    private Thread threadIPCam = new Thread(){
+    private Thread threadIPCam = new Thread() {
         @Override
-        public void run(){
+        public void run() {
             System.out.println("StreamClient start...");
 
             // use which Master base on location, port 0 means to get a random port
-       //     int ret = IOTCAPIs.IOTC_Initialize(0, "m1.iotcplatform.com", "m2.iotcplatform.com", "m4.iotcplatform.com", "m5.iotcplatform.com");
+            //     int ret = IOTCAPIs.IOTC_Initialize(0, "m1.iotcplatform.com", "m2.iotcplatform.com", "m4.iotcplatform.com", "m5.iotcplatform.com");
 
-           int ret = IOTCAPIs.IOTC_Initialize2(0);
+            int ret = IOTCAPIs.IOTC_Initialize2(0);
 
-       //     int ret = 0;
+            //     int ret = 0;
 
             System.out.printf("IOTC_Initialize() ret = %d\n", ret);
             if (ret != IOTCAPIs.IOTC_ER_NoERROR) {
@@ -174,15 +205,15 @@ public class IpCamThread {
             AVAPIs.avInitialize(3);
 
             int sid = IOTCAPIs.IOTC_Connect_ByUID(UID);
-          //  System.out.printf("Step 1: call IOTC_Connect_ByUID(%s)... return sid(%d)\n", UID, sid);
+            //  System.out.printf("Step 1: call IOTC_Connect_ByUID(%s)... return sid(%d)\n", UID, sid);
 
             int[] srvType = new int[1];
             int avIndex = AVAPIs.avClientStart(sid, "admin", "admin", 20000, srvType, 0);
-          //  System.out.printf("Step 2: call avClientStart(%d).......%d\n", avIndex, srvType[0]);
-         //   Log.e("sendIOCtrl_1", "IP Cam 000 index = " + index);
+            //  System.out.printf("Step 2: call avClientStart(%d).......%d\n", avIndex, srvType[0]);
+            //   Log.e("sendIOCtrl_1", "IP Cam 000 index = " + index);
 
 
-           // System.out.println("avIndex:" + avIndex);
+            // System.out.println("avIndex:" + avIndex);
             index = 0;
 //            System.out.println("index:" + index);
 //            Log.e("sendIOCtrl_1", "IP Cam 0000 index = " + index);
@@ -198,19 +229,18 @@ public class IpCamThread {
             if (startIpcamStream(0)) {
 
                 VideoThread videoT = new VideoThread(0);
-              //  AudioThread audioT = new AudioThread(avIndex);
+                //  AudioThread audioT = new AudioThread(avIndex);
 
                 Thread videoThread = new Thread(videoT, "Video Thread");
-              //  Thread audioThread = new Thread(audioT, "Audio Thread");
+                //  Thread audioThread = new Thread(audioT, "Audio Thread");
 
                 videoThread.start();
-              //  audioThread.start();
+                //  audioThread.start();
 
                 try {
                     videoThread.join();
-                }
-                catch (InterruptedException e) {
-                    System.out.println("threadIPCam 異常："+e.getMessage());
+                } catch (InterruptedException e) {
+                    System.out.println("threadIPCam 異常：" + e.getMessage());
                     return;
                 }
 //                try {
@@ -229,7 +259,7 @@ public class IpCamThread {
             AVAPIs.avDeInitialize();
             IOTCAPIs.IOTC_DeInitialize();
             System.out.printf("StreamClient exit...\n");
-          //  listener.onProgressbarReceive(false);
+            //  listener.onProgressbarReceive(false);
 
         }
     };
@@ -267,11 +297,9 @@ public class IpCamThread {
     }
 
 
-
     public class VideoThread implements Runnable {
         static final int VIDEO_BUF_SIZE = 50000;
         static final int FRAME_INFO_SIZE = 16;
-
         private int avIndex;
 
         public VideoThread(int avIndex) {
@@ -281,7 +309,7 @@ public class IpCamThread {
         @Override
         public void run() {
 
-          //  System.out.printf("VideoThread implements Runnable　[%s] Start\n", Thread.currentThread().getName());
+            //  System.out.printf("VideoThread implements Runnable　[%s] Start\n", Thread.currentThread().getName());
 
             listener.onProgressbarReceive(true);
 
@@ -302,13 +330,13 @@ public class IpCamThread {
                 /**主要影像資料來源**/
                 int ret = av.avRecvFrameData(avIndex, videoBuffer, VIDEO_BUF_SIZE, frameInfo, FRAME_INFO_SIZE, frameNumber);
 
-                if(ret > 0){
+                if (ret > 0) {
                     // return code 代表回傳資料的長度
                     // 準備一個相同長度的 byte array 來放置接收到的資料，不要直接將 100000長度的byte array 回傳到 MainActivity 去解碼
                     byte[] videoBufferNew = new byte[ret];
                     System.arraycopy(videoBuffer, 0, videoBufferNew, 0, videoBufferNew.length);
 
-                    if(listener != null && going){
+                    if (listener != null && going) {
                         listener.onVideoDataReceive(videoBufferNew);
                     }
 
@@ -319,29 +347,23 @@ public class IpCamThread {
                     try {
                         Thread.sleep(80);
                         continue;
-                    }
-                    catch (InterruptedException e) {
+                    } catch (InterruptedException e) {
                         System.out.println(e.getMessage());
                         break;
                     }
-                }
-                else if (ret == AVAPIs.AV_ER_LOSED_THIS_FRAME) {
+                } else if (ret == AVAPIs.AV_ER_LOSED_THIS_FRAME) {
                     System.out.printf("[%s] Lost video frame number[%d]\n", Thread.currentThread().getName(), frameNumber[0]);
                     continue;
-                }
-                else if (ret == AVAPIs.AV_ER_INCOMPLETE_FRAME) {
+                } else if (ret == AVAPIs.AV_ER_INCOMPLETE_FRAME) {
                     System.out.printf("[%s] Incomplete video frame number[%d]\n", Thread.currentThread().getName(), frameNumber[0]);
                     continue;
-                }
-                else if (ret == AVAPIs.AV_ER_SESSION_CLOSE_BY_REMOTE) {
+                } else if (ret == AVAPIs.AV_ER_SESSION_CLOSE_BY_REMOTE) {
                     System.out.printf("AV_ER_SESSION_CLOSE_BY_REMOTE [%s]\n", Thread.currentThread().getName());
                     break;
-                }
-                else if (ret == AVAPIs.AV_ER_REMOTE_TIMEOUT_DISCONNECT) {
+                } else if (ret == AVAPIs.AV_ER_REMOTE_TIMEOUT_DISCONNECT) {
                     System.out.printf("AV_ER_REMOTE_TIMEOUT_DISCONNECT [%s]\n", Thread.currentThread().getName());
                     break;
-                }
-                else if (ret == AVAPIs.AV_ER_INVALID_SID) {
+                } else if (ret == AVAPIs.AV_ER_INVALID_SID) {
                     System.out.printf("Session cant be used anymore [%s]\n", Thread.currentThread().getName());
                     break;
                 }
@@ -381,13 +403,11 @@ public class IpCamThread {
                     System.out.printf("[%s] avCheckAudioBuf() failed: %d\n",
                             Thread.currentThread().getName(), ret);
                     break;
-                }
-                else if (ret < 3) {
+                } else if (ret < 3) {
                     try {
                         Thread.sleep(120);
                         continue;
-                    }
-                    catch (InterruptedException e) {
+                    } catch (InterruptedException e) {
                         System.out.println(e.getMessage());
                         break;
                     }
@@ -397,23 +417,19 @@ public class IpCamThread {
                 ret = av.avRecvAudioData(avIndex, audioBuffer, AUDIO_BUF_SIZE, frameInfo, FRAME_INFO_SIZE, frameNumber);
 
 
-
                 if (ret == AVAPIs.AV_ER_SESSION_CLOSE_BY_REMOTE) {
                     System.out.printf("[%s] AV_ER_SESSION_CLOSE_BY_REMOTE\n",
                             Thread.currentThread().getName());
                     break;
-                }
-                else if (ret == AVAPIs.AV_ER_REMOTE_TIMEOUT_DISCONNECT) {
+                } else if (ret == AVAPIs.AV_ER_REMOTE_TIMEOUT_DISCONNECT) {
                     System.out.printf("[%s] AV_ER_REMOTE_TIMEOUT_DISCONNECT\n",
                             Thread.currentThread().getName());
                     break;
-                }
-                else if (ret == AVAPIs.AV_ER_INVALID_SID) {
+                } else if (ret == AVAPIs.AV_ER_INVALID_SID) {
                     System.out.printf("[%s] Session cant be used anymore\n",
                             Thread.currentThread().getName());
                     break;
-                }
-                else if (ret == AVAPIs.AV_ER_LOSED_THIS_FRAME) {
+                } else if (ret == AVAPIs.AV_ER_LOSED_THIS_FRAME) {
                     //System.out.printf("[%s] Audio frame losed\n",
                     //        Thread.currentThread().getName());
                     continue;
@@ -430,32 +446,29 @@ public class IpCamThread {
     }
 
 
-
-
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-        public void startSetWifi(){
+    public void startSetWifi() {
 
 
-            System.out.println("執行緒 threadIPCamWifiSettings："+threadIPCamWifiSettings.isAlive());
+        System.out.println("執行緒 threadIPCamWifiSettings：" + threadIPCamWifiSettings.isAlive());
 
-            if(!threadIPCamWifiSettings.isAlive())
-            {
-                try {
-                    threadIPCamWifiSettings.start();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    System.out.println("threadIPCamWifiSettings"+e);
-                }
+        if (!threadIPCamWifiSettings.isAlive()) {
+            try {
+                threadIPCamWifiSettings.start();
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println("threadIPCamWifiSettings" + e);
             }
+        }
 
 
     }
 
-    private Thread threadIPCamWifiSettings = new Thread(){
+    private Thread threadIPCamWifiSettings = new Thread() {
         @Override
-        public void run(){
+        public void run() {
             System.out.println("StreamClient start...");
 
             // use which Master base on location, port 0 means to get a random port
@@ -487,8 +500,6 @@ public class IpCamThread {
                 System.out.printf("avClientStart_wifi_failed[%d]\n", avIndex);
 
 
-
-
                 return;
             }
 
@@ -501,7 +512,7 @@ public class IpCamThread {
             AVAPIs.avDeInitialize();
             IOTCAPIs.IOTC_DeInitialize();
             System.out.printf("StreamClient wifi exit...\n");
-           // listener.onProgressbarReceive(false);
+            // listener.onProgressbarReceive(false);
         }
     };
 }

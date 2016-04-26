@@ -327,27 +327,27 @@ public class IpCameraActivity extends Activity implements IpCamThread.DataReceiv
      AVIOCTRL_PTZ_UP               = 1,   上
      AVIOCTRL_PTZ_DOWN             = 2,   下
      AVIOCTRL_PTZ_LEFT             = 3,   左
-     AVIOCTRL_PTZ_LEFT_UP          = 4,   左上
-     AVIOCTRL_PTZ_LEFT_DOWN        = 5,   左下
+     AVIOCTRL_PTZ_LEFT_UP          = 4,
+     AVIOCTRL_PTZ_LEFT_DOWN        = 5,
      AVIOCTRL_PTZ_RIGHT            = 6,   右
-     AVIOCTRL_PTZ_RIGHT_UP         = 7,   右上
-     AVIOCTRL_PTZ_RIGHT_DOWN       = 8,   右下
-     AVIOCTRL_PTZ_AUTO             = 9,   自動(尋擺)
-     AVIOCTRL_PTZ_SET_POINT        = 10,
+     AVIOCTRL_PTZ_RIGHT_UP         = 7,
+     AVIOCTRL_PTZ_RIGHT_DOWN       = 8,
+     AVIOCTRL_PTZ_AUTO             = 9,
+     AVIOCTRL_PTZ_SET_POINT        = 10, 設定point
      AVIOCTRL_PTZ_CLEAR_POINT      = 11,
-     AVIOCTRL_PTZ_GOTO_POINT       = 12,
+     AVIOCTRL_PTZ_GOTO_POINT       = 12, 回到point
      AVIOCTRL_PTZ_SET_MODE_START   = 13,
      AVIOCTRL_PTZ_SET_MODE_STOP    = 14,
      AVIOCTRL_PTZ_MODE_RUN         = 15,
-     AVIOCTRL_PTZ_MENU_OPEN        = 16,
-     AVIOCTRL_PTZ_MENU_EXIT        = 17,
-     AVIOCTRL_PTZ_MENU_ENTER       = 18,
+     AVIOCTRL_PTZ_MENU_OPEN        = 16, X
+     AVIOCTRL_PTZ_MENU_EXIT        = 17, X
+     AVIOCTRL_PTZ_MENU_ENTER       = 18, X
      AVIOCTRL_PTZ_FLIP             = 19,
      AVIOCTRL_PTZ_START            = 20,
      AVIOCTRL_LENS_APERTURE_OPEN   = 21,
      AVIOCTRL_LENS_APERTURE_CLOSE = 22,
-     AVIOCTRL_LENS_ZOOM_IN         = 23,
-     AVIOCTRL_LENS_ZOOM_OUT        = 24,
+     AVIOCTRL_LENS_ZOOM_IN         = 23, Ｘ
+     AVIOCTRL_LENS_ZOOM_OUT        = 24, Ｘ
      AVIOCTRL_LENS_FOCAL_NEAR      = 25,
      AVIOCTRL_LENS_FOCAL_FAR       = 26,
      AVIOCTRL_AUTO_PAN_SPEED       = 27,
@@ -368,7 +368,9 @@ public class IpCameraActivity extends Activity implements IpCamThread.DataReceiv
             switch (v.getId()) {
                 case R.id.activity_ipcam_down:
                     if (ipCamThread != null) {
-                        ipCamThread.sendIOCtrl_2((byte) 0);
+                        ipCamThread.sendIOCtrl_2((byte) 2);
+
+                       // ipCamThread.sendIOCtrl_3();
                     }
                    // System.out.println("下");
                     break;
@@ -566,6 +568,7 @@ public class IpCameraActivity extends Activity implements IpCamThread.DataReceiv
             ipCamThread = null;
         }
         if (decoder != null) {
+            System.out.println("關閉畫面更新media關閉");
             decoder.stopDecode();
             decoder = null;
         }
@@ -591,14 +594,26 @@ public class IpCameraActivity extends Activity implements IpCamThread.DataReceiv
         //  /.println("updateView");
 
         /**更新畫面最後地方**/
+        //VideoDecoder decoder;
+
         if (decoder != null) {
             decoder.onFrame(data, 0, data.length, 0);
         }
     }
 
+
+    /**
+     *
+     * 收到 IpCamThread 傳來的Data, 將Data傳回主執行緒進行UI更新
+     * **/
+
     @Override
     public void onVideoDataReceive(byte[] data) {
         // 收到 IpCamThread 傳來的Data, 將Data傳回主執行緒進行UI更新
+
+        System.out.println("鈴杯："+data.length);
+
+
         Message message = new Message();
         message.what = MyHandler.RECEIVE_DATA;
         message.obj = data;

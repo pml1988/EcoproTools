@@ -303,7 +303,7 @@
 
         android:layout_height="80dp"
         android:id="@+id/activityMain_Manual_control"
-        android:visibility="visible"
+        android:visibility="invisible"
         android:gravity="bottom"
         android:layout_marginRight="@dimen/activityMain_manual_left_margin"
         android:layout_marginTop="@dimen/activityMain_manual_control_top">

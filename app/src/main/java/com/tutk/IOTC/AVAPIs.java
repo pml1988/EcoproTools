@@ -135,7 +135,7 @@ public class AVAPIs {
 	public native static int  avInitialize(int nMaxNumAllowed);
 	public native static int  avDeInitialize();
 	public native static int  avSendIOCtrl(int avIndex, int ioType, byte[] ioCtrlBuf, int ioCtrlBufSize); //block thread,wait ack
-	public native static int  avRecvIOCtrl(int avIndex, int[] pioType, byte[] ioCtrlBuf, int ioCtrlBufMaxSize, int timeout_ms);
+	public native static int  avRecvIOCtrl(int avIndex, int pioType, byte[] ioCtrlBuf, int ioCtrlBufMaxSize, int timeout_ms);
 	public native static int  avSendIOCtrlExit(int avIndex);
 
 	//Device Side

@@ -793,13 +793,20 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
      */
     @Override
     public void onReceiveAnteyaTCPCommandAck(byte[] ackArray) {
-        if (ackArray[2] > 3) {
-            manual_byte = ackArray[2];
+
+        try {
+            if(ackArray.length>3)
+             if (ackArray[2] > 3) {
+                 manual_byte = ackArray[2];
+             }
+            Message message = new Message();
+            message.what = MyHandler.RECEIVE_DATA;
+            message.obj = ackArray;
+            myHandler.sendMessage(message);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("MainActivity_onReceiveAnteyaTCPCommandAck try catch");
         }
-        Message message = new Message();
-        message.what = MyHandler.RECEIVE_DATA;
-        message.obj = ackArray;
-        myHandler.sendMessage(message);
     }
 
     @Override
@@ -857,86 +864,88 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
                 break;
 
         }
-
-
     }
-
 
     /**
      * 更新畫面
      **/
     public void updateView(byte[] byteArray) {
-        ProjectTools.printByteArray(byteArray, "主執行緒收到 Ecopro 的 polling ack", 10);
+        try {
+            ProjectTools.printByteArray(byteArray, "主執行緒收到 Ecopro 的 polling ack", 10);
 
 
-        change_user(byteArray[1]);
+            change_user(byteArray[1]);
 
-        for (int i = 0; i < byteArray.length; i++) {
-            System.out.println("第 " + i + " 解析：" + byteArray[i]);
-        }
-
-        if (byteArray[2] > 3) {
-            manual_byte = byteArray[2];
-        }
-
-
-        if (byteArray[1] == (byte) 0x81) { // 詢問狀態
-
-            ProjectTools.printEcoproStatusArray(byteArray);
-
-            // 更改畫面上所顯示的時間  收到資料傳到 ProjectTools.getEcoproOnTime 做轉換
-            // 更改畫面上所顯示的時間  收到資料傳到 ProjectTools.getEcoproOnTime 做轉換
-
-//            System.out.println("測試1:" + ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_LIGHT, ProjectTools.ECOPRO_ON_TIME, byteArray)));
-//            System.out.println("測試2:" + ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_LIGHT, ProjectTools.ECOPRO_OFF_TIME, byteArray)));
-//            System.out.println("測試3:" + ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_AIR, ProjectTools.ECOPRO_ON_TIME, byteArray)));
-//            System.out.println("測試4:" + ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_AIR, ProjectTools.ECOPRO_OFF_TIME, byteArray)));
-//            System.out.println("測試5:" + ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_FAN, ProjectTools.ECOPRO_ON_TIME, byteArray)));
-//            System.out.println("測試6:" + ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_FAN, ProjectTools.ECOPRO_OFF_TIME, byteArray)));
+            for (int i = 0; i < byteArray.length; i++) {
+                System.out.println("第 " + i + " 解析：" + byteArray[i]);
+            }
+            if(byteArray.length>3)
+            if (byteArray[2] > 3) {
+                manual_byte = byteArray[2];
+            }
 
 
-            textViewLightTurnOnTime.setText(ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_LIGHT, ProjectTools.ECOPRO_ON_TIME, byteArray)));
-            textViewLightTurnOffTime.setText(ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_LIGHT, ProjectTools.ECOPRO_OFF_TIME, byteArray)));
-            textViewAirTurnOnTime.setText(ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_AIR, ProjectTools.ECOPRO_ON_TIME, byteArray)));
-            textViewAirTurnOffTime.setText(ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_AIR, ProjectTools.ECOPRO_OFF_TIME, byteArray)));
-            textViewFanTurnOnTime.setText(ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_FAN, ProjectTools.ECOPRO_ON_TIME, byteArray)));
-            textViewFanTurnOffTime.setText(ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_FAN, ProjectTools.ECOPRO_OFF_TIME, byteArray)));
+            if (byteArray[1] == (byte) 0x81) { // 詢問狀態
 
-            change_manual_main_states();
+                ProjectTools.printEcoproStatusArray(byteArray);
 
-            change_manual_status(byteArray);
+                // 更改畫面上所顯示的時間  收到資料傳到 ProjectTools.getEcoproOnTime 做轉換
+                // 更改畫面上所顯示的時間  收到資料傳到 ProjectTools.getEcoproOnTime 做轉換
 
-            /**寫死的更改F1F2F3數值設定 此處修改會影響控制機控制手機變動**/
-            changeMode(ProjectTools.getEcoproModeIndex(byteArray));
+    //            System.out.println("測試1:" + ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_LIGHT, ProjectTools.ECOPRO_ON_TIME, byteArray)));
+    //            System.out.println("測試2:" + ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_LIGHT, ProjectTools.ECOPRO_OFF_TIME, byteArray)));
+    //            System.out.println("測試3:" + ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_AIR, ProjectTools.ECOPRO_ON_TIME, byteArray)));
+    //            System.out.println("測試4:" + ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_AIR, ProjectTools.ECOPRO_OFF_TIME, byteArray)));
+    //            System.out.println("測試5:" + ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_FAN, ProjectTools.ECOPRO_ON_TIME, byteArray)));
+    //            System.out.println("測試6:" + ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_FAN, ProjectTools.ECOPRO_OFF_TIME, byteArray)));
 
-            // 更改畫面上的運作狀態
-            changeWorkStatus(byteArray);
 
-            // 更改畫面上開啟關閉狀態
-        } else if (byteArray[1] == (byte) 0x82) { // 設定模式
-            System.out.println("進入82");
-        } else if (byteArray[1] == (byte) 0x83) { // 設定手動時間
-            System.out.println("進入83");
-        } else if (byteArray[1] == (byte) 0x01) { // 設定手動時間
-            System.out.println("進入guest狀態");
-            ProjectTools.printEcoproStatusArray(byteArray);
-            textViewLightTurnOnTime.setText(ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_LIGHT, ProjectTools.ECOPRO_ON_TIME, byteArray)));
-            textViewLightTurnOffTime.setText(ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_LIGHT, ProjectTools.ECOPRO_OFF_TIME, byteArray)));
-            textViewAirTurnOnTime.setText(ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_AIR, ProjectTools.ECOPRO_ON_TIME, byteArray)));
-            textViewAirTurnOffTime.setText(ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_AIR, ProjectTools.ECOPRO_OFF_TIME, byteArray)));
-            textViewFanTurnOnTime.setText(ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_FAN, ProjectTools.ECOPRO_ON_TIME, byteArray)));
-            textViewFanTurnOffTime.setText(ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_FAN, ProjectTools.ECOPRO_OFF_TIME, byteArray)));
-            change_manual_main_states();
-            change_manual_status(byteArray);
+                textViewLightTurnOnTime.setText(ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_LIGHT, ProjectTools.ECOPRO_ON_TIME, byteArray)));
+                textViewLightTurnOffTime.setText(ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_LIGHT, ProjectTools.ECOPRO_OFF_TIME, byteArray)));
+                textViewAirTurnOnTime.setText(ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_AIR, ProjectTools.ECOPRO_ON_TIME, byteArray)));
+                textViewAirTurnOffTime.setText(ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_AIR, ProjectTools.ECOPRO_OFF_TIME, byteArray)));
+                textViewFanTurnOnTime.setText(ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_FAN, ProjectTools.ECOPRO_ON_TIME, byteArray)));
+                textViewFanTurnOffTime.setText(ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_FAN, ProjectTools.ECOPRO_OFF_TIME, byteArray)));
 
-            /**寫死的更改F1F2F3數值設定 此處修改會影響控制機控制手機變動**/
-            changeMode(ProjectTools.getEcoproModeIndex(byteArray));
+                change_manual_main_states();
 
-            // 更改畫面上的運作狀態
-            changeWorkStatus(byteArray);
-            // switchEnabled(false);
-            // 更改畫面上開啟關閉狀態
+                change_manual_status(byteArray);
 
+                /**寫死的更改F1F2F3數值設定 此處修改會影響控制機控制手機變動**/
+                changeMode(ProjectTools.getEcoproModeIndex(byteArray));
+
+                // 更改畫面上的運作狀態
+                changeWorkStatus(byteArray);
+
+                // 更改畫面上開啟關閉狀態
+            } else if (byteArray[1] == (byte) 0x82) { // 設定模式
+                System.out.println("進入82");
+            } else if (byteArray[1] == (byte) 0x83) { // 設定手動時間
+                System.out.println("進入83");
+            } else if (byteArray[1] == (byte) 0x01) { // 設定手動時間
+                System.out.println("進入guest狀態");
+                ProjectTools.printEcoproStatusArray(byteArray);
+                textViewLightTurnOnTime.setText(ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_LIGHT, ProjectTools.ECOPRO_ON_TIME, byteArray)));
+                textViewLightTurnOffTime.setText(ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_LIGHT, ProjectTools.ECOPRO_OFF_TIME, byteArray)));
+                textViewAirTurnOnTime.setText(ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_AIR, ProjectTools.ECOPRO_ON_TIME, byteArray)));
+                textViewAirTurnOffTime.setText(ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_AIR, ProjectTools.ECOPRO_OFF_TIME, byteArray)));
+                textViewFanTurnOnTime.setText(ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_FAN, ProjectTools.ECOPRO_ON_TIME, byteArray)));
+                textViewFanTurnOffTime.setText(ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_FAN, ProjectTools.ECOPRO_OFF_TIME, byteArray)));
+                change_manual_main_states();
+                change_manual_status(byteArray);
+
+                /**寫死的更改F1F2F3數值設定 此處修改會影響控制機控制手機變動**/
+                changeMode(ProjectTools.getEcoproModeIndex(byteArray));
+
+                // 更改畫面上的運作狀態
+                changeWorkStatus(byteArray);
+                // switchEnabled(false);
+                // 更改畫面上開啟關閉狀態
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("MainActivity_updateView try catch");
         }
 
     }

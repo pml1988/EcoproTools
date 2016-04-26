@@ -26,12 +26,14 @@ public class SMsgAVIoctrlSetStreamCtrlReq {
     public static byte[] parseContent(byte paramByte1, byte paramByte2, byte paramByte3, byte paramByte4, byte paramByte5, byte paramByte6)
     {
         byte[] arrayOfByte = new byte[8];
-        arrayOfByte[0] = paramByte1;
-        arrayOfByte[1] = paramByte2;
-        arrayOfByte[2] = paramByte3;
-        arrayOfByte[3] = paramByte4;
-        arrayOfByte[4] = paramByte5;
-        arrayOfByte[5] = paramByte6;
+        arrayOfByte[0] = paramByte1; //ptz control command , refer to ENUM_PTZCMD
+        arrayOfByte[1] = paramByte2; //ptz control speed
+        arrayOfByte[2] = paramByte3; // no use in app
+        arrayOfByte[3] = paramByte4; // no use in app
+        arrayOfByte[4] = paramByte5; // no use in app
+        arrayOfByte[5] = paramByte6; // camera index
+        //arrayOfByte[6] arrayOfByte[7] 保留
+
         return arrayOfByte;
     }
 

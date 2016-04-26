@@ -65,23 +65,26 @@ public class VideoDecoder {
             ByteBuffer inputBuffer = inputBuffers[inputBufferIndex];
            // inputBuffer.clear();
             inputBuffer.put(data, offset, length);
-            mediaCodec.queueInputBuffer(inputBufferIndex, 0, length, mCount * 1000000 / 15, 0);
+            mediaCodec.queueInputBuffer(inputBufferIndex, 0, length, 0, 0);
             mCount++;
+            System.out.println("數數："+mCount * 1000000 / 15);
         }
 
         MediaCodec.BufferInfo bufferInfo = new MediaCodec.BufferInfo();
         int outputBufferIndex = mediaCodec.dequeueOutputBuffer(bufferInfo, 0);
 
-        //  System.out.println("outputBufferIndex:"+outputBufferIndex);
+       //   System.out.println("數數outputBufferIndex:"+outputBufferIndex);
 
         while (outputBufferIndex >= 0) {
             mediaCodec.releaseOutputBuffer(outputBufferIndex, true);
+            System.out.println("數數outputBufferIndex:"+outputBufferIndex);
             outputBufferIndex = mediaCodec.dequeueOutputBuffer(bufferInfo, 0);
         }
     }
 
     public void stopDecode() {
         mediaCodec.stop();
+        System.out.println("videodecoder:停止");
         mediaCodec.release();
     }
 }
