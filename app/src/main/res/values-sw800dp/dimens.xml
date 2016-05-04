@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="activityMain_layoutMode_height">60dp</dimen>
+    <dimen name="activityMain_layoutMode_height">180dp</dimen>
     <dimen name="activityMain_buttonMode_width">82dp</dimen>
     <dimen name="activityMain_buttonMode_height">60dp</dimen>
     <dimen name="activityMain_buttonMode_textSize">20sp</dimen>
@@ -32,4 +32,6 @@
     <dimen name="activityMain_camera_width">120dp</dimen>
     <dimen name="activityMain_camera_height">120dp</dimen>
     <dimen name="activityMain_manual_left_margin">180dp</dimen>
+
+    <dimen name="activityMain_layoutMode_bottom_height">120dp</dimen>
 </resources>

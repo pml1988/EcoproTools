@@ -194,7 +194,7 @@
             <TextView
                 android:id="@+id/activityMain_textAirTitle"
                 style="@style/ActivityMain_TextTitle_Style"
-                android:text="Air"
+                android:text="Pump"
                 android:layout_weight="1"
                 android:layout_width="@dimen/activityMain_name_width"
                 android:layout_height="wrap_content" />
@@ -301,9 +301,9 @@
         android:layout_width="match_parent"
         android:layout_below="@+id/activityMain_layoutInfo"
 
-        android:layout_height="80dp"
+        android:layout_height="@dimen/activityMain_layoutMode_bottom_height"
         android:id="@+id/activityMain_Manual_control"
-        android:visibility="visible"
+        android:visibility="invisible"
         android:gravity="bottom"
         android:layout_marginRight="@dimen/activityMain_manual_left_margin"
         android:layout_marginTop="@dimen/activityMain_manual_control_top">
@@ -366,7 +366,7 @@
             android:id="@+id/mm1"
             android:layout_weight="1"
             android:src="@drawable/activity_main_manual_m1_off"
-            android:scaleType="fitStart"
+            android:scaleType="fitCenter"
             android:background="@null" />
 
         <ImageButton
@@ -375,7 +375,7 @@
             android:id="@+id/mm2"
             android:layout_weight="1"
             android:src="@drawable/activity_main_manual_m2_off"
-            android:scaleType="fitStart"
+            android:scaleType="fitCenter"
             android:background="@null" />
 
         <ImageButton
@@ -384,7 +384,7 @@
             android:id="@+id/mm3"
             android:layout_weight="1"
             android:src="@drawable/activity_main_manual_m3_off"
-            android:scaleType="fitStart"
+            android:scaleType="fitCenter"
             android:background="@null" />
 
         <ImageButton
@@ -393,16 +393,16 @@
             android:id="@+id/mm4"
             android:layout_weight="1"
             android:src="@drawable/activity_main_manual_m4_off"
-            android:scaleType="fitStart"
+            android:scaleType="fitCenter"
             android:background="@null" />
 
         <ImageButton
             android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/mm5"
             android:layout_weight="1"
             android:src="@drawable/activity_main_manual_m5_off"
-            android:scaleType="fitStart"
+            android:scaleType="fitCenter"
             android:background="@null" />
 
     </LinearLayout>

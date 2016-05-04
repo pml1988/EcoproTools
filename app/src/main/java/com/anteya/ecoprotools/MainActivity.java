@@ -9,10 +9,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.content.ContextCompat;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -122,20 +124,32 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
     // endregion
 
     // region service
+private  String strVersion ="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+        try {
+            strVersion = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
         SimpleDateFormat sdf = new SimpleDateFormat("MM 月 dd 日 HH 時 mm 分 ss 秒");
         System.out.println("======================(校正)" + sdf.format(new Date()) + "(校正)======================");
+        DisplayMetrics monitorsize =new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(monitorsize);
+        float d = getResources().getDimension(R.dimen.activity_horizontal_margin);
+        float mDpi = getResources().getDisplayMetrics().densityDpi;
 
+        System.out.println("解析度："+mDpi+" 手機螢幕解析度為：" + monitorsize.widthPixels + "x" + monitorsize.heightPixels);
         initData();
         initView();
 
 
-        actionBar_mainActivity_textTitle.setText(title + "(Guest)");
+        actionBar_mainActivity_textTitle.setText(title +" Ver."+ strVersion+ " (Guest)");
         golbe_password = readData();
 
 //        if (golbe_password == "") {
@@ -179,8 +193,15 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
     @Override
     protected void onStart() {
         super.onStart();
-        ipAddress = dataControl.getIpAddress();
-        startTimer();
+
+
+        try {
+            ipAddress = dataControl.getIpAddress();
+            startTimer();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
 
     }
@@ -197,17 +218,22 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
 
     private void initData() {
 
-        lightOperatingTime = new LightOperatingTime();
-        airOperatingTime = new AirOperatingTime();
-        fanOperatingTime = new FanOperatingTime();
 
-        //IP cam
-        dataControl = (DataControl) getApplicationContext();
+        try {
+            lightOperatingTime = new LightOperatingTime();
+            airOperatingTime = new AirOperatingTime();
+            fanOperatingTime = new FanOperatingTime();
 
-        myHandler = new MyHandler(this);
+            //IP cam
+            dataControl = (DataControl) getApplicationContext();
 
-        ecoproConnector = new EcoproConnector();
-        ecoproConnector.setEcoproConnectorCallback(this);  //interface
+            myHandler = new MyHandler(this);
+
+            ecoproConnector = new EcoproConnector();
+            ecoproConnector.setEcoproConnectorCallback(this);  //interface
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
 //        dataControl.saveIpCameraUid("");
@@ -352,7 +378,29 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
         @Override
         public void onClick(View v) {
 
+            String type = "";
 
+            switch (v.getId())
+            {
+                case R.id.activityMain_textLightTurnOnTime:
+                    type ="Light Turn On";
+                    break;
+                case R.id.activityMain_textLightTurnOffTime:
+                    type ="Light Turn Off";
+                    break;
+                case R.id.activityMain_textAirTurnOnTime:
+                    type ="Pump Turn On";
+                    break;
+                case R.id.activityMain_textAirTurnOffTime:
+                    type ="Pump Turn Off";
+                    break;
+                case R.id.activityMain_textFanTurnOnTime:
+                    type ="Fan Turn On";
+                    break;
+                case R.id.activityMain_textFanTurnOffTime:
+                    type ="Fan Turn Off";
+                    break;
+            }
             TextView tempTextView = (TextView) v;
             int textViewTag = (int) tempTextView.getTag();
             currentTag = textViewTag;
@@ -360,13 +408,13 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
             System.out.println(isOnOff);
             switch (textViewTag / 10) {
                 case 1:
-                    showTimePickerDialog(lightOperatingTime.getTimeByModeOnOff(currentModeValue, isOnOff), lightOperatingTime.getTimeByModeOnOff_minute(currentModeValue, isOnOff), isOnOff);
+                    showTimePickerDialog(lightOperatingTime.getTimeByModeOnOff(currentModeValue, isOnOff), lightOperatingTime.getTimeByModeOnOff_minute(currentModeValue, isOnOff), isOnOff, type);
                     break;
                 case 2:
-                    showTimePickerDialog(airOperatingTime.getTimeByModeOnOff(currentModeValue, isOnOff), airOperatingTime.getTimeByModeOnOff_minute(currentModeValue, isOnOff), isOnOff);
+                    showTimePickerDialog(airOperatingTime.getTimeByModeOnOff(currentModeValue, isOnOff), airOperatingTime.getTimeByModeOnOff_minute(currentModeValue, isOnOff), isOnOff, type);
                     break;
                 case 3:
-                    showTimePickerDialog(fanOperatingTime.getTimeByModeOnOff(currentModeValue, isOnOff), fanOperatingTime.getTimeByModeOnOff_minute(currentModeValue, isOnOff), isOnOff);
+                    showTimePickerDialog(fanOperatingTime.getTimeByModeOnOff(currentModeValue, isOnOff), fanOperatingTime.getTimeByModeOnOff_minute(currentModeValue, isOnOff), isOnOff , type);
                     break;
             }
         }
@@ -394,6 +442,7 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
                     temp_commandchangmode[5] = (byte) dataControl.getPd_three();
                     temp_commandchangmode[6] = (byte) dataControl.getPd_four();
                     temp_commandchangmode = ProjectTools.getChecksumArray(temp_commandchangmode);
+                    System.out.println("傳送訊息 " + temp_commandchangmode.length);
                     ecoproConnector.sendCommand(ipAddress, temp_commandchangmode);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -408,6 +457,7 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
                     temp_commandchangmode[5] = (byte) dataControl.getPd_three();
                     temp_commandchangmode[6] = (byte) dataControl.getPd_four();
                     temp_commandchangmode = ProjectTools.getChecksumArray(temp_commandchangmode);
+                    System.out.println("傳送訊息 " + temp_commandchangmode.length);
                     ecoproConnector.sendCommand(ipAddress, temp_commandchangmode);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -429,7 +479,7 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
     /**
      * 手動模式 修改時間
      **/
-    private void showTimePickerDialog(int hourTime, int minuteTime, boolean onOff) {
+    private void showTimePickerDialog(int hourTime, int minuteTime, boolean onOff  , String type) {
 
         TimePickerDialog tpd = new TimePickerDialog(this,
                 new TimePickerDialog.OnTimeSetListener() {
@@ -514,10 +564,7 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
                         }
 
                         if (ipAddress != null && ipAddress.length() > 0) {
-                            System.out.println("已送出 " + commandArray.length);
-                            System.out.println("已送出" + dataControl.getPd_one() + " " + dataControl.getPd_two() + " " + dataControl.getPd_three() + " " + dataControl.getPd_four());
-
-
+                            System.out.println("傳送訊息 " + commandArray.length);
                             ecoproConnector.sendCommand(ipAddress, commandArray);
                         }
                     }
@@ -525,7 +572,8 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
 
         tpd.setButton(TimePickerDialog.BUTTON_POSITIVE, "Save", tpd);
         tpd.setButton(TimePickerDialog.BUTTON_NEGATIVE, "Cancel", tpd);
-        tpd.setTitle((onOff) ? "Turn on" : "Turn off");
+     //   tpd.setTitle((onOff) ? "Turn on" : "Turn off");
+        tpd.setTitle(type);
         tpd.show();
 
     }
@@ -623,28 +671,27 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
 
     private void change_manual_main_states() {
 
-        System.out.println("會不會進來" + manual_byte);
 
         switch (manual_byte) {
             case 0x04:
                 lb_Manual.setImageResource(R.drawable.activity_main_manual_m1_off);
-                System.out.println("會不會04");
+               // System.out.println("會不會04");
                 break;
             case 0x05:
                 lb_Manual.setImageResource(R.drawable.activity_main_manual_m2_off);
-                System.out.println("會不會05");
+               // System.out.println("會不會05");
                 break;
             case 0x06:
                 lb_Manual.setImageResource(R.drawable.activity_main_manual_m3_off);
-                System.out.println("會不會06");
+              //  System.out.println("會不會06");
                 break;
             case 0x07:
                 lb_Manual.setImageResource(R.drawable.activity_main_manual_m4_off);
-                System.out.println("會不會07");
+              //  System.out.println("會不會07");
                 break;
             case 0x08:
                 lb_Manual.setImageResource(R.drawable.activity_main_manual_m5_off);
-                System.out.println("會不會08");
+               // System.out.println("會不會08");
                 break;
 
         }
@@ -766,7 +813,7 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
 
                 COMMAND_POLLING = ProjectTools.getChecksumArray(COMMAND_POLLING);
 
-
+                System.out.println("傳送訊息 " + COMMAND_POLLING.length);
                 ecoproConnector.sendCommand(ipAddress, COMMAND_POLLING);
             }
         }
@@ -854,13 +901,13 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
             case -125:
             case -126:
             case -127:
-                actionBar_mainActivity_textTitle.setText(title + "(User)");
+                actionBar_mainActivity_textTitle.setText(title +" Ver."+ strVersion+ " (User)");
                 break;
 
             case 1:
             case 2:
             case 3:
-                actionBar_mainActivity_textTitle.setText(title + "(Guest)");
+                actionBar_mainActivity_textTitle.setText(title +" Ver."+ strVersion+ " (Guest)");
                 break;
 
         }
@@ -1046,6 +1093,7 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
         commandArray[2] = m_byte;
         commandArray = ProjectTools.getChecksumArray(commandArray);
         if (ipAddress != null && ipAddress.length() > 0) {
+            System.out.println("傳送訊息 " + commandArray.length);
             ecoproConnector.sendCommand(ipAddress, commandArray);
         }
     }

@@ -156,6 +156,8 @@ public class IpCameraActivity extends Activity implements IpCamThread.DataReceiv
     @Override
     protected void onStart() {
         super.onStart();
+
+
 //        System.out.println("啟動 onStart()：");
         strUid = dataControl.getIpCameraUid();
 //        Log.d(TAG, "onStart strUid = " + strUid);
@@ -200,11 +202,15 @@ public class IpCameraActivity extends Activity implements IpCamThread.DataReceiv
         time_control.interrupt();
         time_control = null;
        // System.out.println("停止 onPause()");
-        if (ipCamThread != null && strUid.length() > 0) {
-        //    System.out.println("Pause 停止 ipcamthread");
-            ipCamThread.closeThread();
-            ipCamThread = null;
+        try {
+            if (ipCamThread != null && strUid.length() > 0) {
+            //    System.out.println("Pause 停止 ipcamthread");
+                ipCamThread.closeThread();
+                ipCamThread = null;
 
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

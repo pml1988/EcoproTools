@@ -33,4 +33,6 @@
     <dimen name="activityMain_camera_width">100dp</dimen>
     <dimen name="activityMain_camera_height">100dp</dimen>
     <dimen name="activityMain_manual_left_margin">160dp</dimen>
+
+    <dimen name="activityMain_layoutMode_bottom_height">80dp</dimen>
 </resources>

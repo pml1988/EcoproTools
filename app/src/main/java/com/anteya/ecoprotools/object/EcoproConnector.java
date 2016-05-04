@@ -107,8 +107,6 @@ public class EcoproConnector {
             @Override
             public void run() {
 
-                Log.i(TAG, "sendCommand, " + ipAddress);
-
                 Socket socket = null;
 
                 int tempPort = AnteyaString.getPort(ipAddress);
@@ -161,11 +159,6 @@ public class EcoproConnector {
             @Override
             public void run() {
 
-                for(int i = 0  ; i<commandArray.length ; i++)
-                {
-                    System.out.println(i+" byte:"+commandArray[i]);
-
-                }
 
                 if (commandArray != null) {
                     byte[] tempArray;
@@ -180,12 +173,12 @@ public class EcoproConnector {
                         } else {
                             ecoproConnectorCallback.onReceiveAnteyaTCPCommandAck(tempArray);
 
-                            for(int i = 0  ; i<tempArray.length;i++)
-                            {
-
-                                System.out.println("大數據："+tempArray[i]);
-
-                            }
+//                            for(int i = 0  ; i<tempArray.length;i++)
+//                            {
+//
+//                                System.out.println("大數據："+tempArray[i]);
+//
+//                            }
 
                         }
                     }
