@@ -159,7 +159,7 @@ public class EcoproConnector {
             @Override
             public void run() {
 
-
+                System.out.println("傳送訊息主地方");
                 if (commandArray != null) {
                     byte[] tempArray;
                     //tempArray回傳訊息
@@ -193,7 +193,7 @@ public class EcoproConnector {
      * 傳送訊息時 socket 連線 中斷  不保持連線
      **/
     public byte[] executeCommand(String ipAddress, byte[] commandArray) {
-
+        System.out.println("傳送訊息主地方2");
         Log.i(TAG, "sendCommand, " + ipAddress);
         //   System.out.println("追蹤："+commandArray);
         Socket socket = null;
@@ -227,6 +227,7 @@ public class EcoproConnector {
 
         byte[] arrayAckData;
         //發出訊息，並且接收回傳訊息。
+        System.out.println("傳送訊息10");
         arrayAckData = sendCommandGetArray(commandArray, socket);
 
         // 執行完畢，關閉連線。
@@ -248,7 +249,7 @@ public class EcoproConnector {
      **/
     protected byte[] sendCommandGetArray(byte[] tempArray, Socket socket) {
         byte[] array_getEchoFromServer = new byte[1024];
-
+        System.out.println("傳送訊息主地方3====");
         try {
             if (socket.getOutputStream() != null) {
                 socket.getOutputStream().write(tempArray);

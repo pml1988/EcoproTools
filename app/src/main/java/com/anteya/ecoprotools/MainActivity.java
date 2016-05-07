@@ -120,11 +120,14 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
 
     private ActionBar actionBar;
 
+    private byte[] temp_time;
+
+
     private TextView actionBar_mainActivity_textTitle;
     // endregion
 
     // region service
-private  String strVersion ="";
+    private String strVersion = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,17 +142,17 @@ private  String strVersion ="";
         }
         SimpleDateFormat sdf = new SimpleDateFormat("MM 月 dd 日 HH 時 mm 分 ss 秒");
         System.out.println("======================(校正)" + sdf.format(new Date()) + "(校正)======================");
-        DisplayMetrics monitorsize =new DisplayMetrics();
+        DisplayMetrics monitorsize = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(monitorsize);
         float d = getResources().getDimension(R.dimen.activity_horizontal_margin);
         float mDpi = getResources().getDisplayMetrics().densityDpi;
 
-        System.out.println("解析度："+mDpi+" 手機螢幕解析度為：" + monitorsize.widthPixels + "x" + monitorsize.heightPixels);
+        System.out.println("解析度：" + mDpi + " 手機螢幕解析度為：" + monitorsize.widthPixels + "x" + monitorsize.heightPixels);
         initData();
         initView();
 
 
-        actionBar_mainActivity_textTitle.setText(title +" Ver."+ strVersion+ " (Guest)");
+        actionBar_mainActivity_textTitle.setText(title + " Ver." + strVersion + " (Guest)");
         golbe_password = readData();
 
 //        if (golbe_password == "") {
@@ -201,7 +204,6 @@ private  String strVersion ="";
         } catch (Exception e) {
             e.printStackTrace();
         }
-
 
 
     }
@@ -380,32 +382,30 @@ private  String strVersion ="";
 
             String type = "";
 
-            switch (v.getId())
-            {
+            switch (v.getId()) {
                 case R.id.activityMain_textLightTurnOnTime:
-                    type ="Light Turn On";
+                    type = "Light Turn On";
                     break;
                 case R.id.activityMain_textLightTurnOffTime:
-                    type ="Light Turn Off";
+                    type = "Light Turn Off";
                     break;
                 case R.id.activityMain_textAirTurnOnTime:
-                    type ="Pump Turn On";
+                    type = "Pump Turn On";
                     break;
                 case R.id.activityMain_textAirTurnOffTime:
-                    type ="Pump Turn Off";
+                    type = "Pump Turn Off";
                     break;
                 case R.id.activityMain_textFanTurnOnTime:
-                    type ="Fan Turn On";
+                    type = "Fan Turn On";
                     break;
                 case R.id.activityMain_textFanTurnOffTime:
-                    type ="Fan Turn Off";
+                    type = "Fan Turn Off";
                     break;
             }
             TextView tempTextView = (TextView) v;
             int textViewTag = (int) tempTextView.getTag();
             currentTag = textViewTag;
             boolean isOnOff = (textViewTag % 10 == 1);
-            System.out.println(isOnOff);
             switch (textViewTag / 10) {
                 case 1:
                     showTimePickerDialog(lightOperatingTime.getTimeByModeOnOff(currentModeValue, isOnOff), lightOperatingTime.getTimeByModeOnOff_minute(currentModeValue, isOnOff), isOnOff, type);
@@ -414,7 +414,7 @@ private  String strVersion ="";
                     showTimePickerDialog(airOperatingTime.getTimeByModeOnOff(currentModeValue, isOnOff), airOperatingTime.getTimeByModeOnOff_minute(currentModeValue, isOnOff), isOnOff, type);
                     break;
                 case 3:
-                    showTimePickerDialog(fanOperatingTime.getTimeByModeOnOff(currentModeValue, isOnOff), fanOperatingTime.getTimeByModeOnOff_minute(currentModeValue, isOnOff), isOnOff , type);
+                    showTimePickerDialog(fanOperatingTime.getTimeByModeOnOff(currentModeValue, isOnOff), fanOperatingTime.getTimeByModeOnOff_minute(currentModeValue, isOnOff), isOnOff, type);
                     break;
             }
         }
@@ -442,7 +442,7 @@ private  String strVersion ="";
                     temp_commandchangmode[5] = (byte) dataControl.getPd_three();
                     temp_commandchangmode[6] = (byte) dataControl.getPd_four();
                     temp_commandchangmode = ProjectTools.getChecksumArray(temp_commandchangmode);
-                    System.out.println("傳送訊息 " + temp_commandchangmode.length);
+                    System.out.println("傳送訊息1 " + temp_commandchangmode.length);
                     ecoproConnector.sendCommand(ipAddress, temp_commandchangmode);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -457,14 +457,12 @@ private  String strVersion ="";
                     temp_commandchangmode[5] = (byte) dataControl.getPd_three();
                     temp_commandchangmode[6] = (byte) dataControl.getPd_four();
                     temp_commandchangmode = ProjectTools.getChecksumArray(temp_commandchangmode);
-                    System.out.println("傳送訊息 " + temp_commandchangmode.length);
+                    System.out.println("傳送訊息2 " + temp_commandchangmode.length);
                     ecoproConnector.sendCommand(ipAddress, temp_commandchangmode);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            }
-            else
-            {
+            } else {
                 System.out.println("按下主控鍵傳遞的訊息：============");
             }
 
@@ -479,13 +477,21 @@ private  String strVersion ="";
     /**
      * 手動模式 修改時間
      **/
-    private void showTimePickerDialog(int hourTime, int minuteTime, boolean onOff  , String type) {
+    private void showTimePickerDialog(int hourTime, int minuteTime, boolean onOff, String type) {
 
+        edit_time = false;
+        System.out.println("確認時間");
         TimePickerDialog tpd = new TimePickerDialog(this,
                 new TimePickerDialog.OnTimeSetListener() {
+
+
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         Log.d(TAG, "hourOfDay = " + hourOfDay);
                         Log.d(TAG, "minute = " + minute);
+
+
+                        System.out.println("確認");
+
 
                         switch (currentTag / 10) {
                             case 1:
@@ -517,15 +523,29 @@ private  String strVersion ="";
                                 break;
                         }
 
-                        textViewLightTurnOnTime.setText(ampm(ProjectTools.getTimeString(lightOperatingTime.ManualMode_TurnOnTime, lightOperatingTime.ManualMode_TurnOnTime_minute)));
-                        textViewLightTurnOffTime.setText(ampm(ProjectTools.getTimeString(lightOperatingTime.ManualMode_TurnOffTime, lightOperatingTime.ManualMode_TurnOffTime_minute)));
-                        textViewAirTurnOnTime.setText(ampm(ProjectTools.getTimeString(airOperatingTime.ManualMode_TurnOnTime, airOperatingTime.ManualMode_TurnOnTime_minute)));
-                        textViewAirTurnOffTime.setText(ampm(ProjectTools.getTimeString(airOperatingTime.ManualMode_TurnOffTime, airOperatingTime.ManualMode_TurnOffTime_minute)));
-                        textViewFanTurnOnTime.setText(ampm(ProjectTools.getTimeString(fanOperatingTime.ManualMode_TurnOnTime, fanOperatingTime.ManualMode_TurnOnTime_minute)));
-                        textViewFanTurnOffTime.setText(ampm(ProjectTools.getTimeString(fanOperatingTime.ManualMode_TurnOffTime, fanOperatingTime.ManualMode_TurnOffTime_minute)));
+//                        textViewLightTurnOnTime.setText(ampm(ProjectTools.getTimeString(lightOperatingTime.ManualMode_TurnOnTime, lightOperatingTime.ManualMode_TurnOnTime_minute)));
+//                        textViewLightTurnOffTime.setText(ampm(ProjectTools.getTimeString(lightOperatingTime.ManualMode_TurnOffTime, lightOperatingTime.ManualMode_TurnOffTime_minute)));
+//                        textViewAirTurnOnTime.setText(ampm(ProjectTools.getTimeString(airOperatingTime.ManualMode_TurnOnTime, airOperatingTime.ManualMode_TurnOnTime_minute)));
+//                        textViewAirTurnOffTime.setText(ampm(ProjectTools.getTimeString(airOperatingTime.ManualMode_TurnOffTime, airOperatingTime.ManualMode_TurnOffTime_minute)));
+//                        textViewFanTurnOnTime.setText(ampm(ProjectTools.getTimeString(fanOperatingTime.ManualMode_TurnOnTime, fanOperatingTime.ManualMode_TurnOnTime_minute)));
+//                        textViewFanTurnOffTime.setText(ampm(ProjectTools.getTimeString(fanOperatingTime.ManualMode_TurnOffTime, fanOperatingTime.ManualMode_TurnOffTime_minute)));
 
                         System.out.println("Test byte:" + manual_byte);
                         byte[] commandArray = ProjectTools.COMMAND_MANUAL;
+
+
+                        System.out.println("超合適1：" + lightOperatingTime.ManualMode_TurnOnTime);
+                        System.out.println("超合適2：" + lightOperatingTime.ManualMode_TurnOnTime_minute);
+                        System.out.println("超合適3：" + lightOperatingTime.ManualMode_TurnOffTime);
+                        System.out.println("超合適4：" + lightOperatingTime.ManualMode_TurnOffTime_minute);
+                        System.out.println("超合適5：" + airOperatingTime.ManualMode_TurnOnTime);
+                        System.out.println("超合適6：" + airOperatingTime.ManualMode_TurnOnTime_minute);
+                        System.out.println("超合適7：" + airOperatingTime.ManualMode_TurnOffTime);
+                        System.out.println("超合適8：" + airOperatingTime.ManualMode_TurnOffTime_minute);
+                        System.out.println("超合適9：" + fanOperatingTime.ManualMode_TurnOnTime);
+                        System.out.println("超合適10：" + fanOperatingTime.ManualMode_TurnOnTime_minute);
+                        System.out.println("超合適11：" + fanOperatingTime.ManualMode_TurnOffTime);
+                        System.out.println("超合適12：" + fanOperatingTime.ManualMode_TurnOffTime_minute);
                         commandArray[2] = manual_byte;
                         commandArray[3] = Byte.parseByte("" + lightOperatingTime.ManualMode_TurnOnTime, 16);
                         commandArray[4] = Byte.parseByte("" + lightOperatingTime.ManualMode_TurnOnTime_minute, 16);
@@ -536,7 +556,7 @@ private  String strVersion ="";
                         commandArray[8] = Byte.parseByte("" + airOperatingTime.ManualMode_TurnOnTime_minute, 16);
                         commandArray[9] = Byte.parseByte("" + airOperatingTime.ManualMode_TurnOffTime, 16);
                         commandArray[10] = Byte.parseByte("" + airOperatingTime.ManualMode_TurnOffTime_minute, 16);
-
+//
                         commandArray[11] = Byte.parseByte("" + fanOperatingTime.ManualMode_TurnOnTime, 16);
                         commandArray[12] = Byte.parseByte("" + fanOperatingTime.ManualMode_TurnOnTime_minute, 16);
                         commandArray[13] = Byte.parseByte("" + fanOperatingTime.ManualMode_TurnOffTime, 16);
@@ -544,11 +564,6 @@ private  String strVersion ="";
                         /**
                          * 密碼
                          * **/
-//                        commandArray[15] = (byte)4;
-//                        commandArray[16] = (byte)4;
-//                        commandArray[17] = (byte)9;
-//                        commandArray[18] = (byte)3;
-
                         commandArray[15] = (byte) dataControl.getPd_one();
                         commandArray[16] = (byte) dataControl.getPd_two();
                         commandArray[17] = (byte) dataControl.getPd_three();
@@ -556,25 +571,44 @@ private  String strVersion ="";
 
                         // 計算 checksum
                         commandArray = ProjectTools.getChecksumArray(commandArray);
-
-
                         for (int i = 0; i < commandArray.length; i++) {
-
                             System.out.println(i + "項 丟出修改時間資料：" + commandArray[i]);
                         }
-
                         if (ipAddress != null && ipAddress.length() > 0) {
-                            System.out.println("傳送訊息 " + commandArray.length);
+                            System.out.println("傳送訊息4 " + commandArray.length);
                             ecoproConnector.sendCommand(ipAddress, commandArray);
+                            edit_time = true;
                         }
                     }
                 }, hourTime, minuteTime, true);
 
         tpd.setButton(TimePickerDialog.BUTTON_POSITIVE, "Save", tpd);
         tpd.setButton(TimePickerDialog.BUTTON_NEGATIVE, "Cancel", tpd);
-     //   tpd.setTitle((onOff) ? "Turn on" : "Turn off");
+
+
+        tpd.setTitle((onOff) ? "Turn on" : "Turn off");
         tpd.setTitle(type);
         tpd.show();
+
+        tpd.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                System.out.println("測試功能");
+                System.out.println("超合適1：" + lightOperatingTime.ManualMode_TurnOnTime);
+                System.out.println("超合適2：" + lightOperatingTime.ManualMode_TurnOnTime_minute);
+                System.out.println("超合適3：" + lightOperatingTime.ManualMode_TurnOffTime);
+                System.out.println("超合適4：" + lightOperatingTime.ManualMode_TurnOffTime_minute);
+                System.out.println("超合適5：" + airOperatingTime.ManualMode_TurnOnTime);
+                System.out.println("超合適6：" + airOperatingTime.ManualMode_TurnOnTime_minute);
+                System.out.println("超合適7：" + airOperatingTime.ManualMode_TurnOffTime);
+                System.out.println("超合適8：" + airOperatingTime.ManualMode_TurnOffTime_minute);
+                System.out.println("超合適9：" + fanOperatingTime.ManualMode_TurnOnTime);
+                System.out.println("超合適10：" + fanOperatingTime.ManualMode_TurnOnTime_minute);
+                System.out.println("超合適11：" + fanOperatingTime.ManualMode_TurnOffTime);
+                System.out.println("超合適12：" + fanOperatingTime.ManualMode_TurnOffTime_minute);
+                edit_time = true;
+            }
+        });
 
     }
 
@@ -675,23 +709,23 @@ private  String strVersion ="";
         switch (manual_byte) {
             case 0x04:
                 lb_Manual.setImageResource(R.drawable.activity_main_manual_m1_off);
-               // System.out.println("會不會04");
+                // System.out.println("會不會04");
                 break;
             case 0x05:
                 lb_Manual.setImageResource(R.drawable.activity_main_manual_m2_off);
-               // System.out.println("會不會05");
+                // System.out.println("會不會05");
                 break;
             case 0x06:
                 lb_Manual.setImageResource(R.drawable.activity_main_manual_m3_off);
-              //  System.out.println("會不會06");
+                //  System.out.println("會不會06");
                 break;
             case 0x07:
                 lb_Manual.setImageResource(R.drawable.activity_main_manual_m4_off);
-              //  System.out.println("會不會07");
+                //  System.out.println("會不會07");
                 break;
             case 0x08:
                 lb_Manual.setImageResource(R.drawable.activity_main_manual_m5_off);
-               // System.out.println("會不會08");
+                // System.out.println("會不會08");
                 break;
 
         }
@@ -813,7 +847,7 @@ private  String strVersion ="";
 
                 COMMAND_POLLING = ProjectTools.getChecksumArray(COMMAND_POLLING);
 
-                System.out.println("傳送訊息 " + COMMAND_POLLING.length);
+                System.out.println("傳送訊息5 " + COMMAND_POLLING.length);
                 ecoproConnector.sendCommand(ipAddress, COMMAND_POLLING);
             }
         }
@@ -842,10 +876,10 @@ private  String strVersion ="";
     public void onReceiveAnteyaTCPCommandAck(byte[] ackArray) {
 
         try {
-            if(ackArray.length>3)
-             if (ackArray[2] > 3) {
-                 manual_byte = ackArray[2];
-             }
+            if (ackArray.length > 3)
+                if (ackArray[2] > 3) {
+                    manual_byte = ackArray[2];
+                }
             Message message = new Message();
             message.what = MyHandler.RECEIVE_DATA;
             message.obj = ackArray;
@@ -878,10 +912,18 @@ private  String strVersion ="";
                 int temp1 = Integer.parseInt(temp[0]);
                 //   System.out.println("測試時間數值：" + temp1);
 
-                if (temp1 < 12)
+                if (temp1 < 12) {
                     return "AM" + time1;
-                else
+                } else if (temp1 == 12) {
+                    return "PM" + String.format("%02d", temp1) + ":" + temp[1];
+
+                } else {
+
+                    // System.out.println("夠了："+temp1);
                     return "PM" + String.format("%02d", temp1 - 12) + ":" + temp[1];
+
+                }
+
             }
         } catch (NumberFormatException e) {
             e.printStackTrace();
@@ -901,17 +943,20 @@ private  String strVersion ="";
             case -125:
             case -126:
             case -127:
-                actionBar_mainActivity_textTitle.setText(title +" Ver."+ strVersion+ " (User)");
+                actionBar_mainActivity_textTitle.setText(title + " Ver." + strVersion + " (User)");
                 break;
 
             case 1:
             case 2:
             case 3:
-                actionBar_mainActivity_textTitle.setText(title +" Ver."+ strVersion+ " (Guest)");
+                actionBar_mainActivity_textTitle.setText(title + " Ver." + strVersion + " (Guest)");
                 break;
 
         }
     }
+
+
+    private boolean edit_time = true;
 
     /**
      * 更新畫面
@@ -919,17 +964,77 @@ private  String strVersion ="";
     public void updateView(byte[] byteArray) {
         try {
             ProjectTools.printByteArray(byteArray, "主執行緒收到 Ecopro 的 polling ack", 10);
+//            temp_time = byteArray;
+//
+//            for(int i = 3 ; i<19; i++)
+//            {
+//                System.out.println("正巧："+i+" :"+temp_time[i]);
+//
+//
+//            }
+
+            if (byteArray.length > 18) {
+
+
+                if (edit_time == true) {
+
+                    System.out.println("正合適03：" + convertByteToHexString(byteArray[3]));
+                    System.out.println("正合適04：" + convertByteToHexString(byteArray[4]));
+                    System.out.println("正合適05：" + convertByteToHexString(byteArray[5]));
+                    System.out.println("正合適06：" + convertByteToHexString(byteArray[6]));
+                    System.out.println("正合適09：" + convertByteToHexString(byteArray[9]));
+                    System.out.println("正合適10：" + convertByteToHexString(byteArray[10]));
+                    System.out.println("正合適11：" + convertByteToHexString(byteArray[11]));
+                    System.out.println("正合適12：" + convertByteToHexString(byteArray[12])); //10禁衛
+                    System.out.println("正合適15：" + convertByteToHexString(byteArray[15]));
+                    System.out.println("正合適16：" + convertByteToHexString(byteArray[16]));
+                    System.out.println("正合適17：" + convertByteToHexString(byteArray[17]));
+                    System.out.println("正合適18：" + convertByteToHexString(byteArray[18]));
+
+
+                    lightOperatingTime.ManualMode_TurnOnTime = Integer.parseInt(convertByteToHexString(byteArray[3]));
+                    lightOperatingTime.ManualMode_TurnOnTime_minute = Integer.parseInt(convertByteToHexString(byteArray[4]));
+                    lightOperatingTime.ManualMode_TurnOffTime = Integer.parseInt(convertByteToHexString(byteArray[5]));
+                    lightOperatingTime.ManualMode_TurnOffTime_minute = Integer.parseInt(convertByteToHexString(byteArray[6]));
+
+                    airOperatingTime.ManualMode_TurnOnTime = Integer.parseInt(convertByteToHexString(byteArray[9]));
+                    airOperatingTime.ManualMode_TurnOnTime_minute = Integer.parseInt(convertByteToHexString(byteArray[10]));
+                    airOperatingTime.ManualMode_TurnOffTime = Integer.parseInt(convertByteToHexString(byteArray[11]));
+                    airOperatingTime.ManualMode_TurnOffTime_minute = Integer.parseInt(convertByteToHexString(byteArray[12]));
+
+                    fanOperatingTime.ManualMode_TurnOnTime = Integer.parseInt(convertByteToHexString(byteArray[15]));
+                    fanOperatingTime.ManualMode_TurnOnTime_minute = Integer.parseInt(convertByteToHexString(byteArray[16]));
+                    fanOperatingTime.ManualMode_TurnOffTime = Integer.parseInt(convertByteToHexString(byteArray[17]));
+                    fanOperatingTime.ManualMode_TurnOffTime_minute = Integer.parseInt(convertByteToHexString(byteArray[18]));
+
+                    System.out.println("揪合適03：" + lightOperatingTime.ManualMode_TurnOnTime);
+                    System.out.println("揪合適04：" + lightOperatingTime.ManualMode_TurnOnTime_minute);
+                    System.out.println("揪合適05：" + lightOperatingTime.ManualMode_TurnOffTime);
+                    System.out.println("揪合適06：" + lightOperatingTime.ManualMode_TurnOffTime_minute);
+                    System.out.println("揪合適09：" + airOperatingTime.ManualMode_TurnOnTime);
+                    System.out.println("揪合適10：" + airOperatingTime.ManualMode_TurnOnTime_minute);
+                    System.out.println("揪合適11：" + airOperatingTime.ManualMode_TurnOffTime);
+                    System.out.println("揪合適12：" + airOperatingTime.ManualMode_TurnOffTime_minute); //10禁衛
+                    System.out.println("揪合適15：" + fanOperatingTime.ManualMode_TurnOnTime);
+                    System.out.println("揪合適16：" + fanOperatingTime.ManualMode_TurnOnTime_minute);
+                    System.out.println("揪合適17：" + fanOperatingTime.ManualMode_TurnOffTime);
+                    System.out.println("揪合適18：" + fanOperatingTime.ManualMode_TurnOffTime_minute);
+
+                }
+
+
+            }
 
 
             change_user(byteArray[1]);
 
-            for (int i = 0; i < byteArray.length; i++) {
-                System.out.println("第 " + i + " 解析：" + byteArray[i]);
-            }
-            if(byteArray.length>3)
-            if (byteArray[2] > 3) {
-                manual_byte = byteArray[2];
-            }
+//            for (int i = 0; i < byteArray.length; i++) {
+//                System.out.println("第 " + i + " 解析：" + byteArray[i]);
+//            }
+            if (byteArray.length > 3)
+                if (byteArray[2] > 3) {
+                    manual_byte = byteArray[2];
+                }
 
 
             if (byteArray[1] == (byte) 0x81) { // 詢問狀態
@@ -939,12 +1044,12 @@ private  String strVersion ="";
                 // 更改畫面上所顯示的時間  收到資料傳到 ProjectTools.getEcoproOnTime 做轉換
                 // 更改畫面上所顯示的時間  收到資料傳到 ProjectTools.getEcoproOnTime 做轉換
 
-    //            System.out.println("測試1:" + ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_LIGHT, ProjectTools.ECOPRO_ON_TIME, byteArray)));
-    //            System.out.println("測試2:" + ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_LIGHT, ProjectTools.ECOPRO_OFF_TIME, byteArray)));
-    //            System.out.println("測試3:" + ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_AIR, ProjectTools.ECOPRO_ON_TIME, byteArray)));
-    //            System.out.println("測試4:" + ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_AIR, ProjectTools.ECOPRO_OFF_TIME, byteArray)));
-    //            System.out.println("測試5:" + ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_FAN, ProjectTools.ECOPRO_ON_TIME, byteArray)));
-    //            System.out.println("測試6:" + ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_FAN, ProjectTools.ECOPRO_OFF_TIME, byteArray)));
+                System.out.println("測試1:" + ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_LIGHT, ProjectTools.ECOPRO_ON_TIME, byteArray)));
+                System.out.println("測試2:" + ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_LIGHT, ProjectTools.ECOPRO_OFF_TIME, byteArray)));
+                System.out.println("測試3:" + ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_AIR, ProjectTools.ECOPRO_ON_TIME, byteArray)));
+                System.out.println("測試4:" + ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_AIR, ProjectTools.ECOPRO_OFF_TIME, byteArray)));
+                System.out.println("測試5:" + ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_FAN, ProjectTools.ECOPRO_ON_TIME, byteArray)));
+                System.out.println("測試6:" + ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_FAN, ProjectTools.ECOPRO_OFF_TIME, byteArray)));
 
 
                 textViewLightTurnOnTime.setText(ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_LIGHT, ProjectTools.ECOPRO_ON_TIME, byteArray)));
@@ -971,6 +1076,8 @@ private  String strVersion ="";
                 System.out.println("進入83");
             } else if (byteArray[1] == (byte) 0x01) { // 設定手動時間
                 System.out.println("進入guest狀態");
+
+
                 ProjectTools.printEcoproStatusArray(byteArray);
                 textViewLightTurnOnTime.setText(ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_LIGHT, ProjectTools.ECOPRO_ON_TIME, byteArray)));
                 textViewLightTurnOffTime.setText(ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_LIGHT, ProjectTools.ECOPRO_OFF_TIME, byteArray)));
@@ -1093,7 +1200,7 @@ private  String strVersion ="";
         commandArray[2] = m_byte;
         commandArray = ProjectTools.getChecksumArray(commandArray);
         if (ipAddress != null && ipAddress.length() > 0) {
-            System.out.println("傳送訊息 " + commandArray.length);
+            System.out.println("傳送訊息6 " + commandArray.length);
             ecoproConnector.sendCommand(ipAddress, commandArray);
         }
     }
@@ -1200,4 +1307,25 @@ private  String strVersion ="";
                 .commit();
 
     }
+
+    final protected static char[] hexArray = "0123456789ABCDEF".toCharArray();
+
+    public static String convertByteToHexString(byte b) {
+        byte[] temp = new byte[1];
+        temp[0] = b;
+        char[] hexChars = new char[temp.length * 2];
+        for (int j = 0; j < temp.length; j++) {
+            int v = temp[j] & 0xFF;
+            hexChars[j * 2] = hexArray[v >>> 4];
+            hexChars[j * 2 + 1] = hexArray[v & 0x0F];
+        }
+
+        //    int intValue = Integer.parseInt(new String(hexChars));
+
+        System.out.println("幹怎麼回事：" + new String(hexChars));
+
+
+        return new String(hexChars);
+    }
+
 }

@@ -272,6 +272,9 @@ public class ProjectTools {
         try {
 
             System.out.println("ProjectTools："+(byteArray[deviceType + onOffType])+":"+convertByteToHexString(byteArray[deviceType + onOffType + 1]));
+
+
+
             return convertByteToHexString(byteArray[deviceType + onOffType]) + ":" + convertByteToHexString(byteArray[deviceType + onOffType + 1]);
         } catch (Exception e) {
             e.printStackTrace();
@@ -483,7 +486,9 @@ public class ProjectTools {
 
         //    int intValue = Integer.parseInt(new String(hexChars));
 
-        //   System.out.println("數值："+new String(hexChars);
+           System.out.println("幹怎麼回事2："+new String(hexChars));
+
+
 
         return new String(hexChars);
     }

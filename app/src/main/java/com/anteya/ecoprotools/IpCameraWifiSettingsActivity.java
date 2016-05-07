@@ -80,7 +80,7 @@ public class IpCameraWifiSettingsActivity extends Activity implements IpCamThrea
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setTitle("IP Camera Settings");
 
-        // Inflate your custom layout
+        // Inflate your custom layoutsendCommand
         final ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater().inflate(
                 R.layout.action_bar_ip_camera_wifi_settings_activity, null);
 

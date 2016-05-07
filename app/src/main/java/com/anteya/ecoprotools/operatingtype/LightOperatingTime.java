@@ -14,8 +14,8 @@ public class LightOperatingTime {
     public static final int F3Mode_DefaultTurnOnTime = 0;
     public static final int F3Mode_DefaultTurnOffTime = 0;
 
-    public int ManualMode_TurnOnTime = 6;
-    public int ManualMode_TurnOffTime = 20;
+    public int ManualMode_TurnOnTime = 0;
+    public int ManualMode_TurnOffTime = 0;
 
     public int ManualMode_TurnOnTime_minute = 0;
     public int ManualMode_TurnOffTime_minute = 0;
