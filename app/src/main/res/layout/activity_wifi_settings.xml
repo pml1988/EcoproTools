@@ -30,7 +30,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/activitySettings_textViewTitle_layoutHeight"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
 
                 <TextView
                     android:id="@+id/activityWifiSettings_textViewNetworkMode"
@@ -46,7 +47,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/activitySettings_textViewTitle_layoutHeight"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
                 <TextView
                     android:id="@+id/activityWifiSettings_textViewChannel"
                     android:text="Channel"
@@ -61,11 +63,13 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/activitySettings_textViewTitle_layoutHeight"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
                 <TextView
                     android:id="@+id/activityWifiSettings_textViewSSID"
                     android:text="SSID"
-                    style="@style/MySettingsTitle"/>
+                    style="@style/MySettingsTitle"
+                    android:layout_height="fill_parent" />
                 <EditText
                     android:id="@+id/activityWifiSettings_editTextSSID"
                     android:layout_width="match_parent"
@@ -79,7 +83,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/activitySettings_textViewTitle_layoutHeight"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
                 <TextView
                     android:id="@+id/activityWifiSettings_textViewSecurityMode"
                     android:text="Security Mode"
@@ -91,8 +96,53 @@
             </LinearLayout>
 
 
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/activitySettings_textViewTitle_layoutHeight"
+                    android:gravity="center_vertical">
 
+                    <TextView
+
+                        android:text="PORT1"
+                        android:id="@+id/textView5"
+                        style="@style/MySettingsTitle" />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:singleLine="true"
+                        android:maxLines="1"
+                        android:inputType="number"
+                        android:id="@+id/activityWifiSettings_port_one" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/activitySettings_textViewTitle_layoutHeight"
+                    android:gravity="center_vertical">
+
+                    <TextView
+
+                        android:text="PORT2"
+                        android:id="@+id/textView6"
+                        style="@style/MySettingsTitle" />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/activityWifiSettings_port_two"
+                        android:singleLine="true"
+                        android:maxLines="1"
+                        android:inputType="number" />
+                </LinearLayout>
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/activityWifiSettings_textViewTitle2"

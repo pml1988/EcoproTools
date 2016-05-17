@@ -372,7 +372,7 @@ public class IpCameraActivity extends Activity implements IpCamThread.DataReceiv
         public void onClick(View v) {
 
             switch (v.getId()) {
-                case R.id.activity_ipcam_down:
+                case 0:
                     if (ipCamThread != null) {
                         ipCamThread.sendIOCtrl_2((byte) 2);
 
@@ -380,19 +380,19 @@ public class IpCameraActivity extends Activity implements IpCamThread.DataReceiv
                     }
                    // System.out.println("下");
                     break;
-                case R.id.activity_ipcam_up:
+                case 1:
                     if (ipCamThread != null) {
                         ipCamThread.sendIOCtrl_2((byte) 1);
                     }
                    // System.out.println("上");
                     break;
-                case R.id.activity_ipcam_left:
+                case 2:
                     if (ipCamThread != null) {
                         ipCamThread.sendIOCtrl_2((byte) 3);
                     }
                   //  System.out.println("左");
                     break;
-                case R.id.activity_ipcam_right:
+                case 3:
                     if (ipCamThread != null) {
                         ipCamThread.sendIOCtrl_2((byte) 6);
                     }

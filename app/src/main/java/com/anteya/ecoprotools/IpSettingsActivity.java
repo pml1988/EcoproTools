@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -240,33 +241,61 @@ public class IpSettingsActivity extends Activity implements EcoproConnector.Ecop
         }
     };
 
+    public void link_check_fun ()
+    {
+        link_check = true;
+    }
+
+
+    private boolean link_check = false;
     // 記憶 並連線
     private AdapterView.OnItemClickListener listViewClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-            System.out.println("listView click");
 
-            Ecopro ecopro = listEcopro.get(position);
+           if(link_check ==false)
+           {
+               System.out.println("執行中");
+               link_check=true;
 
-            String tempIp = ecopro.getIpAddress();
-            String tempMac = ecopro.getMacAddress();
-            String temppw = ecopro.getPassword();
-            dataControl.saveIpAddress(tempIp);
-            dataControl.saveMacAddress(tempMac);
-            editTextIpAddress.setText(tempIp);
-            dataControl.setPd_one(Integer.parseInt(temppw.substring(0, 1)));
-            dataControl.setPd_two(Integer.parseInt(temppw.substring(1, 2)));
-            dataControl.setPd_three(Integer.parseInt(temppw.substring(2, 3)));
-            dataControl.setPd_four(Integer.parseInt(temppw.substring(3, 4)));
+               try {
+                   System.out.println("listView click");
 
-            activityIpSettings_editText_password.setText(temppw);
+                   Ecopro ecopro = listEcopro.get(position);
 
-            ipAddress = tempIp;
+                   String tempIp = ecopro.getIpAddress();
+                   String tempMac = ecopro.getMacAddress();
+                   String temppw = ecopro.getPassword();
+                   dataControl.saveIpAddress(tempIp);
+                   dataControl.saveMacAddress(tempMac);
+                   editTextIpAddress.setText(tempIp);
+                   dataControl.setPd_one(Integer.parseInt(temppw.substring(0, 1)));
+                   dataControl.setPd_two(Integer.parseInt(temppw.substring(1, 2)));
+                   dataControl.setPd_three(Integer.parseInt(temppw.substring(2, 3)));
+                   dataControl.setPd_four(Integer.parseInt(temppw.substring(3, 4)));
 
-            if (ipAddress != null && ipAddress.length() > 0) {
-                ecoproConnector.checkLink(ipAddress);
-            }
+                   activityIpSettings_editText_password.setText(temppw);
+
+                   ipAddress = tempIp;
+
+                   if (ipAddress != null && ipAddress.length() > 0) {
+                       ecoproConnector.checkLink(ipAddress);
+                   }
+               } catch (NumberFormatException e) {
+                   e.printStackTrace();
+               }
+
+
+           }
+            else
+           {
+               System.out.println("執行中勿擾");
+           }
+
+
+
+
 
             // 點擊完直接連線並顯示連線成功
             // 不跳頁
@@ -381,11 +410,38 @@ public class IpSettingsActivity extends Activity implements EcoproConnector.Ecop
 
         if (isLinked) {
             Toast.makeText(IpSettingsActivity.this, "連線成功", Toast.LENGTH_SHORT).show();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(2000);
+                        link_check = false;
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
 
+                }
+            }).start();
 
         } else {
 
             Toast.makeText(IpSettingsActivity.this, "連線失敗，請確認IP是否正確", Toast.LENGTH_SHORT).show();
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(2000);
+                        link_check = false;
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }).start();
+
+
+
         }
     }
 

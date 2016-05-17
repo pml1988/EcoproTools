@@ -32,7 +32,7 @@
         <TextView
             android:id="@+id/dialogFragmentEdit_textViewIpAddressTitle"
             style="@style/MySettingsBigTitle"
-            android:text="Ecopro IP:"
+            android:text="Ecopro Local IP:"
             android:layout_width="wrap_content" />
 
         <EditText
@@ -40,6 +40,25 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/activitySettings_textViewTitle_layoutHeight"
             android:hint="Input IP"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            style="@style/MySettingsBigTitle"
+            android:id="@+id/textView4"
+            android:text="Ecopro WAN IP:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/editText"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/activitySettings_textViewTitle_layoutHeight"
+            android:hint="Input IP" />
     </LinearLayout>
 
     <LinearLayout
@@ -59,7 +78,8 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/activitySettings_textViewTitle_layoutHeight"
             android:id="@+id/dialogFragmentEdit_editTextIpassword"
-            android:hint="請輸入四碼數字" />
+            android:hint="Input 4 number"
+            android:inputType="number" />
     </LinearLayout>
 
 </LinearLayout>

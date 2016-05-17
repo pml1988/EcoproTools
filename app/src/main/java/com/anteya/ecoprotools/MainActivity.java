@@ -586,7 +586,7 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
         tpd.setButton(TimePickerDialog.BUTTON_NEGATIVE, "Cancel", tpd);
 
 
-        tpd.setTitle((onOff) ? "Turn on" : "Turn off");
+      //  tpd.setTitle((onOff) ? "Turn on" : "Turn off");
         tpd.setTitle(type);
         tpd.show();
 
@@ -709,23 +709,23 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
         switch (manual_byte) {
             case 0x04:
                 lb_Manual.setImageResource(R.drawable.activity_main_manual_m1_off);
-                // System.out.println("會不會04");
+
                 break;
             case 0x05:
                 lb_Manual.setImageResource(R.drawable.activity_main_manual_m2_off);
-                // System.out.println("會不會05");
+
                 break;
             case 0x06:
                 lb_Manual.setImageResource(R.drawable.activity_main_manual_m3_off);
-                //  System.out.println("會不會06");
+
                 break;
             case 0x07:
                 lb_Manual.setImageResource(R.drawable.activity_main_manual_m4_off);
-                //  System.out.println("會不會07");
+
                 break;
             case 0x08:
                 lb_Manual.setImageResource(R.drawable.activity_main_manual_m5_off);
-                // System.out.println("會不會08");
+
                 break;
 
         }

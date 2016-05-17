@@ -27,20 +27,19 @@ import java.util.List;
 
 /**
  * Created by Tim Chen on 2016/2/23.
- *
+ * <p/>
  * 因設定 Wifi UDP Unicast 的 資料眾多且複雜 (byte array length 492), 有太多參數需要設定
  * 單獨建立可能會遺漏資料導致Wi-Fi設定失敗
- *
+ * <p/>
  * 所以我的做法是進到此頁面後先以儲存好的IP, 發送獨立的 Broadcast 一次到指定的IP
  * 取回該IP裝置的相關網路資訊, 再修改資料當作Wi-fi設定的command, 發送回去完成設定
- *
  */
-public class WifiSettingsActivity extends Activity implements EcoproConnector.EcoproConnectorCallback{
+public class WifiSettingsActivity extends Activity implements EcoproConnector.EcoproConnectorCallback {
 
     private final String TAG = "WifiSettingsActivity";
 
 
-    private EditText editTextSSID, editTextPassword;
+    private EditText editTextSSID, editTextPassword , editTextPortOne , editTextPortTwo;
 
     private Spinner spinnerNetworkMode, spinnerSecurityMode, spinnerChannel;
 
@@ -50,12 +49,17 @@ public class WifiSettingsActivity extends Activity implements EcoproConnector.Ec
     private TextView textViewSecurityMode;
     private TextView textViewPassword;
 
+
+
     private ArrayAdapter<String> adapterNetworkMode;
     private ArrayAdapter<String> adapterChannel;
     private ArrayAdapter<String> adapterSecurityMode;
+    private ArrayAdapter<String> adapternull;
     private String[] stringArrayNetworkMode = {"Client(Infrastructure)", "Server(AP Mode)"};
     private String[] stringArrayChannel = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"};
     private String[] stringArraySecurityMode = {"No Security", "TKIP", "AES"};
+
+    private String[] stringnull = {""};
 
     private HashMap<String, Object> hashMap;
 
@@ -73,6 +77,8 @@ public class WifiSettingsActivity extends Activity implements EcoproConnector.Ec
 
         initView();
 
+
+        System.out.println("成長：" + dataControl.getIpAddress());
         ecoproConnector.sendUDPBroadcastToSpecifyIpAddress(dataControl.getIpAddress());
     }
 
@@ -86,7 +92,7 @@ public class WifiSettingsActivity extends Activity implements EcoproConnector.Ec
         return super.onOptionsItemSelected(item);
     }
 
-    private void initData(){
+    private void initData() {
 
         myHandler = new MyHandler(this);
 
@@ -98,11 +104,13 @@ public class WifiSettingsActivity extends Activity implements EcoproConnector.Ec
         System.out.println("WifiSettingsActivity get IpAddress = " + dataControl.getIpAddress());
     }
 
-    private void initView(){
+    private void initView() {
 
         editTextSSID = (EditText) findViewById(R.id.activityWifiSettings_editTextSSID);
         editTextPassword = (EditText) findViewById(R.id.activityWifiSettings_editTextPassword);
 
+        editTextPortOne = (EditText)findViewById(R.id.activityWifiSettings_port_one);
+        editTextPortTwo = (EditText)findViewById(R.id.activityWifiSettings_port_two);
 
         spinnerNetworkMode = (Spinner) findViewById(R.id.activityWifiSettings_spinnerNetworkMode);
         spinnerChannel = (Spinner) findViewById(R.id.activityWifiSettings_spinnerChannel);
@@ -122,6 +130,8 @@ public class WifiSettingsActivity extends Activity implements EcoproConnector.Ec
 
             }
         });
+
+        adapternull = new ArrayAdapter<String>(WifiSettingsActivity.this, android.R.layout.simple_spinner_dropdown_item, stringnull);
 
         adapterChannel = new ArrayAdapter<>(WifiSettingsActivity.this, android.R.layout.simple_spinner_dropdown_item, stringArrayChannel);
         spinnerChannel.setAdapter(adapterChannel);
@@ -145,7 +155,7 @@ public class WifiSettingsActivity extends Activity implements EcoproConnector.Ec
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setCustomView(actionBarLayout);
 
-        Button buttonSetting = (Button)actionBarLayout.findViewById(R.id.actionBar_wifiSettingsActivity_buttonSave);
+        Button buttonSetting = (Button) actionBarLayout.findViewById(R.id.actionBar_wifiSettingsActivity_buttonSave);
 
         buttonSetting.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -162,14 +172,24 @@ public class WifiSettingsActivity extends Activity implements EcoproConnector.Ec
     /**
      * 準備 Wi-Fi設定 所需的 Data
      */
-    public void prepareASIXUDPUnicast(){
+    public void prepareASIXUDPUnicast() {
 
-        if(hashMap == null){
+        if (hashMap == null) {
             Toast.makeText(WifiSettingsActivity.this, "尚未連線", Toast.LENGTH_SHORT).show();
+
+            editTextSSID.setEnabled(false);
+            editTextPassword.setEnabled(false);
+            spinnerNetworkMode.setAdapter(adapternull);
+            spinnerNetworkMode.setEnabled(false);
+            spinnerSecurityMode.setAdapter(adapternull);
+            spinnerSecurityMode.setEnabled(false);
+            spinnerChannel.setAdapter(adapternull);
+            spinnerChannel.setEnabled(false);
+
             return;
         }
 
-        byte[] byteArray = (byte[])hashMap.get("data");
+        byte[] byteArray = (byte[]) hashMap.get("data");
 
         // 將要設定的相關參數放入 byteArray
 
@@ -196,6 +216,16 @@ public class WifiSettingsActivity extends Activity implements EcoproConnector.Ec
         byteArray[92] = (byte) ProjectTools.convertLocalEncryptionToASIX(spinnerSecurityMode.getSelectedItemPosition());// Encryption Mode 0:No Security 3:TKIP 4:AES
         byteArray[95] = (byte) password.length();// password length
 
+        System.out.println("測試修改");
+        byteArray[492] =(byte) 0x10;
+        byteArray[493] =(byte) 0x34;
+        byteArray[494] =(byte) 0x00;
+        byteArray[495] =(byte) 0x00;
+        byteArray[496] =(byte) 0x00;
+        byteArray[497] =(byte) 0x79;
+
+
+
 
         // 將重製後的 byte array 放回 hashMap
         hashMap.put("data", byteArray);
@@ -207,14 +237,25 @@ public class WifiSettingsActivity extends Activity implements EcoproConnector.Ec
     /**
      * 準備 Wi-Fi設定 所需的 Data
      */
-    public void prepareASIXUDPUnicastForReset(View v){
+    public void prepareASIXUDPUnicastForReset(View v) {
 
-        if(hashMap == null){
+        if (hashMap == null) {
             Toast.makeText(WifiSettingsActivity.this, "尚未連線", Toast.LENGTH_SHORT).show();
+
+            editTextSSID.setEnabled(false);
+            editTextPassword.setEnabled(false);
+            spinnerNetworkMode.setAdapter(adapternull);
+            spinnerNetworkMode.setEnabled(false);
+            spinnerSecurityMode.setAdapter(adapternull);
+            spinnerSecurityMode.setEnabled(false);
+            spinnerChannel.setAdapter(adapternull);
+            spinnerChannel.setEnabled(false);
+
+
             return;
         }
 
-        byte[] byteArray = (byte[])hashMap.get("data");
+        byte[] byteArray = (byte[]) hashMap.get("data");
 
         // 將要設定的相關參數放入 byteArray
         byteArray[8] = (byte) 0x08;// op-code 0x08 = reset_req
@@ -224,15 +265,27 @@ public class WifiSettingsActivity extends Activity implements EcoproConnector.Ec
         hashMap.put("data", byteArray);
 
         ecoproConnector.sendUDPUnicast(hashMap);
-        Toast.makeText(WifiSettingsActivity.this, "設定中請稍候", Toast.LENGTH_LONG).show();
+        Toast.makeText(WifiSettingsActivity.this, "設定中 請稍候", Toast.LENGTH_LONG).show();
     }
 
-    public void updateView(List list){
+    public void updateView(List list) {
 
         List<HashMap<String, Object>> listHashMap = list;
 
-        if(list.size() == 0){
+        if (list.size() == 0) {
             Toast.makeText(WifiSettingsActivity.this, "尚未連線", Toast.LENGTH_SHORT).show();
+            System.out.println("尚未連線");
+
+
+            editTextSSID.setEnabled(false);
+            editTextPassword.setEnabled(false);
+            spinnerNetworkMode.setAdapter(adapternull);
+            spinnerNetworkMode.setEnabled(false);
+            spinnerSecurityMode.setAdapter(adapternull);
+            spinnerSecurityMode.setEnabled(false);
+            spinnerChannel.setAdapter(adapternull);
+            spinnerChannel.setEnabled(false);
+
             return;
         }
 
@@ -240,9 +293,12 @@ public class WifiSettingsActivity extends Activity implements EcoproConnector.Ec
 
         // 將取回的資料更新到畫面中, 例如: Server Mode/Client Mode, Channel, Security Mode
 
-        byte[] byteArray = (byte[])hashMap.get("data");
+        byte[] byteArray = (byte[]) hashMap.get("data");
 
-        String ip = (String)hashMap.get("ip");
+        String ip = (String) hashMap.get("ip");
+
+        int port1 = (int)hashMap.get("port1");
+        int port2 = (int)hashMap.get("port2");
 
         String ssid = ProjectTools.getSSIDFromAck(byteArray);
 
@@ -263,16 +319,19 @@ public class WifiSettingsActivity extends Activity implements EcoproConnector.Ec
         editTextSSID.setText(ssid);
         editTextPassword.setText(password);
 
+        editTextPortOne.setText(port1+"");
+        editTextPortTwo.setText(port2+"");
+
     }
 
-    public void updateView(byte[] byteArray){
+    public void updateView(byte[] byteArray) {
 
     }
 
     // region EcoproConnector callback
     @Override
     public void onReceiveASIXUDPBroadcast(List list) {
-    // 這個 Activity 只會用到 onReceiveASIXUDPBroadcast & onReceiveASIXUDPUnicast
+        // 這個 Activity 只會用到 onReceiveASIXUDPBroadcast & onReceiveASIXUDPUnicast
         Message message = new Message();
         message.what = MyHandler.RECEIVE_BROADCAST_DATA;
         message.obj = list;
@@ -281,7 +340,7 @@ public class WifiSettingsActivity extends Activity implements EcoproConnector.Ec
 
     @Override
     public void onReceiveASIXUDPUnicast(byte[] ackArray) {
-    // 這個 Activity 只會用到 onReceiveASIXUDPBroadcast & onReceiveASIXUDPUnicast
+        // 這個 Activity 只會用到 onReceiveASIXUDPBroadcast & onReceiveASIXUDPUnicast
         Message message = new Message();
         message.what = MyHandler.RECEIVE_UNICAST_DATA;
         message.obj = ackArray;
@@ -301,30 +360,34 @@ public class WifiSettingsActivity extends Activity implements EcoproConnector.Ec
     // endregion
 
     private MyHandler myHandler;
+
     /**
      * 從 背景執行緒返回 UI執行緒
      */
     private static class MyHandler extends Handler {
         // WeakReference to the outer class's instance.
         private WeakReference<WifiSettingsActivity> mOuter;
+
         public MyHandler(WifiSettingsActivity activity) {
             mOuter = new WeakReference<>(activity);
         }
+
         public static final int RECEIVE_BROADCAST_DATA = 1;
         public static final int RECEIVE_UNICAST_DATA = 2;
+
         @Override
-        public void handleMessage(Message msg){
+        public void handleMessage(Message msg) {
             WifiSettingsActivity activity = mOuter.get();
             if (activity != null) {
                 // Do something with outer as your wish.
-                switch(msg.what){
-                    case RECEIVE_BROADCAST_DATA :
+                switch (msg.what) {
+                    case RECEIVE_BROADCAST_DATA:
                         System.out.println("WifiSettingsActivity MyHandler.RECEIVE_BROADCAST_DATA");
-                        activity.updateView((List)msg.obj);
+                        activity.updateView((List) msg.obj);
                         break;
                     case RECEIVE_UNICAST_DATA:
                         System.out.println("WifiSettingsActivity MyHandler.RECEIVE_UNICAST_DATA");
-                        activity.updateView((byte[])msg.obj);
+                        activity.updateView((byte[]) msg.obj);
                         break;
                 }
             }

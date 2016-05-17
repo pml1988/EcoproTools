@@ -265,6 +265,18 @@
             android:layout_height="@dimen/activityMain_layoutInfoRow_layoutHeight"
             android:orientation="horizontal"
             android:gravity="center">
+
+            <TextView
+                style="@style/ActivityMain_TextTurnOnTime_Style"
+                android:text="TEMP:25"
+                android:layout_weight="10"
+                android:layout_height="wrap_content" />
+            <TextView
+                style="@style/ActivityMain_TextTurnOnTime_Style"
+                android:text="HUM:103"
+                android:layout_weight="10"
+                android:layout_height="wrap_content" />
+
             <TextView
                 android:id="@+id/activityMain_textWaterTitle"
                 style="@style/ActivityMain_TextTitle_Style"
@@ -272,16 +284,7 @@
                 android:layout_weight="1"
                 android:layout_width="@dimen/activityMain_name_width"
                 android:layout_height="wrap_content" />
-            <TextView
-                style="@style/ActivityMain_TextTurnOnTime_Style"
-                android:text=""
-                android:layout_weight="10"
-                android:layout_height="wrap_content" />
-            <TextView
-                style="@style/ActivityMain_TextTurnOnTime_Style"
-                android:text=""
-                android:layout_weight="10"
-                android:layout_height="wrap_content" />
+
             <ImageView
                 android:id="@+id/activityMain_imageWaterStatus"
                 style="@style/ActivityMain_TextStatus_Style"
@@ -417,6 +420,11 @@
         android:scaleType="fitCenter"
         android:src="@drawable/video_camera"
         android:background="@null"/>
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/imageView" />
 
 
 </RelativeLayout>

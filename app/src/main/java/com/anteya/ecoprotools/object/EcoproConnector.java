@@ -206,7 +206,7 @@ public class EcoproConnector {
             socket = SocketFactory.getDefault().createSocket();
             SocketAddress sa = new InetSocketAddress(ipAddress, port);
             socket.connect(sa, TCP_SOCKET_TIMEOUT);
-          //  System.out.println("executeCommand 開啟 socket");
+            //  System.out.println("executeCommand 開啟 socket");
             socket.setSoTimeout(TCP_SOCKET_TIMEOUT);
             if (socket.isConnected()) {
                 Log.i(TAG, "連線 成功：" + socket.toString());
@@ -232,7 +232,7 @@ public class EcoproConnector {
 
         // 執行完畢，關閉連線。
         try {
-          //  System.out.println("executeCommand socket 關閉");
+            //  System.out.println("executeCommand socket 關閉");
             socket.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -308,6 +308,8 @@ public class EcoproConnector {
                     socket.setSoTimeout(UDP_SOCKET_TIMEOUT_FOR_SEARCH);
                     socket.setBroadcast(true);
 
+
+                    System.out.println("修改封包ＩＤ:"+ipAddress);
                     DatagramPacket packet = new DatagramPacket(command, command.length, InetAddress.getByName(ipAddress), BROADCAST_PORT);
                     // 發送三次 Broadcast
                     socket.send(packet);
@@ -327,6 +329,21 @@ public class EcoproConnector {
                     map.put("length", packet2.getLength());
                     map.put("data", tempArray);
                     map.put("mac", ProjectTools.getMacFromAck(packet2.getData()));
+
+                    if (tempArray.length >= 498) {
+                        String temp = ProjectTools.convertByteToHexString(tempArray[492]) + ProjectTools.convertByteToHexString(tempArray[493]);
+
+                        int D1 = Integer.parseInt(temp, 16);
+                        System.out.println("16進位:" + D1);
+
+                        String temp1 = ProjectTools.convertByteToHexString(tempArray[494]) + ProjectTools.convertByteToHexString(tempArray[495]) + ProjectTools.convertByteToHexString(tempArray[496]) + ProjectTools.convertByteToHexString(tempArray[497]);
+
+                        int D2 = Integer.parseInt(temp1, 16);
+                        System.out.println("16進位:" + D2);
+                        map.put("port1", D1);
+                        map.put("port2", D2);
+                    }
+
 
                     tempListMacData.add(map);
 
@@ -441,6 +458,14 @@ public class EcoproConnector {
                 String ipAddress = (String) hashMap.get("ip");
 
                 byte[] ackArray = (byte[]) hashMap.get("data");
+
+                System.out.println("測試修改長度："+ackArray.length);
+                for(int i =  0    ; i<ackArray.length;i++ )
+                {
+
+                    System.out.println("測試修改"+i+":"+ackArray[i]);
+
+                }
 
                 byte[] tempArrayForAck;
 
