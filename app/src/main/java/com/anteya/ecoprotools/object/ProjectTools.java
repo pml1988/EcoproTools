@@ -137,6 +137,67 @@ public class ProjectTools {
         return commandString;
     }
 
+
+    public static String getfournumber(String temp, boolean booleantemp) {
+        switch (temp.length()) {
+            case 1:
+
+                if (booleantemp == true) {
+                    return "000" + temp;
+
+                }
+                return "0000000" + temp;
+
+            case 2:
+
+                if (booleantemp == true) {
+                    return "00" + temp;
+
+                }
+                return "000000" + temp;
+            case 3:
+
+                if (booleantemp == true) {
+                    return "0" + temp;
+
+                }
+                return "00000" + temp;
+            case 4:
+                if (booleantemp == true) {
+                    return temp;
+
+                }
+                return "0000" + temp;
+            case 5:
+                if (booleantemp == true) {
+                    return temp;
+
+                }
+                return "000" + temp;
+
+            case 6:
+                if (booleantemp == true) {
+                    return temp;
+
+                }
+                return "00" + temp;
+            case 7:
+                if (booleantemp == true) {
+                    return temp;
+
+                }
+                return "0" + temp;
+            case 8:
+                if (booleantemp == true) {
+                    return temp;
+
+                }
+                return temp;
+        }
+        return temp;
+    }
+
+
     /**
      * ASIX UDP protocol 回傳的 byte array
      * 從 byte array 裡取出 SSID
@@ -271,8 +332,7 @@ public class ProjectTools {
 
         try {
 
-            System.out.println("ProjectTools："+(byteArray[deviceType + onOffType])+":"+convertByteToHexString(byteArray[deviceType + onOffType + 1]));
-
+            System.out.println("ProjectTools：" + (byteArray[deviceType + onOffType]) + ":" + convertByteToHexString(byteArray[deviceType + onOffType + 1]));
 
 
             return convertByteToHexString(byteArray[deviceType + onOffType]) + ":" + convertByteToHexString(byteArray[deviceType + onOffType + 1]);
@@ -486,11 +546,33 @@ public class ProjectTools {
 
         //    int intValue = Integer.parseInt(new String(hexChars));
 
-           System.out.println("幹怎麼回事2："+new String(hexChars));
-
+       // System.out.println("幹怎麼回事2：" + new String(hexChars));
 
 
         return new String(hexChars);
+    }
+
+
+    public static byte[] hexToBytes(String hexString) {
+
+        char[] hex = hexString.toCharArray();
+        //轉rawData長度減半
+        int length = hex.length / 2;
+        byte[] rawData = new byte[length];
+        for (int i = 0; i < length; i++) {
+            //先將hex資料轉10進位數值
+            int high = Character.digit(hex[i * 2], 16);
+            int low = Character.digit(hex[i * 2 + 1], 16);
+            //將第一個值的二進位值左平移4位,ex: 00001000 => 10000000 (8=>128)
+            //然後與第二個值的二進位值作聯集ex: 10000000 | 00001100 => 10001100 (137)
+            int value = (high << 4) | low;
+            //與FFFFFFFF作補集
+            if (value > 127)
+                value -= 256;
+            //最後轉回byte就OK
+            rawData [i] = (byte) value;
+        }
+        return rawData ;
     }
 
     // endregion

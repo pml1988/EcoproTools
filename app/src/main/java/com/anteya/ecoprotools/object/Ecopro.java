@@ -25,6 +25,11 @@ public class Ecopro {
     private String ipAddress = "";
 
     /**
+     * Ecopro WAN_IP 位址
+     */
+    private String ipAddress_wan = "";
+
+    /**
      * Ecopro Mac 位址
      */
     private String macAddress = "";
@@ -38,6 +43,14 @@ public class Ecopro {
     }
 
     // region getter & setter
+
+    public String getIpAddress_wan() {
+        return ipAddress_wan;
+    }
+
+    public void setIpAddress_wan(String ipAddress_wan) {
+        this.ipAddress_wan = ipAddress_wan;
+    }
 
     public int getId() {
         return id;

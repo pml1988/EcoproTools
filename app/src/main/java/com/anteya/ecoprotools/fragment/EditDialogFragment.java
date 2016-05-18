@@ -28,6 +28,8 @@ public class EditDialogFragment extends DialogFragment {
 
     private String ipAddress;
 
+    private String ipAddress_Wan;
+
     private int password;
 
     private Ecopro ecopro;
@@ -38,7 +40,7 @@ public class EditDialogFragment extends DialogFragment {
 
     private TextView textViewNameTitle, textViewIpAddressTitle;
 
-    private EditText editTextName, editTextIpAddress , editTextPassword;
+    private EditText editTextName, editTextIpAddress , editTextPassword ,editTextIpAddress_wan ;
 
     public EditDialogFragment(){
 
@@ -106,6 +108,7 @@ public class EditDialogFragment extends DialogFragment {
         textViewIpAddressTitle = (TextView) view.findViewById(R.id.dialogFragmentEdit_textViewIpAddressTitle);
         editTextName = (EditText) view.findViewById(R.id.dialogFragmentEdit_editTextName);
         editTextIpAddress = (EditText) view.findViewById(R.id.dialogFragmentEdit_editTextIpAddress);
+        editTextIpAddress_wan = (EditText) view.findViewById(R.id.dialogFragmentEdit_editTextIpAddress_Wan);
         editTextPassword = (EditText) view.findViewById(R.id.dialogFragmentEdit_editTextIpassword);
 
         // setup
@@ -120,6 +123,7 @@ public class EditDialogFragment extends DialogFragment {
 
             editTextName.setText(ecopro.getName());
             editTextIpAddress.setText(ecopro.getIpAddress());
+            editTextIpAddress_wan.setText(ecopro.getIpAddress_wan());
             editTextPassword.setText(ecopro.getPassword());
         }
 
@@ -144,6 +148,8 @@ public class EditDialogFragment extends DialogFragment {
 
                 ecopro.setIpAddress(editTextIpAddress.getText().toString());
 
+                ecopro.setIpAddress_wan(editTextIpAddress_wan.getText().toString());
+
                 ecopro.setPassword(editTextPassword.getText().toString());
 
                 if(editDialogFragmentCallback != null){
@@ -162,6 +168,8 @@ public class EditDialogFragment extends DialogFragment {
             ecopro.setName(editTextName.getText().toString());
 
             ecopro.setIpAddress(editTextIpAddress.getText().toString());
+
+            ecopro.setIpAddress_wan(editTextIpAddress_wan.getText().toString());
 
             ecopro.setPassword(editTextPassword.getText().toString());
 

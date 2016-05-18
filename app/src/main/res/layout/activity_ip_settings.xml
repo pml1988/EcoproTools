@@ -23,50 +23,71 @@
         android:layout_width="70dp"
         android:layout_height="@dimen/activitySettings_textViewTitle_layoutHeight"
         android:text="Link"
-        android:layout_alignParentRight="true"/>
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/activityIpSettings_textViewTitle1" />
 
 
     <TextView
         android:id="@+id/activityIpSettings_textView"
         android:layout_below="@+id/activityIpSettings_textViewTitle1"
-        android:text="IP Address"
+        android:text="Local Address"
         style="@style/MySettingsTitle"/>
 
     <EditText
-        android:id="@+id/activityIpSettings_editText"
+        android:id="@+id/activityIpSettings_editTe"
         android:layout_width="200dp"
         android:layout_height="@dimen/activitySettings_textViewTitle_layoutHeight"
         android:layout_below="@+id/activityIpSettings_textViewTitle1"
         android:layout_toRightOf="@id/activityIpSettings_textView"
         android:inputType="text"
         android:maxLines="1"
-        android:singleLine="true"/>
+        android:singleLine="true"
+        android:visibility="invisible" />
 
+
+    <TextView
+        android:layout_width="200dp"
+        android:layout_height="@dimen/activitySettings_textViewTitle_layoutHeight"
+        android:id="@+id/activityIpSettings_editText"
+        android:layout_below="@+id/activityIpSettings_textViewTitle1"
+        android:layout_toRightOf="@+id/activityIpSettings_textView"
+        android:textSize="20dp"
+        android:gravity="center_vertical" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="@dimen/activitySettings_textViewTitle_layoutHeight"
         android:text="Password:"
         android:id="@+id/textView3"
-        android:layout_below="@+id/activityIpSettings_textViewTitle1"
-        android:layout_toRightOf="@+id/activityIpSettings_editText"
-        style="@style/MySettingsTitle" />
+        android:layout_below="@+id/activityIpSettings_editText_wan"
+        style="@style/MySettingsTitle"
+        android:layout_marginRight="10dp" />
 
     <EditText
         android:layout_width="200dp"
         android:layout_height="@dimen/activitySettings_textViewTitle_layoutHeight"
-        android:id="@+id/activityIpSettings_editText_password"
-        android:layout_below="@+id/activityIpSettings_textViewTitle1"
+        android:id="@+id/activityIpSettings_editText_passwo"
+        android:layout_below="@+id/activityIpSettings_editText_wan"
         android:layout_toRightOf="@+id/textView3"
         android:inputType="number"
-        android:hint="4 number" />
+        android:hint="4 number"
+        android:visibility="invisible" />
+
+    <TextView
+        android:layout_width="200dp"
+        android:layout_height="@dimen/activitySettings_textViewTitle_layoutHeight"
+        android:id="@+id/activityIpSettings_editText_password"
+        android:layout_below="@+id/activityIpSettings_editText_wan"
+        android:layout_toRightOf="@+id/textView3"
+        android:textSize="20dp"
+        android:gravity="center_vertical" />
 
     <TextView
         android:id="@+id/activityIpSettings_textViewTitle2"
         android:text="IP Address List"
         style="@style/MySettingsBigTitle"
         android:layout_width="wrap_content"
-        android:layout_below="@id/activityIpSettings_textView"/>
+        android:layout_below="@+id/textView3"/>
 
 
     <ImageButton
@@ -75,7 +96,7 @@
         android:layout_height="@dimen/activitySettings_textViewTitle_layoutHeight"
         android:text="Add IP"
         android:layout_alignParentRight="true"
-        android:layout_below="@id/activityIpSettings_textView"
+        android:layout_below="@+id/textView3"
         android:src="@android:drawable/ic_input_add"/>
 
     <ListView
@@ -84,14 +105,28 @@
         android:layout_height="match_parent"
         android:layout_below="@id/activityIpSettings_textViewTitle2"/>
 
+    <TextView
+        android:layout_width="200dp"
+        android:layout_height="@dimen/activitySettings_textViewTitle_layoutHeight"
+        android:id="@+id/activityIpSettings_textView_wan"
+        android:textSize="20dp"
+        android:gravity="center_vertical"
+        android:layout_below="@+id/activityIpSettings_textView"
+        android:layout_toRightOf="@+id/activityIpSettings_editText_wan" />
+
+    <TextView
+        style="@style/MySettingsTitle"
+        android:id="@+id/activityIpSettings_editText_wan"
+        android:text="WAN Address"
+        android:layout_below="@+id/activityIpSettings_textView" />
+
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button"
-        android:layout_centerVertical="true"
-        android:layout_toLeftOf="@+id/activityIpSettings_editText_password"
-        android:layout_toStartOf="@+id/activityIpSettings_editText_password"
-        android:visibility="invisible" />
+        android:id="@+id/activityIpSettings_buttonLink_wan"
+        android:layout_width="70dp"
+        android:layout_height="@dimen/activitySettings_textViewTitle_layoutHeight"
+        android:text="Link"
+        android:layout_alignTop="@+id/activityIpSettings_textView_wan"
+        android:layout_alignRight="@+id/activityIpSettings_buttonLink"
+        android:layout_alignEnd="@+id/activityIpSettings_buttonLink" />
 
 </RelativeLayout>

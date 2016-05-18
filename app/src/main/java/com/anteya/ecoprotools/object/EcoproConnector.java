@@ -102,14 +102,17 @@ public class EcoproConnector {
      * socket 連線硬體部分192.168.2.3
      * 首先wifi要連結硬體AP
      **/
-    public void checkLink(final String ipAddress) {
+    public void checkLink(final String ipAddress , final int port) {
         new Thread() {
             @Override
             public void run() {
 
                 Socket socket = null;
 
-                int tempPort = AnteyaString.getPort(ipAddress);
+
+                int tempPort = port;
+
+             //   int tempPort = AnteyaString.getPort(ipAddress);
                 String tempIpAddress = AnteyaString.getIpAddress(ipAddress);
 
                 // connect and send

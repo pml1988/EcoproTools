@@ -99,7 +99,9 @@
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:id="@+id/activityWifiSettings_layout"
+                android:visibility="gone">
 
                 <LinearLayout
                     android:orientation="horizontal"

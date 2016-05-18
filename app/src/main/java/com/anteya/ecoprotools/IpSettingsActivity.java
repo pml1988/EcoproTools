@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,6 +30,7 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class IpSettingsActivity extends Activity implements EcoproConnector.EcoproConnectorCallback
         , EditDialogFragment.EditDialogFragmentCallback {
@@ -55,6 +55,11 @@ public class IpSettingsActivity extends Activity implements EcoproConnector.Ecop
     private String ipAddress = "";
 
 
+    private int port_local = 8023;
+
+    private int port_wan = 80;
+
+
     private Button btn;
     // endregion
 
@@ -62,15 +67,17 @@ public class IpSettingsActivity extends Activity implements EcoproConnector.Ecop
 
     private TextView text1;
 
-    private EditText editTextIpAddress;
+    private TextView editTextIpAddress;
 
-    private EditText activityIpSettings_editText_password;
+    private TextView editTextIpAddress_wan;
+
+    private TextView activityIpSettings_editText_password;
 
     private ListView listView;
 
     private ImageButton buttonAddEcopro;
 
-    private Button buttonLinkEcopro;
+    private Button buttonLinkEcopro, buttonLinkEcopro_wan;
 
     // endregion
 
@@ -141,22 +148,26 @@ public class IpSettingsActivity extends Activity implements EcoproConnector.Ecop
         text1 = (TextView) findViewById(R.id.activityIpSettings_textView);
 
 
-        btn = (Button) findViewById(R.id.button);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                System.out.println("檢查密碼" + dataControl.getPd_one() + " " + dataControl.getPd_two() + " " + dataControl.getPd_three() + " " + dataControl.getPd_four());
-            }
-        });
+//        btn = (Button) findViewById(R.id.button);
+//        btn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                System.out.println("檢查密碼" + dataControl.getPd_one() + " " + dataControl.getPd_two() + " " + dataControl.getPd_three() + " " + dataControl.getPd_four());
+//            }
+//        });
 
 
-        editTextIpAddress = (EditText) findViewById(R.id.activityIpSettings_editText);
-        activityIpSettings_editText_password = (EditText) findViewById(R.id.activityIpSettings_editText_password);
+        editTextIpAddress = (TextView) findViewById(R.id.activityIpSettings_editText);
+        editTextIpAddress_wan = (TextView) findViewById(R.id.activityIpSettings_textView_wan);
+        activityIpSettings_editText_password = (TextView) findViewById(R.id.activityIpSettings_editText_password);
         buttonAddEcopro = (ImageButton) findViewById(R.id.activityIpSettings_buttonAdd);
         buttonAddEcopro.setOnClickListener(buttonAddEcoproClickListener);
 
         buttonLinkEcopro = (Button) findViewById(R.id.activityIpSettings_buttonLink);
+        buttonLinkEcopro_wan = (Button) findViewById(R.id.activityIpSettings_buttonLink_wan);
         buttonLinkEcopro.setOnClickListener(buttonLinkEcoproClickListener);
+        buttonLinkEcopro_wan.setOnClickListener(buttonLinkEcoproClickListener_wan);
+
 
         listView = (ListView) findViewById(R.id.activityIpSettings_listView);
         listView.setOnItemClickListener(listViewClickListener);
@@ -216,13 +227,14 @@ public class IpSettingsActivity extends Activity implements EcoproConnector.Ecop
     private View.OnClickListener buttonLinkEcoproClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            System.out.println("內網路：" + ipAddress + " PORT:" + port_wan);
+            if (activityIpSettings_editText_password.getText().toString().length() != 4) {
+                Toast.makeText(getApplication(), "最多四碼", Toast.LENGTH_SHORT).show();
+            } else {
 
-            if(activityIpSettings_editText_password.getText().toString().length()!=4)
-            {
-                Toast.makeText(getApplication() , "最多四碼",Toast.LENGTH_SHORT).show();
-            }
-            else
-            {
+
+                // System.out.println("外網路："+editTextIpAddress.getText().toString());
+
                 dataControl.saveIpAddress(editTextIpAddress.getText().toString());
 
                 dataControl.setPd_one(Integer.parseInt(activityIpSettings_editText_password.getText().toString().substring(0, 1)));
@@ -231,18 +243,45 @@ public class IpSettingsActivity extends Activity implements EcoproConnector.Ecop
                 dataControl.setPd_four(Integer.parseInt(activityIpSettings_editText_password.getText().toString().substring(3, 4)));
 
                 ipAddress = dataControl.getIpAddress();
+                System.out.println("內網路：" + ipAddress + " PORT:" + port_local);
                 if (ipAddress != null && ipAddress.length() > 0) {
-                    ecoproConnector.checkLink(ipAddress);
-                }
+                    System.out.println("內網路1：" + ipAddress + " PORT1:" + port_local);
+                    ecoproConnector.checkLink(ipAddress, port_local);
 
+                }
+            }
+        }
+    };
+    private View.OnClickListener buttonLinkEcoproClickListener_wan = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+            if (activityIpSettings_editText_password.getText().toString().length() != 4) {
+                Toast.makeText(getApplication(), "最多四碼", Toast.LENGTH_SHORT).show();
+            } else {
+
+
+                dataControl.saveIpAddress(editTextIpAddress_wan.getText().toString());
+                dataControl.setPd_one(Integer.parseInt(activityIpSettings_editText_password.getText().toString().substring(0, 1)));
+                dataControl.setPd_two(Integer.parseInt(activityIpSettings_editText_password.getText().toString().substring(1, 2)));
+                dataControl.setPd_three(Integer.parseInt(activityIpSettings_editText_password.getText().toString().substring(2, 3)));
+                dataControl.setPd_four(Integer.parseInt(activityIpSettings_editText_password.getText().toString().substring(3, 4)));
+                ipAddress = dataControl.getIpAddress();
+                System.out.println("外網路：" + ipAddress + " PORT:" + port_wan);
+                if (ipAddress != null && ipAddress.length() > 0) {
+
+                    System.out.println("外網路1：" + ipAddress + " PORT1:" + port_wan);
+                    ecoproConnector.checkLink(ipAddress, port_wan);
+
+                }
             }
 
 
         }
     };
 
-    public void link_check_fun ()
-    {
+
+    public void link_check_fun() {
         link_check = true;
     }
 
@@ -254,47 +293,49 @@ public class IpSettingsActivity extends Activity implements EcoproConnector.Ecop
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
 
-           if(link_check ==false)
-           {
-               System.out.println("執行中");
-               link_check=true;
+//           if(link_check ==false)
+//           {
+            System.out.println("執行中");
+            link_check = true;
 
-               try {
-                   System.out.println("listView click");
+            try {
+                System.out.println("listView click");
 
-                   Ecopro ecopro = listEcopro.get(position);
+                Ecopro ecopro = listEcopro.get(position);
 
-                   String tempIp = ecopro.getIpAddress();
-                   String tempMac = ecopro.getMacAddress();
-                   String temppw = ecopro.getPassword();
-                   dataControl.saveIpAddress(tempIp);
-                   dataControl.saveMacAddress(tempMac);
-                   editTextIpAddress.setText(tempIp);
-                   dataControl.setPd_one(Integer.parseInt(temppw.substring(0, 1)));
-                   dataControl.setPd_two(Integer.parseInt(temppw.substring(1, 2)));
-                   dataControl.setPd_three(Integer.parseInt(temppw.substring(2, 3)));
-                   dataControl.setPd_four(Integer.parseInt(temppw.substring(3, 4)));
+                String tempIp = ecopro.getIpAddress();
+                String tempIp_wan = ecopro.getIpAddress_wan();
+                String tempMac = ecopro.getMacAddress();
+                String temppw = ecopro.getPassword();
+                dataControl.saveIpAddress(tempIp);
+                dataControl.saveMacAddress(tempMac);
+                editTextIpAddress.setText(tempIp);
+                editTextIpAddress_wan.setText(tempIp_wan);
+                dataControl.setPd_one(Integer.parseInt(temppw.substring(0, 1)));
+                dataControl.setPd_two(Integer.parseInt(temppw.substring(1, 2)));
+                dataControl.setPd_three(Integer.parseInt(temppw.substring(2, 3)));
+                dataControl.setPd_four(Integer.parseInt(temppw.substring(3, 4)));
 
-                   activityIpSettings_editText_password.setText(temppw);
+                activityIpSettings_editText_password.setText(temppw);
 
-                   ipAddress = tempIp;
+                System.out.println("網路：" + tempIp + " " + tempIp_wan);
+                ecoproConnector.sendUDPBroadcastToSpecifyIpAddress(tempIp);
+                ecoproConnector.sendUDPBroadcastToSpecifyIpAddress(tempIp_wan);
+                //  ipAddress = tempIp;
 
-                   if (ipAddress != null && ipAddress.length() > 0) {
-                       ecoproConnector.checkLink(ipAddress);
-                   }
-               } catch (NumberFormatException e) {
-                   e.printStackTrace();
-               }
-
-
-           }
-            else
-           {
-               System.out.println("執行中勿擾");
-           }
+//                   if (ipAddress != null && ipAddress.length() > 0) {
+//                       ecoproConnector.checkLink(ipAddress);
+//                   }
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
 
 
-
+//           }
+//            else
+//            {
+//                System.out.println("執行中勿擾");
+//            }
 
 
             // 點擊完直接連線並顯示連線成功
@@ -377,6 +418,45 @@ public class IpSettingsActivity extends Activity implements EcoproConnector.Ecop
     // endregion
 
     // region MyHandler
+    private HashMap<String, Object> hashMap;
+
+    public void updatedata(List list) {
+
+        List<HashMap<String, Object>> listHashMap = list;
+
+        System.out.println("網路updatedata:" + listHashMap.size());
+        if (listHashMap.size() == 0) {
+            return;
+        }
+
+        hashMap = listHashMap.get(0);
+
+        // 將取回的資料更新到畫面中, 例如: Server Mode/Client Mode, Channel, Security Mode
+
+        byte[] byteArray = (byte[]) hashMap.get("data");
+
+        //iTouch 初版為492長度
+        if (byteArray.length == 492) {
+            System.out.println("版本為492");
+
+            port_local = 8023;
+            port_wan = 80;
+
+        }
+        //iTouch 更新多了6 byte 前兩byte為 port1 後四byte 為port2
+        else if (byteArray.length == 498) {
+            System.out.println("版本為498");
+            port_local = (int) hashMap.get("port1");
+            port_wan = (int) hashMap.get("port2");
+
+            System.out.println("版本為498" + port_local + " " + port_wan);
+
+
+        }
+
+
+    }
+
 
     public void updateListView() {
 
@@ -390,6 +470,7 @@ public class IpSettingsActivity extends Activity implements EcoproConnector.Ecop
             hashMap.put(EcoproString.HASH_MAP_KEY_ID, ecopro.getId());
             hashMap.put(EcoproString.HASH_MAP_KEY_NAME, ecopro.getName());
             hashMap.put(EcoproString.HASH_MAP_KEY_IP, ecopro.getIpAddress());
+            hashMap.put(EcoproString.HASH_MAP_KEY_IP_WAN, ecopro.getIpAddress_wan());
             hashMap.put(EcoproString.HASH_MAP_KEY_MAC, ecopro.getMacAddress());
 
             listMacData.add(hashMap);
@@ -398,8 +479,9 @@ public class IpSettingsActivity extends Activity implements EcoproConnector.Ecop
         if (keepGoing) {
             listItemAdapter = new SimpleAdapter(this, listMacData, //套入動態資訊
                     R.layout.listview_ip_mac,//套用自訂的XML
-                    new String[]{EcoproString.HASH_MAP_KEY_NAME, EcoproString.HASH_MAP_KEY_IP}, //動態資訊取出順序
-                    new int[]{R.id.layoutMac_ip, R.id.layoutMac_mac} //將動態資訊對應到元件ID
+                    new String[]{EcoproString.HASH_MAP_KEY_NAME, EcoproString.HASH_MAP_KEY_IP, EcoproString.HASH_MAP_KEY_IP_WAN}, //動態資訊取出順序
+                    new int[]{R.id.layoutMac_ip, R.id.layoutMac_mac, R.id.layoutMac_mac1} //將動態資訊對應到元件ID
+
             );
 
             listView.setAdapter(listItemAdapter);
@@ -441,7 +523,6 @@ public class IpSettingsActivity extends Activity implements EcoproConnector.Ecop
             }).start();
 
 
-
         }
     }
 
@@ -469,7 +550,7 @@ public class IpSettingsActivity extends Activity implements EcoproConnector.Ecop
                 switch (msg.what) {
                     case RECEIVE_BROADCAST_DATA:
                         System.out.println("IpSettingsActivity MyHandler.RECEIVE_BROADCAST_DATA");
-//                        activity.updateListView((List)msg.obj);
+                        activity.updatedata((List) msg.obj);
                         break;
                     case CHECK_LINK:
                         System.out.println("IpSettingsActivity MyHandler.CHECK_LINK");

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Layout;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,7 +41,7 @@ public class WifiSettingsActivity extends Activity implements EcoproConnector.Ec
     private final String TAG = "WifiSettingsActivity";
 
 
-    private EditText editTextSSID, editTextPassword , editTextPortOne , editTextPortTwo;
+    private EditText editTextSSID, editTextPassword, editTextPortOne, editTextPortTwo;
 
     private Spinner spinnerNetworkMode, spinnerSecurityMode, spinnerChannel;
 
@@ -49,7 +51,7 @@ public class WifiSettingsActivity extends Activity implements EcoproConnector.Ec
     private TextView textViewSecurityMode;
     private TextView textViewPassword;
 
-
+    private LinearLayout activityWifiSettings_layout;
 
     private ArrayAdapter<String> adapterNetworkMode;
     private ArrayAdapter<String> adapterChannel;
@@ -109,13 +111,14 @@ public class WifiSettingsActivity extends Activity implements EcoproConnector.Ec
         editTextSSID = (EditText) findViewById(R.id.activityWifiSettings_editTextSSID);
         editTextPassword = (EditText) findViewById(R.id.activityWifiSettings_editTextPassword);
 
-        editTextPortOne = (EditText)findViewById(R.id.activityWifiSettings_port_one);
-        editTextPortTwo = (EditText)findViewById(R.id.activityWifiSettings_port_two);
+        editTextPortOne = (EditText) findViewById(R.id.activityWifiSettings_port_one);
+        editTextPortTwo = (EditText) findViewById(R.id.activityWifiSettings_port_two);
 
         spinnerNetworkMode = (Spinner) findViewById(R.id.activityWifiSettings_spinnerNetworkMode);
         spinnerChannel = (Spinner) findViewById(R.id.activityWifiSettings_spinnerChannel);
         spinnerSecurityMode = (Spinner) findViewById(R.id.activityWifiSettings_spinnerSecurityMode);
 
+        activityWifiSettings_layout = (LinearLayout) findViewById(R.id.activityWifiSettings_layout);
 
         adapterNetworkMode = new ArrayAdapter<>(WifiSettingsActivity.this, android.R.layout.simple_spinner_dropdown_item, stringArrayNetworkMode);
         spinnerNetworkMode.setAdapter(adapterNetworkMode);
@@ -216,21 +219,31 @@ public class WifiSettingsActivity extends Activity implements EcoproConnector.Ec
         byteArray[92] = (byte) ProjectTools.convertLocalEncryptionToASIX(spinnerSecurityMode.getSelectedItemPosition());// Encryption Mode 0:No Security 3:TKIP 4:AES
         byteArray[95] = (byte) password.length();// password length
 
+        int tempone = Integer.parseInt(editTextPortOne.getText().toString());
+        int temptwo = Integer.parseInt(editTextPortTwo.getText().toString());
+        System.out.println("修改修改1:" + Integer.toHexString(tempone));
+
+
+        String stringtempone = ProjectTools.getfournumber(Integer.toHexString(tempone) + "", true);
+        String stringtemptwo = ProjectTools.getfournumber(Integer.toHexString(temptwo) + "", false);
+        System.out.println("修改修改2:" + stringtempone);
+        System.out.println("修改修改3:" + stringtempone.substring(0, 2));
+        System.out.println("修改修改4:" + stringtempone.substring(2, 4));
+        System.out.println("修改修改5:" + stringtemptwo);
+
         System.out.println("測試修改");
-        byteArray[492] =(byte) 0x10;
-        byteArray[493] =(byte) 0x34;
-        byteArray[494] =(byte) 0x00;
-        byteArray[495] =(byte) 0x00;
-        byteArray[496] =(byte) 0x00;
-        byteArray[497] =(byte) 0x79;
-
-
+        byteArray[492] = ProjectTools.hexToBytes(stringtempone.substring(2, 4));
+        byteArray[493] = (byte) (Integer.parseInt(stringtempone.substring(2, 4),16) & 0xff);
+        byteArray[494] = Byte.parseByte(stringtemptwo.substring(0, 2), 16);
+        byteArray[495] = Byte.parseByte(stringtemptwo.substring(2, 4), 16);
+        byteArray[496] = Byte.parseByte(stringtemptwo.substring(4, 6), 16);
+        byteArray[497] = Byte.parseByte(stringtemptwo.substring(6, 8), 16);
 
 
         // 將重製後的 byte array 放回 hashMap
-        hashMap.put("data", byteArray);
-
-        ecoproConnector.sendUDPUnicast(hashMap);
+//        hashMap.put("data", byteArray);
+//
+//        ecoproConnector.sendUDPUnicast(hashMap);
         Toast.makeText(WifiSettingsActivity.this, "設定中請稍候", Toast.LENGTH_LONG).show();
     }
 
@@ -294,11 +307,8 @@ public class WifiSettingsActivity extends Activity implements EcoproConnector.Ec
         // 將取回的資料更新到畫面中, 例如: Server Mode/Client Mode, Channel, Security Mode
 
         byte[] byteArray = (byte[]) hashMap.get("data");
-
+        System.out.println("版本長度：" + byteArray.length);
         String ip = (String) hashMap.get("ip");
-
-        int port1 = (int)hashMap.get("port1");
-        int port2 = (int)hashMap.get("port2");
 
         String ssid = ProjectTools.getSSIDFromAck(byteArray);
 
@@ -315,12 +325,25 @@ public class WifiSettingsActivity extends Activity implements EcoproConnector.Ec
         spinnerNetworkMode.setSelection(networkMode);
         spinnerSecurityMode.setSelection(encryptionMode);
         spinnerChannel.setSelection(channel - 1);
-
         editTextSSID.setText(ssid);
         editTextPassword.setText(password);
 
-        editTextPortOne.setText(port1+"");
-        editTextPortTwo.setText(port2+"");
+
+        //iTouch 初版為492長度
+        if (byteArray.length == 492) {
+            System.out.println("版本為492");
+            activityWifiSettings_layout.setVisibility(View.GONE);
+        }
+        //iTouch 更新多了6 byte 前兩byte為 port1 後四byte 為port2
+        else if (byteArray.length == 498) {
+            System.out.println("版本為498");
+            activityWifiSettings_layout.setVisibility(View.VISIBLE);
+            int port1 = (int) hashMap.get("port1");
+            int port2 = (int) hashMap.get("port2");
+            editTextPortOne.setText(port1 + "");
+            editTextPortTwo.setText(port2 + "");
+        }
+
 
     }
 
