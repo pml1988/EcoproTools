@@ -16,7 +16,8 @@
         android:id="@+id/activityIpSettings_textViewTitle1"
         android:text="IP Address Settings"
         style="@style/MySettingsBigTitle"
-        android:layout_width="wrap_content"/>
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/activitySettings_textViewTitle_layoutHeight" />
 
     <Button
         android:id="@+id/activityIpSettings_buttonLink"
@@ -87,7 +88,8 @@
         android:text="IP Address List"
         style="@style/MySettingsBigTitle"
         android:layout_width="wrap_content"
-        android:layout_below="@+id/textView3"/>
+        android:layout_below="@+id/textView3"
+        android:layout_height="@dimen/activitySettings_textViewTitle_layoutHeight" />
 
 
     <ImageButton

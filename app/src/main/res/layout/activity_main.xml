@@ -268,20 +268,18 @@
 
             <TextView
                 style="@style/ActivityMain_TextTurnOnTime_Style"
-                android:text="TEMP:25"
-                android:layout_weight="10"
-                android:layout_height="wrap_content" />
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Water" />
             <TextView
                 style="@style/ActivityMain_TextTurnOnTime_Style"
-                android:text="HUM:103"
                 android:layout_weight="10"
                 android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/activityMain_textWaterTitle"
                 style="@style/ActivityMain_TextTitle_Style"
-                android:text="Water"
-                android:layout_weight="1"
+                android:layout_weight="10"
                 android:layout_width="@dimen/activityMain_name_width"
                 android:layout_height="wrap_content" />
 
@@ -421,10 +419,16 @@
         android:src="@drawable/video_camera"
         android:background="@null"/>
 
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:id="@+id/imageView" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/relative"
+        android:clickable="false"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+       >
+
+    </RelativeLayout>
 
 
 </RelativeLayout>

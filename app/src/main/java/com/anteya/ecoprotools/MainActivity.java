@@ -1,5 +1,6 @@
 package com.anteya.ecoprotools;
 
+import android.support.v7.app.AppCompatActivity;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -17,8 +18,11 @@ import android.support.v4.content.ContextCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.AnimationSet;
 import android.widget.Button;
@@ -26,11 +30,13 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.anteya.ecoprotools.object.EcoproConnector;
 import com.anteya.ecoprotools.object.EcoproConnector.EcoproConnectorCallback;
+import com.anteya.ecoprotools.object.Itouch;
 import com.anteya.ecoprotools.object.SQLiteControl;
 import com.anteya.ecoprotools.operatingtype.AirOperatingTime;
 import com.anteya.ecoprotools.object.DataControl;
@@ -41,12 +47,13 @@ import com.anteya.ecoprotools.object.ProjectTools;
 import java.lang.ref.WeakReference;
 import java.security.interfaces.ECKey;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class MainActivity extends Activity implements EcoproConnectorCallback, View.OnClickListener {
+public class MainActivity extends Activity implements EcoproConnectorCallback, View.OnClickListener, View.OnTouchListener {
 
     // region Data variables
 
@@ -103,6 +110,13 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
     private ImageButton mm5;
 
 
+    private RelativeLayout relativeLayout;
+    private Itouch iTouch;
+    private float currentX = 0, currentY = 0;
+    private ArrayList<Itouch> arrayList;
+    private int currentITouchIndex = 0;
+
+
     private Button buttonShotDown;
     private Button buttonF1;
     private Button buttonF2;
@@ -122,7 +136,7 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
 
     private byte[] temp_time;
 
-
+private int screen_x , screen_y ;
     private TextView actionBar_mainActivity_textTitle;
     // endregion
 
@@ -135,6 +149,41 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
         setContentView(R.layout.activity_main);
 
 
+
+
+
+
+
+
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        System.out.println("銀幕大小為 "+metrics.widthPixels+" X "+metrics.heightPixels);
+
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm); //先取得螢幕解析度
+        int screenWidth = dm.widthPixels;   //取得螢幕的寬
+        int screenHeight = dm.heightPixels;
+        int dpi = dm.densityDpi;
+        float xdpi =  dm.xdpi;
+        float ydpi =  dm.ydpi;
+        float density = dm.density;
+        System.out.println("手機寬=" + screenWidth);
+        System.out.println("手機高=" + screenHeight);
+        System.out.println("手機密度=" + density);
+        System.out.println("手機像素=" + dpi);
+        System.out.println("手機像素高=" + xdpi);
+        System.out.println("手機像素寬=" + ydpi);
+
+        System.out.println("手機dp寬=" + ((int)(screenWidth / density)));
+        System.out.println("手機dp高=" + ((int)(screenHeight / density)));
+
+
+
+
+
+
+        screen_x= metrics.widthPixels;
+        screen_y=metrics.heightPixels;
         try {
             strVersion = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
         } catch (PackageManager.NameNotFoundException e) {
@@ -147,7 +196,7 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
         float d = getResources().getDimension(R.dimen.activity_horizontal_margin);
         float mDpi = getResources().getDisplayMetrics().densityDpi;
 
-        System.out.println("解析度：" + mDpi + " 手機螢幕解析度為：" + monitorsize.widthPixels + "x" + monitorsize.heightPixels);
+        System.out.println("解析度DPI：" + mDpi + " 手機螢幕解析度為：" + monitorsize.widthPixels + "x" + monitorsize.heightPixels);
         initData();
         initView();
 
@@ -167,6 +216,7 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
         System.out.print("數字：" + golbe_password);
 
     }
+
 
     public void first_input_password() {
         LayoutInflater inflater = LayoutInflater.from(this);
@@ -241,8 +291,86 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
 //        dataControl.saveIpCameraUid("");
     }
 
+
     private void initView() {
 
+
+        arrayList = new ArrayList<>();
+        System.out.println("觸碰：");
+        relativeLayout = (RelativeLayout) this.findViewById(R.id.relative);
+
+        iTouch = new Itouch(this, 0, 200, 45 , screen_x  , screen_y);
+
+        relativeLayout.addView(iTouch);
+
+
+        System.out.println("標籤::");
+        iTouch.setOnTouchListener(this);
+//            iTouchImage.setOnTouchListener(new View.OnTouchListener() {
+//                @Override
+//                public boolean onTouch(View v, MotionEvent event) {
+//
+//                    currentITouchIndex = (int) v.getTag();
+//                    System.out.println("標籤:" + v.getTag());
+//
+//                    switch (event.getAction() & MotionEvent.ACTION_MASK) {
+//                        case MotionEvent.ACTION_DOWN:
+//
+//                            System.out.println("觸碰：" + event.getX() + " " + event.getY());
+//                            currentX = event.getX();
+//                            currentY = event.getY();
+//                            break;
+//                        case MotionEvent.ACTION_UP: // first finger lifted
+//
+//                            break;
+//                        case MotionEvent.ACTION_POINTER_UP: // second finger lifted
+//                            break;
+//
+//                        case MotionEvent.ACTION_POINTER_DOWN: // first and second finger down
+//                            break;
+//                        case MotionEvent.ACTION_MOVE:
+//                            dragObject(event);
+//                            break;
+//                    }
+//
+//
+//                    return true;
+//                }
+//            });
+
+
+//        iTouchImage.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//
+//                currentITouchIndex = (int) v.getTag();
+//
+//                switch (event.getAction() & MotionEvent.ACTION_MASK) {
+//                    case MotionEvent.ACTION_DOWN:
+//
+//                        System.out.println("觸碰：" + event.getX() + " " + event.getY());
+//                        currentX = event.getX();
+//                        currentY = event.getY();
+//                        break;
+//                    case MotionEvent.ACTION_UP: // first finger lifted
+//
+//                        break;
+//                    case MotionEvent.ACTION_POINTER_UP: // second finger lifted
+//                        break;
+//
+//                    case MotionEvent.ACTION_POINTER_DOWN: // first and second finger down
+//                        break;
+//                    case MotionEvent.ACTION_MOVE:
+//                        dragObject(event);
+//                        break;
+//                }
+//
+//
+//                return true;
+//            }
+//        });
+        //     arrayList.add(iTouchImage);
+        //   relativeLayout.addView(iTouchImage);
 
         lb_stop = (ImageButton) findViewById(R.id.lb_stop);
         lb_F1 = (ImageButton) findViewById(R.id.lb_germinate);
@@ -344,6 +472,16 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
         initActionBar();
     }
 
+    private void dragObject(MotionEvent event) {
+        float distX, distY;
+
+        distX = event.getX() -120;
+        distY = event.getY() -120;
+        iTouch.setNewPosition(distX, distY);
+        //  arrayList.get(currentITouchIndex).setNewPosition(distX, distY);
+    }
+
+
     private void initActionBar() {
         // Inflate your custom layout
         final ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater().inflate(
@@ -375,6 +513,8 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
     // endregion
 
     // region view click listener
+
+
 
     private View.OnClickListener textViewClickListener = new View.OnClickListener() {
         @Override
@@ -564,7 +704,7 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
                         }
                         if (ipAddress != null && ipAddress.length() > 0) {
                             System.out.println("傳送訊息4 " + commandArray.length);
-                            ecoproConnector.sendCommand(ipAddress, commandArray , dataControl.getPort_use());
+                            ecoproConnector.sendCommand(ipAddress, commandArray, dataControl.getPort_use());
                             edit_time = true;
                         }
                     }
@@ -574,7 +714,7 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
         tpd.setButton(TimePickerDialog.BUTTON_NEGATIVE, "Cancel", tpd);
 
 
-      //  tpd.setTitle((onOff) ? "Turn on" : "Turn off");
+        //  tpd.setTitle((onOff) ? "Turn on" : "Turn off");
         tpd.setTitle(type);
         tpd.show();
 
@@ -612,6 +752,9 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
         switch (statusValue) {
             case 0:
                 System.out.println("F0");
+
+               // iTouch.change_temp_hum(23,43);
+
                 lb_stop.setImageResource(R.drawable.activity_main_stop_on);
                 change_manual_main_states();
                 buttonShotDown.setSelected(true);
@@ -809,6 +952,34 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
             myTimer = null;
         }
     }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+
+
+                    switch (event.getAction() & MotionEvent.ACTION_MASK) {
+                        case MotionEvent.ACTION_DOWN:
+
+                            System.out.println("觸碰：" + event.getX() + " " + event.getY());
+                            currentX = event.getX();
+                            currentY = event.getY();
+                            break;
+                        case MotionEvent.ACTION_UP: // first finger lifted
+
+                            break;
+                        case MotionEvent.ACTION_POINTER_UP: // second finger lifted
+                            break;
+
+                        case MotionEvent.ACTION_POINTER_DOWN: // first and second finger down
+                            break;
+                        case MotionEvent.ACTION_MOVE:
+                            dragObject(event);
+                            break;
+                    }
+
+
+                    return true;
+                }
 
     /**
      * Timer 的 Task ， 每n秒發送一次指令
@@ -1296,7 +1467,6 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
         }
 
         //    int intValue = Integer.parseInt(new String(hexChars));
-
 
 
         return new String(hexChars);

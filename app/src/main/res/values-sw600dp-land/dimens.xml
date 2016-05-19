@@ -40,4 +40,9 @@
     <dimen name="activity_vertical_nothing">20dp</dimen>
 
     <dimen name="activityMain_layoutMode_bottom_height">120dp</dimen>
+
+    <dimen name="activityMain_layoutMode_bottom">60dp</dimen>
+    <dimen name="layoutmove_Fonts">18dp</dimen>
+
+
 </resources>

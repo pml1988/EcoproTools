@@ -19,7 +19,7 @@
     <dimen name="activitySettingsList_textView_layoutHeight">50dp</dimen>
     <dimen name="activitySettingsList_textView_paddingLeft">16dp</dimen>
     <dimen name="activitySettings_textViewTitle_layoutWidth">120dp</dimen>
-    <dimen name="activitySettings_textViewTitle_layoutHeight">50dp</dimen>
+    <dimen name="activitySettings_textViewTitle_layoutHeight">40dp</dimen>
     <dimen name="activitySettings_textViewTitle_textSize">18sp</dimen>
     <dimen name="activitySettings_textViewBigTitle_textSize">20sp</dimen>
     <dimen name="activitySettings_textViewBigTitle_layoutHeight">48dp</dimen>
@@ -41,4 +41,8 @@
     <dimen name="activity_vertical_nothing">20dp</dimen>
 
     <dimen name="activityMain_layoutMode_bottom_height">60dp</dimen>
+
+    <dimen name="activityMain_layoutMode_bottom">30dp</dimen>
+    <dimen name="layoutmove_Fonts">10dp</dimen>
+
 </resources>

@@ -34,4 +34,5 @@
     <dimen name="activityMain_manual_left_margin">180dp</dimen>
 
     <dimen name="activityMain_layoutMode_bottom_height">80dp</dimen>
+    <dimen name="layoutmove_icon">40dp</dimen>
 </resources>
