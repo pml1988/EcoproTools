@@ -443,7 +443,7 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
                     temp_commandchangmode[6] = (byte) dataControl.getPd_four();
                     temp_commandchangmode = ProjectTools.getChecksumArray(temp_commandchangmode);
                     System.out.println("傳送訊息1 " + temp_commandchangmode.length);
-                    ecoproConnector.sendCommand(ipAddress, temp_commandchangmode);
+                    ecoproConnector.sendCommand(ipAddress, temp_commandchangmode, dataControl.getPort_use());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -458,7 +458,7 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
                     temp_commandchangmode[6] = (byte) dataControl.getPd_four();
                     temp_commandchangmode = ProjectTools.getChecksumArray(temp_commandchangmode);
                     System.out.println("傳送訊息2 " + temp_commandchangmode.length);
-                    ecoproConnector.sendCommand(ipAddress, temp_commandchangmode);
+                    ecoproConnector.sendCommand(ipAddress, temp_commandchangmode, dataControl.getPort_use());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -534,18 +534,6 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
                         byte[] commandArray = ProjectTools.COMMAND_MANUAL;
 
 
-                        System.out.println("超合適1：" + lightOperatingTime.ManualMode_TurnOnTime);
-                        System.out.println("超合適2：" + lightOperatingTime.ManualMode_TurnOnTime_minute);
-                        System.out.println("超合適3：" + lightOperatingTime.ManualMode_TurnOffTime);
-                        System.out.println("超合適4：" + lightOperatingTime.ManualMode_TurnOffTime_minute);
-                        System.out.println("超合適5：" + airOperatingTime.ManualMode_TurnOnTime);
-                        System.out.println("超合適6：" + airOperatingTime.ManualMode_TurnOnTime_minute);
-                        System.out.println("超合適7：" + airOperatingTime.ManualMode_TurnOffTime);
-                        System.out.println("超合適8：" + airOperatingTime.ManualMode_TurnOffTime_minute);
-                        System.out.println("超合適9：" + fanOperatingTime.ManualMode_TurnOnTime);
-                        System.out.println("超合適10：" + fanOperatingTime.ManualMode_TurnOnTime_minute);
-                        System.out.println("超合適11：" + fanOperatingTime.ManualMode_TurnOffTime);
-                        System.out.println("超合適12：" + fanOperatingTime.ManualMode_TurnOffTime_minute);
                         commandArray[2] = manual_byte;
                         commandArray[3] = Byte.parseByte("" + lightOperatingTime.ManualMode_TurnOnTime, 16);
                         commandArray[4] = Byte.parseByte("" + lightOperatingTime.ManualMode_TurnOnTime_minute, 16);
@@ -576,7 +564,7 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
                         }
                         if (ipAddress != null && ipAddress.length() > 0) {
                             System.out.println("傳送訊息4 " + commandArray.length);
-                            ecoproConnector.sendCommand(ipAddress, commandArray);
+                            ecoproConnector.sendCommand(ipAddress, commandArray , dataControl.getPort_use());
                             edit_time = true;
                         }
                     }
@@ -593,19 +581,6 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
         tpd.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
-                System.out.println("測試功能");
-                System.out.println("超合適1：" + lightOperatingTime.ManualMode_TurnOnTime);
-                System.out.println("超合適2：" + lightOperatingTime.ManualMode_TurnOnTime_minute);
-                System.out.println("超合適3：" + lightOperatingTime.ManualMode_TurnOffTime);
-                System.out.println("超合適4：" + lightOperatingTime.ManualMode_TurnOffTime_minute);
-                System.out.println("超合適5：" + airOperatingTime.ManualMode_TurnOnTime);
-                System.out.println("超合適6：" + airOperatingTime.ManualMode_TurnOnTime_minute);
-                System.out.println("超合適7：" + airOperatingTime.ManualMode_TurnOffTime);
-                System.out.println("超合適8：" + airOperatingTime.ManualMode_TurnOffTime_minute);
-                System.out.println("超合適9：" + fanOperatingTime.ManualMode_TurnOnTime);
-                System.out.println("超合適10：" + fanOperatingTime.ManualMode_TurnOnTime_minute);
-                System.out.println("超合適11：" + fanOperatingTime.ManualMode_TurnOffTime);
-                System.out.println("超合適12：" + fanOperatingTime.ManualMode_TurnOffTime_minute);
                 edit_time = true;
             }
         });
@@ -848,7 +823,7 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
                 COMMAND_POLLING = ProjectTools.getChecksumArray(COMMAND_POLLING);
 
                 System.out.println("傳送訊息5 " + COMMAND_POLLING.length);
-                ecoproConnector.sendCommand(ipAddress, COMMAND_POLLING);
+                ecoproConnector.sendCommand(ipAddress, COMMAND_POLLING, dataControl.getPort_use());
             }
         }
     }
@@ -978,18 +953,18 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
 
                 if (edit_time == true) {
 
-                    System.out.println("正合適03：" + convertByteToHexString(byteArray[3]));
-                    System.out.println("正合適04：" + convertByteToHexString(byteArray[4]));
-                    System.out.println("正合適05：" + convertByteToHexString(byteArray[5]));
-                    System.out.println("正合適06：" + convertByteToHexString(byteArray[6]));
-                    System.out.println("正合適09：" + convertByteToHexString(byteArray[9]));
-                    System.out.println("正合適10：" + convertByteToHexString(byteArray[10]));
-                    System.out.println("正合適11：" + convertByteToHexString(byteArray[11]));
-                    System.out.println("正合適12：" + convertByteToHexString(byteArray[12])); //10禁衛
-                    System.out.println("正合適15：" + convertByteToHexString(byteArray[15]));
-                    System.out.println("正合適16：" + convertByteToHexString(byteArray[16]));
-                    System.out.println("正合適17：" + convertByteToHexString(byteArray[17]));
-                    System.out.println("正合適18：" + convertByteToHexString(byteArray[18]));
+//                    System.out.println("正合適03：" + convertByteToHexString(byteArray[3]));
+//                    System.out.println("正合適04：" + convertByteToHexString(byteArray[4]));
+//                    System.out.println("正合適05：" + convertByteToHexString(byteArray[5]));
+//                    System.out.println("正合適06：" + convertByteToHexString(byteArray[6]));
+//                    System.out.println("正合適09：" + convertByteToHexString(byteArray[9]));
+//                    System.out.println("正合適10：" + convertByteToHexString(byteArray[10]));
+//                    System.out.println("正合適11：" + convertByteToHexString(byteArray[11]));
+//                    System.out.println("正合適12：" + convertByteToHexString(byteArray[12])); //10禁衛
+//                    System.out.println("正合適15：" + convertByteToHexString(byteArray[15]));
+//                    System.out.println("正合適16：" + convertByteToHexString(byteArray[16]));
+//                    System.out.println("正合適17：" + convertByteToHexString(byteArray[17]));
+//                    System.out.println("正合適18：" + convertByteToHexString(byteArray[18]));
 
 
                     lightOperatingTime.ManualMode_TurnOnTime = Integer.parseInt(convertByteToHexString(byteArray[3]));
@@ -1007,18 +982,18 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
                     fanOperatingTime.ManualMode_TurnOffTime = Integer.parseInt(convertByteToHexString(byteArray[17]));
                     fanOperatingTime.ManualMode_TurnOffTime_minute = Integer.parseInt(convertByteToHexString(byteArray[18]));
 
-                    System.out.println("揪合適03：" + lightOperatingTime.ManualMode_TurnOnTime);
-                    System.out.println("揪合適04：" + lightOperatingTime.ManualMode_TurnOnTime_minute);
-                    System.out.println("揪合適05：" + lightOperatingTime.ManualMode_TurnOffTime);
-                    System.out.println("揪合適06：" + lightOperatingTime.ManualMode_TurnOffTime_minute);
-                    System.out.println("揪合適09：" + airOperatingTime.ManualMode_TurnOnTime);
-                    System.out.println("揪合適10：" + airOperatingTime.ManualMode_TurnOnTime_minute);
-                    System.out.println("揪合適11：" + airOperatingTime.ManualMode_TurnOffTime);
-                    System.out.println("揪合適12：" + airOperatingTime.ManualMode_TurnOffTime_minute); //10禁衛
-                    System.out.println("揪合適15：" + fanOperatingTime.ManualMode_TurnOnTime);
-                    System.out.println("揪合適16：" + fanOperatingTime.ManualMode_TurnOnTime_minute);
-                    System.out.println("揪合適17：" + fanOperatingTime.ManualMode_TurnOffTime);
-                    System.out.println("揪合適18：" + fanOperatingTime.ManualMode_TurnOffTime_minute);
+//                    System.out.println("揪合適03：" + lightOperatingTime.ManualMode_TurnOnTime);
+//                    System.out.println("揪合適04：" + lightOperatingTime.ManualMode_TurnOnTime_minute);
+//                    System.out.println("揪合適05：" + lightOperatingTime.ManualMode_TurnOffTime);
+//                    System.out.println("揪合適06：" + lightOperatingTime.ManualMode_TurnOffTime_minute);
+//                    System.out.println("揪合適09：" + airOperatingTime.ManualMode_TurnOnTime);
+//                    System.out.println("揪合適10：" + airOperatingTime.ManualMode_TurnOnTime_minute);
+//                    System.out.println("揪合適11：" + airOperatingTime.ManualMode_TurnOffTime);
+//                    System.out.println("揪合適12：" + airOperatingTime.ManualMode_TurnOffTime_minute); //10禁衛
+//                    System.out.println("揪合適15：" + fanOperatingTime.ManualMode_TurnOnTime);
+//                    System.out.println("揪合適16：" + fanOperatingTime.ManualMode_TurnOnTime_minute);
+//                    System.out.println("揪合適17：" + fanOperatingTime.ManualMode_TurnOffTime);
+//                    System.out.println("揪合適18：" + fanOperatingTime.ManualMode_TurnOffTime_minute);
 
                 }
 
@@ -1201,7 +1176,7 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
         commandArray = ProjectTools.getChecksumArray(commandArray);
         if (ipAddress != null && ipAddress.length() > 0) {
             System.out.println("傳送訊息6 " + commandArray.length);
-            ecoproConnector.sendCommand(ipAddress, commandArray);
+            ecoproConnector.sendCommand(ipAddress, commandArray, dataControl.getPort_use());
         }
     }
 
@@ -1322,7 +1297,6 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
 
         //    int intValue = Integer.parseInt(new String(hexChars));
 
-        System.out.println("幹怎麼回事：" + new String(hexChars));
 
 
         return new String(hexChars);

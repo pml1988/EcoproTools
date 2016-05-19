@@ -37,23 +37,10 @@
 
         <EditText
             android:id="@+id/dialogFragmentEdit_editTextIpAddress"
-            android:layout_width="150dp"
+            android:layout_width="match_parent"
             android:layout_height="@dimen/activitySettings_textViewTitle_layoutHeight"
             android:hint="Input IP"/>
 
-        <TextView
-            style="@style/MySettingsBigTitle"
-            android:id="@+id/textView7"
-            android:text="Ecopro Local Port:"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/activitySettings_textViewTitle_layoutHeight" />
-
-        <EditText
-            android:id="@+id/editText"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/activitySettings_textViewTitle_layoutHeight"
-            android:hint="Input IP"
-            android:inputType="number" />
     </LinearLayout>
 
     <LinearLayout
@@ -70,23 +57,10 @@
 
         <EditText
             android:id="@+id/dialogFragmentEdit_editTextIpAddress_Wan"
-            android:layout_width="150dp"
+            android:layout_width="match_parent"
             android:layout_height="@dimen/activitySettings_textViewTitle_layoutHeight"
             android:hint="Input IP" />
 
-        <TextView
-            style="@style/MySettingsBigTitle"
-            android:id="@+id/textView8"
-            android:text="Ecopro WAN Port:"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/activitySettings_textViewTitle_layoutHeight" />
-
-        <EditText
-            android:id="@+id/editText2"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/activitySettings_textViewTitle_layoutHeight"
-            android:hint="Input IP"
-            android:inputType="number" />
     </LinearLayout>
 
     <LinearLayout

@@ -192,6 +192,17 @@ public class WifiSettingsActivity extends Activity implements EcoproConnector.Ec
             return;
         }
 
+        if(Integer.parseInt(editTextPortOne.getText().toString())>65535  ||Integer.parseInt(editTextPortTwo.getText().toString())>65535)
+        {
+            Toast.makeText(this, "超過65535，請重新輸入",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(Integer.parseInt(editTextPortOne.getText().toString())<1 ||Integer.parseInt(editTextPortTwo.getText().toString())<1)
+        {
+            Toast.makeText(this, "不得少於1，請重新輸入",Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         byte[] byteArray = (byte[]) hashMap.get("data");
 
         // 將要設定的相關參數放入 byteArray
@@ -221,29 +232,26 @@ public class WifiSettingsActivity extends Activity implements EcoproConnector.Ec
 
         int tempone = Integer.parseInt(editTextPortOne.getText().toString());
         int temptwo = Integer.parseInt(editTextPortTwo.getText().toString());
-        System.out.println("修改修改1:" + Integer.toHexString(tempone));
 
+        byte[] byteone = ProjectTools.hexToBytes(ProjectTools.getfournumber(Integer.toHexString(tempone) + "", true));
+        byte[] bytetwo = ProjectTools.hexToBytes(ProjectTools.getfournumber(Integer.toHexString(temptwo) + "", false));
 
-        String stringtempone = ProjectTools.getfournumber(Integer.toHexString(tempone) + "", true);
-        String stringtemptwo = ProjectTools.getfournumber(Integer.toHexString(temptwo) + "", false);
-        System.out.println("修改修改2:" + stringtempone);
-        System.out.println("修改修改3:" + stringtempone.substring(0, 2));
-        System.out.println("修改修改4:" + stringtempone.substring(2, 4));
-        System.out.println("修改修改5:" + stringtemptwo);
-
-        System.out.println("測試修改");
-        byteArray[492] = ProjectTools.hexToBytes(stringtempone.substring(2, 4));
-        byteArray[493] = (byte) (Integer.parseInt(stringtempone.substring(2, 4),16) & 0xff);
-        byteArray[494] = Byte.parseByte(stringtemptwo.substring(0, 2), 16);
-        byteArray[495] = Byte.parseByte(stringtemptwo.substring(2, 4), 16);
-        byteArray[496] = Byte.parseByte(stringtemptwo.substring(4, 6), 16);
-        byteArray[497] = Byte.parseByte(stringtemptwo.substring(6, 8), 16);
+        if (byteone.length == 2) {
+            byteArray[492] = byteone[0];
+            byteArray[493] = byteone[1];
+        }
+        if (bytetwo.length == 4) {
+            byteArray[494] = bytetwo[0];
+            byteArray[495] = bytetwo[1];
+            byteArray[496] = bytetwo[2];
+            byteArray[497] = bytetwo[3];
+        }
 
 
         // 將重製後的 byte array 放回 hashMap
-//        hashMap.put("data", byteArray);
-//
-//        ecoproConnector.sendUDPUnicast(hashMap);
+        hashMap.put("data", byteArray);
+
+        ecoproConnector.sendUDPUnicast(hashMap);
         Toast.makeText(WifiSettingsActivity.this, "設定中請稍候", Toast.LENGTH_LONG).show();
     }
 

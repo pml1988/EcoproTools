@@ -140,6 +140,17 @@ public class EditDialogFragment extends DialogFragment {
             {
                 Toast.makeText(getActivity().getApplicationContext(), "最多四碼，請重新輸入",Toast.LENGTH_SHORT).show();
             }
+
+            else if (editTextIpAddress.getText().length()==0)
+            {
+                Toast.makeText(getActivity().getApplicationContext(), "Please Input IP address",Toast.LENGTH_SHORT).show();
+
+            }
+            else if (editTextName.getText().length()==0)
+            {
+                Toast.makeText(getActivity().getApplicationContext(), "Please Input Name",Toast.LENGTH_SHORT).show();
+
+            }
             else {
 
                 ecopro = new Ecopro();

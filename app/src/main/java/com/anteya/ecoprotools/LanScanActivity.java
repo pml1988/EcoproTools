@@ -127,19 +127,19 @@ public class LanScanActivity extends Activity implements EcoproConnector.EcoproC
         });
 
         listView = (ListView) findViewById(R.id.activityLanScan_listView);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                HashMap hm = listMacData.get(position);
-
-                String tempIp = (String)hm.get("ip");
-
-                dataControl.saveIpAddress(tempIp);
-
-                finish();
-            }
-        });
+//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//
+//                HashMap hm = listMacData.get(position);
+//
+//                String tempIp = (String)hm.get("ip");
+//
+//                dataControl.saveIpAddress(tempIp,8023);
+//
+//                finish();
+//            }
+//        });
     }
 
     // endregion

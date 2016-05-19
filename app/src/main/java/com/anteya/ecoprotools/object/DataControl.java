@@ -15,12 +15,44 @@ public class DataControl extends Application {
     private final static String PREF_IP_CAMERA_UID = "PREF_IP_CAMERA_UID";
     private final static String PREF_IP_CAMERA_PASSWORD = "PREF_IP_CAMERA_PASSWORD";
     private final static String PREF_IP_ADDRESS = "PREF_IP_ADDRESS";
+    private final static String PREF_PORT = "PREF_PORT";
     private final static String PREF_MAC_ADDRESS = "PREF_MAC_ADDRESS";
+
+    private int port_local =8023;
+
+    private int port_wan = 80;
+
+    private int port_use =0;
 
     private int pd_one = 0;
     private int pd_two = 0;
     private int pd_three = 0;
     private int pd_four = 0;
+
+
+    public int getPort_use() {
+        return port_use;
+    }
+
+    public void setPort_use(int port_use) {
+        this.port_use = port_use;
+    }
+
+    public int getPort_wan() {
+        return port_wan;
+    }
+
+    public int getPort_local() {
+        return port_local;
+    }
+
+    public void setPort_local(int port_local) {
+        this.port_local = port_local;
+    }
+
+    public void setPort_wan(int port_wan) {
+        this.port_wan = port_wan;
+    }
 
     public void setPd_one(int pd_one) {
         this.pd_one = pd_one;
@@ -92,14 +124,17 @@ public class DataControl extends Application {
      *
      * @param ipAddress 上次連線 的 IP Address
      */
-    public void saveIpAddress(String ipAddress) {
+    public void saveIpAddress(String ipAddress , int port) {
         SharedPreferences userData = getSharedPreferences(PREF, 0);
         userData.edit().putString(PREF_IP_ADDRESS, ipAddress).commit();
+        userData.edit().putInt(PREF_PORT, port).commit();
     }
 
     public String getIpAddress() {
         SharedPreferences userData = getSharedPreferences(PREF, 0);
         String tempStr = userData.getString(PREF_IP_ADDRESS, "");
+        int port = userData.getInt(PREF_PORT,0);
+        port_use = port;
         return tempStr;
     }
 

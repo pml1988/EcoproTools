@@ -12,6 +12,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
+import java.net.PortUnreachableException;
 import java.net.Socket;
 import java.net.SocketAddress;
 import java.net.SocketException;
@@ -157,7 +158,7 @@ public class EcoproConnector {
      * @param ipAddress
      * @param commandArray
      */
-    public void sendCommand(final String ipAddress, final byte[] commandArray) {
+    public void sendCommand(final String ipAddress, final byte[] commandArray , final int port) {
         new Thread() {
             @Override
             public void run() {
@@ -166,7 +167,7 @@ public class EcoproConnector {
                 if (commandArray != null) {
                     byte[] tempArray;
                     //tempArray回傳訊息
-                    tempArray = executeCommand(ipAddress, commandArray);
+                    tempArray = executeCommand(ipAddress, commandArray,port);
 
                     // 務必檢查 data 是否為 null, 有可能就版本不支援此command,tempArray 會 return null
                     if (tempArray != null) {
@@ -195,13 +196,14 @@ public class EcoproConnector {
      * step 1
      * 傳送訊息時 socket 連線 中斷  不保持連線
      **/
-    public byte[] executeCommand(String ipAddress, byte[] commandArray) {
+    public byte[] executeCommand(String ipAddress, byte[] commandArray , int port) {
         System.out.println("傳送訊息主地方2");
         Log.i(TAG, "sendCommand, " + ipAddress);
         //   System.out.println("追蹤："+commandArray);
         Socket socket = null;
 
-        int port = AnteyaString.getPort(ipAddress);
+        //int port = AnteyaString.getPort(ipAddress);
+
         ipAddress = AnteyaString.getIpAddress(ipAddress);
 
         // connect and send
@@ -230,7 +232,6 @@ public class EcoproConnector {
 
         byte[] arrayAckData;
         //發出訊息，並且接收回傳訊息。
-        System.out.println("傳送訊息10");
         arrayAckData = sendCommandGetArray(commandArray, socket);
 
         // 執行完畢，關閉連線。

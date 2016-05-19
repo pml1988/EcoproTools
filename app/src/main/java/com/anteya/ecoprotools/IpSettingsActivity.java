@@ -235,7 +235,7 @@ public class IpSettingsActivity extends Activity implements EcoproConnector.Ecop
 
                 // System.out.println("外網路："+editTextIpAddress.getText().toString());
 
-                dataControl.saveIpAddress(editTextIpAddress.getText().toString());
+                dataControl.saveIpAddress(editTextIpAddress.getText().toString(),port_local);
 
                 dataControl.setPd_one(Integer.parseInt(activityIpSettings_editText_password.getText().toString().substring(0, 1)));
                 dataControl.setPd_two(Integer.parseInt(activityIpSettings_editText_password.getText().toString().substring(1, 2)));
@@ -247,6 +247,7 @@ public class IpSettingsActivity extends Activity implements EcoproConnector.Ecop
                 if (ipAddress != null && ipAddress.length() > 0) {
                     System.out.println("內網路1：" + ipAddress + " PORT1:" + port_local);
                     ecoproConnector.checkLink(ipAddress, port_local);
+                    dataControl.setPort_use(port_local);
 
                 }
             }
@@ -261,7 +262,7 @@ public class IpSettingsActivity extends Activity implements EcoproConnector.Ecop
             } else {
 
 
-                dataControl.saveIpAddress(editTextIpAddress_wan.getText().toString());
+                dataControl.saveIpAddress(editTextIpAddress_wan.getText().toString(), port_wan);
                 dataControl.setPd_one(Integer.parseInt(activityIpSettings_editText_password.getText().toString().substring(0, 1)));
                 dataControl.setPd_two(Integer.parseInt(activityIpSettings_editText_password.getText().toString().substring(1, 2)));
                 dataControl.setPd_three(Integer.parseInt(activityIpSettings_editText_password.getText().toString().substring(2, 3)));
@@ -272,6 +273,7 @@ public class IpSettingsActivity extends Activity implements EcoproConnector.Ecop
 
                     System.out.println("外網路1：" + ipAddress + " PORT1:" + port_wan);
                     ecoproConnector.checkLink(ipAddress, port_wan);
+                    dataControl.setPort_use(port_wan);
 
                 }
             }
@@ -307,7 +309,7 @@ public class IpSettingsActivity extends Activity implements EcoproConnector.Ecop
                 String tempIp_wan = ecopro.getIpAddress_wan();
                 String tempMac = ecopro.getMacAddress();
                 String temppw = ecopro.getPassword();
-                dataControl.saveIpAddress(tempIp);
+                dataControl.saveIpAddress(tempIp ,port_local);
                 dataControl.saveMacAddress(tempMac);
                 editTextIpAddress.setText(tempIp);
                 editTextIpAddress_wan.setText(tempIp_wan);
@@ -448,6 +450,9 @@ public class IpSettingsActivity extends Activity implements EcoproConnector.Ecop
             System.out.println("版本為498");
             port_local = (int) hashMap.get("port1");
             port_wan = (int) hashMap.get("port2");
+
+            dataControl.setPort_local(port_local);
+            dataControl.setPort_wan(port_wan);
 
             System.out.println("版本為498" + port_local + " " + port_wan);
 
