@@ -23,7 +23,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.zip.Inflater;
 
-public class SettingsActivity extends Activity implements Serializable {
+public class SettingsActivity extends Activity  {
 
     private TextView text1, text2, text3;
 

@@ -73,6 +73,8 @@ public class WifiSettingsActivity extends Activity implements EcoproConnector.Ec
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
+
         setContentView(R.layout.activity_wifi_settings);
 
         initData();

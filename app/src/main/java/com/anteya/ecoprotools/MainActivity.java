@@ -148,13 +148,6 @@ private int screen_x , screen_y ;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-
-
-
-
-
-
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
         System.out.println("銀幕大小為 "+metrics.widthPixels+" X "+metrics.heightPixels);
@@ -177,11 +170,6 @@ private int screen_x , screen_y ;
         System.out.println("手機dp寬=" + ((int)(screenWidth / density)));
         System.out.println("手機dp高=" + ((int)(screenHeight / density)));
 
-
-
-
-
-
         screen_x= metrics.widthPixels;
         screen_y=metrics.heightPixels;
         try {
@@ -200,18 +188,8 @@ private int screen_x , screen_y ;
         initData();
         initView();
 
-
         actionBar_mainActivity_textTitle.setText(title + " Ver." + strVersion + " (Guest)");
         golbe_password = readData();
-
-//        if (golbe_password == "") {
-//
-//            first_input_password();
-//        } else {
-//
-//            //  startTimer();
-//        }
-
 
         System.out.print("數字：" + golbe_password);
 
@@ -306,71 +284,7 @@ private int screen_x , screen_y ;
 
         System.out.println("標籤::");
         iTouch.setOnTouchListener(this);
-//            iTouchImage.setOnTouchListener(new View.OnTouchListener() {
-//                @Override
-//                public boolean onTouch(View v, MotionEvent event) {
-//
-//                    currentITouchIndex = (int) v.getTag();
-//                    System.out.println("標籤:" + v.getTag());
-//
-//                    switch (event.getAction() & MotionEvent.ACTION_MASK) {
-//                        case MotionEvent.ACTION_DOWN:
-//
-//                            System.out.println("觸碰：" + event.getX() + " " + event.getY());
-//                            currentX = event.getX();
-//                            currentY = event.getY();
-//                            break;
-//                        case MotionEvent.ACTION_UP: // first finger lifted
-//
-//                            break;
-//                        case MotionEvent.ACTION_POINTER_UP: // second finger lifted
-//                            break;
-//
-//                        case MotionEvent.ACTION_POINTER_DOWN: // first and second finger down
-//                            break;
-//                        case MotionEvent.ACTION_MOVE:
-//                            dragObject(event);
-//                            break;
-//                    }
-//
-//
-//                    return true;
-//                }
-//            });
 
-
-//        iTouchImage.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//
-//                currentITouchIndex = (int) v.getTag();
-//
-//                switch (event.getAction() & MotionEvent.ACTION_MASK) {
-//                    case MotionEvent.ACTION_DOWN:
-//
-//                        System.out.println("觸碰：" + event.getX() + " " + event.getY());
-//                        currentX = event.getX();
-//                        currentY = event.getY();
-//                        break;
-//                    case MotionEvent.ACTION_UP: // first finger lifted
-//
-//                        break;
-//                    case MotionEvent.ACTION_POINTER_UP: // second finger lifted
-//                        break;
-//
-//                    case MotionEvent.ACTION_POINTER_DOWN: // first and second finger down
-//                        break;
-//                    case MotionEvent.ACTION_MOVE:
-//                        dragObject(event);
-//                        break;
-//                }
-//
-//
-//                return true;
-//            }
-//        });
-        //     arrayList.add(iTouchImage);
-        //   relativeLayout.addView(iTouchImage);
 
         lb_stop = (ImageButton) findViewById(R.id.lb_stop);
         lb_F1 = (ImageButton) findViewById(R.id.lb_germinate);
