@@ -111,7 +111,7 @@
 
                     <TextView
 
-                        android:text="PORT1"
+                        android:text="LAN PORT"
                         android:id="@+id/textView5"
                         style="@style/MySettingsTitle" />
 
@@ -121,14 +121,16 @@
                         android:singleLine="true"
                         android:maxLines="1"
                         android:inputType="number"
-                        android:id="@+id/activityWifiSettings_port_one" />
+                        android:id="@+id/activityWifiSettings_port_one"
+                        android:hint="範圍1~65535" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/activitySettings_textViewTitle_layoutHeight"
-                    android:gravity="center_vertical">
+                    android:gravity="center_vertical"
+                    android:visibility="gone">
 
                     <TextView
 

@@ -156,6 +156,11 @@ public class LanScanActivity extends Activity implements EcoproConnector.EcoproC
     }
 
     @Override
+    public void onReceiveBroadcastnoconnect(boolean flag) {
+
+    }
+
+    @Override
     public void onReceiveASIXUDPUnicast(byte[] ackArray) {
 
     }

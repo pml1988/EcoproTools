@@ -8,6 +8,7 @@ import com.anteyatec.anteyalibrary.AnteyaString;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -74,6 +75,9 @@ public class EcoproConnector {
          * @param list
          */
         void onReceiveASIXUDPBroadcast(List list);
+
+
+        void onReceiveBroadcastnoconnect(boolean flag);
 
         /**
          * ASIX 的 UDP Command, 使用 Unicast 去做 Wi-Fi 設定回傳的 byte array
@@ -323,9 +327,15 @@ public class EcoproConnector {
 
                     byte[] receiveBuffer = new byte[1000];
                     DatagramPacket packet2 = new DatagramPacket(receiveBuffer, receiveBuffer.length);
-                    socket.receive(packet2);
+                    System.out.println("packet1:"+packet2);
+                   socket.receive(packet2);
+                    System.out.println("packet2:"+packet2);
+
 
                     byte[] tempArray = new byte[packet2.getLength()];
+
+                    System.out.println("temparray:"+tempArray.length);
+
                     System.arraycopy(packet2.getData(), 0, tempArray, 0, packet2.getLength());
 
                     HashMap map = new HashMap();
@@ -366,6 +376,8 @@ public class EcoproConnector {
                 } catch (IOException e) {
                     System.out.println("EcoproConnector IOException, sendUDPBroadcastToSpecifyIpAddress loop is over");
                     if (ecoproConnectorCallback != null) {
+                        System.out.println("未連結");
+                        ecoproConnectorCallback.onReceiveBroadcastnoconnect(true);
                         ecoproConnectorCallback.onReceiveASIXUDPBroadcast(tempListMacData);
                     }
                     socket.close();

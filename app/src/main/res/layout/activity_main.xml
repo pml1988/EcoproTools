@@ -9,7 +9,7 @@
 
     <LinearLayout
         android:id="@+id/activityMain_layoutMode"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="@dimen/activityMain_layoutMode_height"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
@@ -58,7 +58,7 @@
             android:id="@+id/lb_stop"
             android:layout_weight="1"
             android:src="@drawable/activity_main_stop_on"
-            android:scaleType="fitEnd"
+            android:scaleType="fitStart"
             android:background="@null" />
 
         <ImageButton
@@ -67,7 +67,7 @@
             android:id="@+id/lb_germinate"
             android:layout_weight="1"
             android:src="@drawable/activity_main_germinate_off"
-            android:scaleType="fitEnd"
+            android:scaleType="fitStart"
             android:background="@null" />
 
         <ImageButton
@@ -76,7 +76,7 @@
             android:id="@+id/lb_growth"
             android:layout_weight="1"
             android:src="@drawable/activity_main_growth_off"
-            android:scaleType="fitEnd"
+            android:scaleType="fitStart"
             android:background="@null" />
 
         <ImageButton
@@ -85,7 +85,7 @@
             android:id="@+id/lb_flower"
             android:layout_weight="1"
             android:src="@drawable/activity_main_flower_off"
-            android:scaleType="fitEnd"
+            android:scaleType="fitStart"
             android:background="@null" />
 
         <ImageButton
@@ -94,7 +94,7 @@
             android:id="@+id/lb_manual"
             android:layout_weight="1"
             android:src="@drawable/activity_main_manual_off"
-            android:scaleType="fitEnd"
+            android:scaleType="fitStart"
             android:background="@null" />
     </LinearLayout>
 
@@ -426,9 +426,61 @@
         android:clickable="false"
         android:focusable="true"
         android:focusableInTouchMode="true"
-       >
+        android:visibility="visible">
 
     </RelativeLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="@dimen/activityMain_layoutMode_bottom_height"
+        android:layout_height="@dimen/activityMain_layoutMode_bottom_height"
+        android:layout_toLeftOf="@+id/activityMain_imageButton"
+        android:layout_alignBottom="@+id/activityMain_imageButton"
+        android:background="@drawable/circlegreen"
+        android:id="@+id/temp_hum_background"
+        android:visibility="invisible">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="@dimen/activityMain_layoutMode_bottom_height"
+            android:layout_height="@dimen/activityMain_layoutMode_bottom"
+            android:layout_weight="1"
+            android:gravity="center_horizontal|bottom">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Temp:- - -"
+                android:id="@+id/temp_view"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/layoutmove_Fonts"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="@dimen/activityMain_layoutMode_bottom_height"
+            android:layout_height="@dimen/activityMain_layoutMode_bottom"
+            android:layout_weight="1"
+            android:gravity="center_horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hum:- - "
+                android:id="@+id/temp_hum"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/layoutmove_Fonts"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/view_ipaddress"
+        android:layout_below="@+id/activityMain_layoutMode"
+        android:layout_marginLeft="10dp" />
 
 
 </RelativeLayout>

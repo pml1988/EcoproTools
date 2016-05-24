@@ -100,7 +100,7 @@ public class IpSettingsActivity extends Activity implements EcoproConnector.Ecop
         super.onStart();
         String tempIp = dataControl.getIpAddress();
         if (tempIp.length() > 0) {
-            editTextIpAddress.setText(tempIp);
+            //   editTextIpAddress.setText(tempIp);
         }
         updateListView();
     }
@@ -175,7 +175,7 @@ public class IpSettingsActivity extends Activity implements EcoproConnector.Ecop
 
 
         if (ipAddress.length() > 0) {
-            editTextIpAddress.setText(ipAddress);
+            //   editTextIpAddress.setText(ipAddress);
         }
 
         initActionBar();
@@ -235,7 +235,7 @@ public class IpSettingsActivity extends Activity implements EcoproConnector.Ecop
 
                 // System.out.println("外網路："+editTextIpAddress.getText().toString());
 
-                dataControl.saveIpAddress(editTextIpAddress.getText().toString(),port_local);
+                dataControl.saveIpAddress(editTextIpAddress.getText().toString(), editTextIpAddress_wan.getText().toString(), port_local);
 
                 dataControl.setPd_one(Integer.parseInt(activityIpSettings_editText_password.getText().toString().substring(0, 1)));
                 dataControl.setPd_two(Integer.parseInt(activityIpSettings_editText_password.getText().toString().substring(1, 2)));
@@ -262,7 +262,7 @@ public class IpSettingsActivity extends Activity implements EcoproConnector.Ecop
             } else {
 
 
-                dataControl.saveIpAddress(editTextIpAddress_wan.getText().toString(), port_wan);
+                dataControl.saveIpAddress(editTextIpAddress.getText().toString(), editTextIpAddress_wan.getText().toString(), port_wan);
                 dataControl.setPd_one(Integer.parseInt(activityIpSettings_editText_password.getText().toString().substring(0, 1)));
                 dataControl.setPd_two(Integer.parseInt(activityIpSettings_editText_password.getText().toString().substring(1, 2)));
                 dataControl.setPd_three(Integer.parseInt(activityIpSettings_editText_password.getText().toString().substring(2, 3)));
@@ -295,13 +295,14 @@ public class IpSettingsActivity extends Activity implements EcoproConnector.Ecop
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
 
-//           if(link_check ==false)
-//           {
+           if(link_check ==false)
+           {
             System.out.println("執行中");
             link_check = true;
 
             try {
                 System.out.println("listView click");
+                Toast.makeText(getApplication(), "Wait", Toast.LENGTH_SHORT).show();
 
                 Ecopro ecopro = listEcopro.get(position);
 
@@ -309,7 +310,7 @@ public class IpSettingsActivity extends Activity implements EcoproConnector.Ecop
                 String tempIp_wan = ecopro.getIpAddress_wan();
                 String tempMac = ecopro.getMacAddress();
                 String temppw = ecopro.getPassword();
-                dataControl.saveIpAddress(tempIp ,port_local);
+                dataControl.saveIpAddress(tempIp, tempIp_wan, port_local);
                 dataControl.saveMacAddress(tempMac);
                 editTextIpAddress.setText(tempIp);
                 editTextIpAddress_wan.setText(tempIp_wan);
@@ -322,18 +323,20 @@ public class IpSettingsActivity extends Activity implements EcoproConnector.Ecop
 
                 System.out.println("網路：" + tempIp + " " + tempIp_wan);
                 ecoproConnector.sendUDPBroadcastToSpecifyIpAddress(tempIp);
-                ecoproConnector.sendUDPBroadcastToSpecifyIpAddress(tempIp_wan);
+                //   ecoproConnector.sendUDPBroadcastToSpecifyIpAddress(tempIp_wan);
                 //  ipAddress = tempIp;
 
 //                   if (ipAddress != null && ipAddress.length() > 0) {
 //                       ecoproConnector.checkLink(ipAddress);
 //                   }
+
+
             } catch (NumberFormatException e) {
                 e.printStackTrace();
             }
 
 
-//           }
+          }
 //            else
 //            {
 //                System.out.println("執行中勿擾");
@@ -367,10 +370,40 @@ public class IpSettingsActivity extends Activity implements EcoproConnector.Ecop
     @Override
     public void onReceiveASIXUDPBroadcast(List list) {
         // 這個 Activity 只會用到 onReceiveASIXUDPBroadcast
+
+        System.out.println("收到晶片" + list.size());
         Message message = new Message();
         message.what = MyHandler.RECEIVE_BROADCAST_DATA;
         message.obj = list;
         myHandler.sendMessage(message);
+    }
+
+    @Override
+    public void onReceiveBroadcastnoconnect(boolean flag) {
+
+        if (activityIpSettings_editText_password.getText().toString().length() != 4) {
+            Toast.makeText(getApplication(), "最多四碼", Toast.LENGTH_SHORT).show();
+        } else {
+
+
+            dataControl.saveIpAddress(editTextIpAddress.getText().toString(), editTextIpAddress_wan.getText().toString(), port_wan);
+            dataControl.setPd_one(Integer.parseInt(activityIpSettings_editText_password.getText().toString().substring(0, 1)));
+            dataControl.setPd_two(Integer.parseInt(activityIpSettings_editText_password.getText().toString().substring(1, 2)));
+            dataControl.setPd_three(Integer.parseInt(activityIpSettings_editText_password.getText().toString().substring(2, 3)));
+            dataControl.setPd_four(Integer.parseInt(activityIpSettings_editText_password.getText().toString().substring(3, 4)));
+            ipAddress = dataControl.getIpAddress();
+            System.out.println("外網路：" + ipAddress + " PORT:" + port_wan);
+            if (ipAddress != null && ipAddress.length() > 0) {
+
+                System.out.println("外網路1：" + ipAddress + " PORT1:" + port_wan);
+                ecoproConnector.checkLink(ipAddress, port_wan);
+                dataControl.setPort_use(port_wan);
+
+                second_connect = false;
+            }
+        }
+
+
     }
 
     @Override
@@ -424,6 +457,9 @@ public class IpSettingsActivity extends Activity implements EcoproConnector.Ecop
 
     public void updatedata(List list) {
 
+
+        System.out.println("版本為=" + list.size());
+
         List<HashMap<String, Object>> listHashMap = list;
 
         System.out.println("網路updatedata:" + listHashMap.size());
@@ -436,13 +472,39 @@ public class IpSettingsActivity extends Activity implements EcoproConnector.Ecop
         // 將取回的資料更新到畫面中, 例如: Server Mode/Client Mode, Channel, Security Mode
 
         byte[] byteArray = (byte[]) hashMap.get("data");
-
+        System.out.println("版本為==" + byteArray.length);
         //iTouch 初版為492長度
         if (byteArray.length == 492) {
             System.out.println("版本為492");
 
             port_local = 8023;
             port_wan = 80;
+
+            if (activityIpSettings_editText_password.getText().toString().length() != 4) {
+                Toast.makeText(getApplication(), "最多四碼", Toast.LENGTH_SHORT).show();
+            } else {
+
+
+                // System.out.println("外網路："+editTextIpAddress.getText().toString());
+
+                dataControl.saveIpAddress(editTextIpAddress.getText().toString(), editTextIpAddress_wan.getText().toString(), port_local);
+
+                dataControl.setPd_one(Integer.parseInt(activityIpSettings_editText_password.getText().toString().substring(0, 1)));
+                dataControl.setPd_two(Integer.parseInt(activityIpSettings_editText_password.getText().toString().substring(1, 2)));
+                dataControl.setPd_three(Integer.parseInt(activityIpSettings_editText_password.getText().toString().substring(2, 3)));
+                dataControl.setPd_four(Integer.parseInt(activityIpSettings_editText_password.getText().toString().substring(3, 4)));
+
+
+                ipAddress = dataControl.getIpAddress();
+                System.out.println("內網路：" + ipAddress + " PORT:" + port_local);
+                if (ipAddress != null && ipAddress.length() > 0) {
+                    System.out.println("內網路1：" + ipAddress + " PORT1:" + port_local);
+                    ecoproConnector.checkLink(ipAddress, port_local);
+                    dataControl.setPort_use(port_local);
+
+                }
+            }
+
 
         }
         //iTouch 更新多了6 byte 前兩byte為 port1 後四byte 為port2
@@ -457,8 +519,36 @@ public class IpSettingsActivity extends Activity implements EcoproConnector.Ecop
             System.out.println("版本為498" + port_local + " " + port_wan);
 
 
-        }
+            if (activityIpSettings_editText_password.getText().toString().length() != 4) {
+                Toast.makeText(getApplication(), "最多四碼", Toast.LENGTH_SHORT).show();
+            } else {
 
+
+                // System.out.println("外網路："+editTextIpAddress.getText().toString());
+
+                dataControl.saveIpAddress(editTextIpAddress.getText().toString(), editTextIpAddress_wan.getText().toString(), port_local);
+
+                dataControl.setPd_one(Integer.parseInt(activityIpSettings_editText_password.getText().toString().substring(0, 1)));
+                dataControl.setPd_two(Integer.parseInt(activityIpSettings_editText_password.getText().toString().substring(1, 2)));
+                dataControl.setPd_three(Integer.parseInt(activityIpSettings_editText_password.getText().toString().substring(2, 3)));
+                dataControl.setPd_four(Integer.parseInt(activityIpSettings_editText_password.getText().toString().substring(3, 4)));
+
+
+                ipAddress = dataControl.getIpAddress();
+                System.out.println("內網路：" + ipAddress + " PORT:" + port_local);
+                if (ipAddress != null && ipAddress.length() > 0) {
+                    System.out.println("內網路1：" + ipAddress + " PORT1:" + port_local);
+                    ecoproConnector.checkLink(ipAddress, port_local);
+                    dataControl.setPort_use(port_local);
+
+                }
+            }
+
+
+        } else {
+            System.out.println("版本為未知");
+
+        }
 
     }
 
@@ -493,6 +583,8 @@ public class IpSettingsActivity extends Activity implements EcoproConnector.Ecop
         }
     }
 
+    private boolean second_connect = true;
+
     public void receiveLinkCheck(boolean isLinked) {
 
         if (isLinked) {
@@ -501,7 +593,7 @@ public class IpSettingsActivity extends Activity implements EcoproConnector.Ecop
                 @Override
                 public void run() {
                     try {
-                        Thread.sleep(2000);
+                        Thread.sleep(3000);
                         link_check = false;
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -512,20 +604,48 @@ public class IpSettingsActivity extends Activity implements EcoproConnector.Ecop
 
         } else {
 
-            Toast.makeText(IpSettingsActivity.this, "連線失敗，請確認IP是否正確", Toast.LENGTH_SHORT).show();
+            System.out.println("");
+            if (second_connect == true) {
+                if (activityIpSettings_editText_password.getText().toString().length() != 4) {
+                    Toast.makeText(getApplication(), "最多四碼", Toast.LENGTH_SHORT).show();
+                } else {
 
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        Thread.sleep(2000);
-                        link_check = false;
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+
+                    dataControl.saveIpAddress(editTextIpAddress.getText().toString(), editTextIpAddress_wan.getText().toString(), port_wan);
+                    dataControl.setPd_one(Integer.parseInt(activityIpSettings_editText_password.getText().toString().substring(0, 1)));
+                    dataControl.setPd_two(Integer.parseInt(activityIpSettings_editText_password.getText().toString().substring(1, 2)));
+                    dataControl.setPd_three(Integer.parseInt(activityIpSettings_editText_password.getText().toString().substring(2, 3)));
+                    dataControl.setPd_four(Integer.parseInt(activityIpSettings_editText_password.getText().toString().substring(3, 4)));
+                    ipAddress = dataControl.getIpAddress();
+                    System.out.println("外網路：" + ipAddress + " PORT:" + port_wan);
+                    if (ipAddress != null && ipAddress.length() > 0) {
+
+                        System.out.println("外網路1：" + ipAddress + " PORT1:" + port_wan);
+                        ecoproConnector.checkLink(ipAddress, port_wan);
+                        dataControl.setPort_use(port_wan);
+
+                        second_connect = false;
                     }
-
                 }
-            }).start();
+
+            } else {
+                second_connect = true;
+                Toast.makeText(IpSettingsActivity.this, "連線失敗，請確認IP是否正確", Toast.LENGTH_SHORT).show();
+
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Thread.sleep(2000);
+                            link_check = false;
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }).start();
+
+            }
 
 
         }

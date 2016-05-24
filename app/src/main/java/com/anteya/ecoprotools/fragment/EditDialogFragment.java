@@ -6,6 +6,8 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +18,9 @@ import android.widget.Toast;
 import com.anteya.ecoprotools.MainActivity;
 import com.anteya.ecoprotools.R;
 import com.anteya.ecoprotools.object.Ecopro;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by yenlungchen on 2016/2/25.
@@ -108,6 +113,36 @@ public class EditDialogFragment extends DialogFragment {
         textViewIpAddressTitle = (TextView) view.findViewById(R.id.dialogFragmentEdit_textViewIpAddressTitle);
         editTextName = (EditText) view.findViewById(R.id.dialogFragmentEdit_editTextName);
         editTextIpAddress = (EditText) view.findViewById(R.id.dialogFragmentEdit_editTextIpAddress);
+
+        editTextIpAddress.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                String IPADDRESS_PATTERN = "(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)";
+                Pattern pattern = Pattern.compile(IPADDRESS_PATTERN);
+                Matcher matcher = pattern.matcher(editTextIpAddress.getText().toString());
+                if (matcher.find()) {
+                    System.out.println("判斷IP正確");
+                }
+                else{
+                    System.out.println("判斷IP錯誤");
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+
+
+            }
+        });
+
         editTextIpAddress_wan = (EditText) view.findViewById(R.id.dialogFragmentEdit_editTextIpAddress_Wan);
         editTextPassword = (EditText) view.findViewById(R.id.dialogFragmentEdit_editTextIpassword);
 

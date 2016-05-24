@@ -5,8 +5,11 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Editable;
 import android.text.Layout;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +43,7 @@ public class WifiSettingsActivity extends Activity implements EcoproConnector.Ec
 
     private final String TAG = "WifiSettingsActivity";
 
+private  int version = 0;
 
     private EditText editTextSSID, editTextPassword, editTextPortOne, editTextPortTwo;
 
@@ -82,8 +86,8 @@ public class WifiSettingsActivity extends Activity implements EcoproConnector.Ec
         initView();
 
 
-        System.out.println("成長：" + dataControl.getIpAddress());
-        ecoproConnector.sendUDPBroadcastToSpecifyIpAddress(dataControl.getIpAddress());
+        System.out.println("成長：" + dataControl.getIpaddress_wan());
+        ecoproConnector.sendUDPBroadcastToSpecifyIpAddress(dataControl.getIpaddress_wan());
     }
 
     @Override
@@ -114,6 +118,33 @@ public class WifiSettingsActivity extends Activity implements EcoproConnector.Ec
         editTextPassword = (EditText) findViewById(R.id.activityWifiSettings_editTextPassword);
 
         editTextPortOne = (EditText) findViewById(R.id.activityWifiSettings_port_one);
+        editTextPortOne.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                System.out.println("變動");
+                if(editTextPortOne.getText().toString().equals(""))
+                {
+                    Toast.makeText(WifiSettingsActivity.this, "不得為空的", Toast.LENGTH_SHORT).show();
+                }
+                else  if(Integer.parseInt(editTextPortOne.getText().toString())>65535 )
+                {
+                    Toast.makeText(WifiSettingsActivity.this, "超出範圍值", Toast.LENGTH_SHORT).show();
+
+                }
+
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
         editTextPortTwo = (EditText) findViewById(R.id.activityWifiSettings_port_two);
 
         spinnerNetworkMode = (Spinner) findViewById(R.id.activityWifiSettings_spinnerNetworkMode);
@@ -194,16 +225,21 @@ public class WifiSettingsActivity extends Activity implements EcoproConnector.Ec
             return;
         }
 
-        if(Integer.parseInt(editTextPortOne.getText().toString())>65535  ||Integer.parseInt(editTextPortTwo.getText().toString())>65535)
+        if(version ==498)
         {
-            Toast.makeText(this, "超過65535，請重新輸入",Toast.LENGTH_SHORT).show();
-            return;
+            if(Integer.parseInt(editTextPortOne.getText().toString())>65535  ||Integer.parseInt(editTextPortTwo.getText().toString())>65535)
+            {
+                Toast.makeText(this, "超過65535，請重新輸入",Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if(Integer.parseInt(editTextPortOne.getText().toString())<1 ||Integer.parseInt(editTextPortTwo.getText().toString())<1)
+            {
+                Toast.makeText(this, "不得少於1，請重新輸入",Toast.LENGTH_SHORT).show();
+                return;
+            }
         }
-        if(Integer.parseInt(editTextPortOne.getText().toString())<1 ||Integer.parseInt(editTextPortTwo.getText().toString())<1)
-        {
-            Toast.makeText(this, "不得少於1，請重新輸入",Toast.LENGTH_SHORT).show();
-            return;
-        }
+
+
 
         byte[] byteArray = (byte[]) hashMap.get("data");
 
@@ -232,22 +268,31 @@ public class WifiSettingsActivity extends Activity implements EcoproConnector.Ec
         byteArray[92] = (byte) ProjectTools.convertLocalEncryptionToASIX(spinnerSecurityMode.getSelectedItemPosition());// Encryption Mode 0:No Security 3:TKIP 4:AES
         byteArray[95] = (byte) password.length();// password length
 
-        int tempone = Integer.parseInt(editTextPortOne.getText().toString());
-        int temptwo = Integer.parseInt(editTextPortTwo.getText().toString());
 
-        byte[] byteone = ProjectTools.hexToBytes(ProjectTools.getfournumber(Integer.toHexString(tempone) + "", true));
-        byte[] bytetwo = ProjectTools.hexToBytes(ProjectTools.getfournumber(Integer.toHexString(temptwo) + "", false));
 
-        if (byteone.length == 2) {
-            byteArray[492] = byteone[0];
-            byteArray[493] = byteone[1];
-        }
-        if (bytetwo.length == 4) {
-            byteArray[494] = bytetwo[0];
-            byteArray[495] = bytetwo[1];
-            byteArray[496] = bytetwo[2];
-            byteArray[497] = bytetwo[3];
-        }
+      if(version ==498)
+      {
+
+          int tempone = Integer.parseInt(editTextPortOne.getText().toString());
+          int temptwo = Integer.parseInt(editTextPortTwo.getText().toString());
+
+          byte[] byteone = ProjectTools.hexToBytes(ProjectTools.getfournumber(Integer.toHexString(tempone) + "", true));
+          byte[] bytetwo = ProjectTools.hexToBytes(ProjectTools.getfournumber(Integer.toHexString(temptwo) + "", false));
+
+          if (byteone.length == 2) {
+              byteArray[492] = byteone[0];
+              byteArray[493] = byteone[1];
+          }
+          if (bytetwo.length == 4) {
+              byteArray[494] = bytetwo[0];
+              byteArray[495] = bytetwo[1];
+              byteArray[496] = bytetwo[2];
+              byteArray[497] = bytetwo[3];
+          }
+
+      }
+
+
 
 
         // 將重製後的 byte array 放回 hashMap
@@ -342,11 +387,13 @@ public class WifiSettingsActivity extends Activity implements EcoproConnector.Ec
         //iTouch 初版為492長度
         if (byteArray.length == 492) {
             System.out.println("版本為492");
+            version = 492 ;
             activityWifiSettings_layout.setVisibility(View.GONE);
         }
         //iTouch 更新多了6 byte 前兩byte為 port1 後四byte 為port2
         else if (byteArray.length == 498) {
             System.out.println("版本為498");
+            version = 498 ;
             activityWifiSettings_layout.setVisibility(View.VISIBLE);
             int port1 = (int) hashMap.get("port1");
             int port2 = (int) hashMap.get("port2");
@@ -369,6 +416,11 @@ public class WifiSettingsActivity extends Activity implements EcoproConnector.Ec
         message.what = MyHandler.RECEIVE_BROADCAST_DATA;
         message.obj = list;
         myHandler.sendMessage(message);
+    }
+
+    @Override
+    public void onReceiveBroadcastnoconnect(boolean flag) {
+
     }
 
     @Override

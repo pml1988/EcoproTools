@@ -1,5 +1,8 @@
 package com.anteya.ecoprotools;
 
+import android.content.res.Resources;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.app.ActionBar;
 import android.app.Activity;
@@ -63,6 +66,9 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
 
     private DataControl dataControl;
 
+    private TextView temp_view, temp_hum;
+
+
     public int one;
 
     private int two;
@@ -71,6 +77,7 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
 
     private int four;
 
+    private LinearLayout temp_hum_background;
 
     private EcoproConnector ecoproConnector;
 
@@ -79,6 +86,8 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
     private LightOperatingTime lightOperatingTime;
     private AirOperatingTime airOperatingTime;
     private FanOperatingTime fanOperatingTime;
+  private TextView view_ipaddress;
+
 
     private String golbe_password;
 
@@ -136,7 +145,7 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
 
     private byte[] temp_time;
 
-private int screen_x , screen_y ;
+    private int screen_x, screen_y;
     private TextView actionBar_mainActivity_textTitle;
     // endregion
 
@@ -150,15 +159,15 @@ private int screen_x , screen_y ;
 
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        System.out.println("銀幕大小為 "+metrics.widthPixels+" X "+metrics.heightPixels);
+        System.out.println("銀幕大小為 " + metrics.widthPixels + " X " + metrics.heightPixels);
 
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm); //先取得螢幕解析度
         int screenWidth = dm.widthPixels;   //取得螢幕的寬
         int screenHeight = dm.heightPixels;
         int dpi = dm.densityDpi;
-        float xdpi =  dm.xdpi;
-        float ydpi =  dm.ydpi;
+        float xdpi = dm.xdpi;
+        float ydpi = dm.ydpi;
         float density = dm.density;
         System.out.println("手機寬=" + screenWidth);
         System.out.println("手機高=" + screenHeight);
@@ -167,11 +176,11 @@ private int screen_x , screen_y ;
         System.out.println("手機像素高=" + xdpi);
         System.out.println("手機像素寬=" + ydpi);
 
-        System.out.println("手機dp寬=" + ((int)(screenWidth / density)));
-        System.out.println("手機dp高=" + ((int)(screenHeight / density)));
+        System.out.println("手機dp寬=" + ((int) (screenWidth / density)));
+        System.out.println("手機dp高=" + ((int) (screenHeight / density)));
 
-        screen_x= metrics.widthPixels;
-        screen_y=metrics.heightPixels;
+        screen_x = metrics.widthPixels;
+        screen_y = metrics.heightPixels;
         try {
             strVersion = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
         } catch (PackageManager.NameNotFoundException e) {
@@ -225,9 +234,10 @@ private int screen_x , screen_y ;
     protected void onStart() {
         super.onStart();
 
-
         try {
             ipAddress = dataControl.getIpAddress();
+            view_ipaddress.setText("connect:"+ipAddress);
+
             startTimer();
         } catch (Exception e) {
             e.printStackTrace();
@@ -277,7 +287,7 @@ private int screen_x , screen_y ;
         System.out.println("觸碰：");
         relativeLayout = (RelativeLayout) this.findViewById(R.id.relative);
 
-        iTouch = new Itouch(this, 0, 200, 45 , screen_x  , screen_y);
+        iTouch = new Itouch(this, 0, 200, 45, screen_x, screen_y);
 
         relativeLayout.addView(iTouch);
 
@@ -285,6 +295,11 @@ private int screen_x , screen_y ;
         System.out.println("標籤::");
         iTouch.setOnTouchListener(this);
 
+        temp_view = (TextView) findViewById(R.id.temp_view);
+        temp_hum = (TextView) findViewById(R.id.temp_hum);
+
+        temp_hum_background = (LinearLayout) findViewById(R.id.temp_hum_background);
+        view_ipaddress = (TextView)findViewById(R.id.view_ipaddress);
 
         lb_stop = (ImageButton) findViewById(R.id.lb_stop);
         lb_F1 = (ImageButton) findViewById(R.id.lb_germinate);
@@ -389,8 +404,8 @@ private int screen_x , screen_y ;
     private void dragObject(MotionEvent event) {
         float distX, distY;
 
-        distX = event.getX() -120;
-        distY = event.getY() -120;
+        distX = event.getX() - 120;
+        distY = event.getY() - 120;
         iTouch.setNewPosition(distX, distY);
         //  arrayList.get(currentITouchIndex).setNewPosition(distX, distY);
     }
@@ -427,7 +442,6 @@ private int screen_x , screen_y ;
     // endregion
 
     // region view click listener
-
 
 
     private View.OnClickListener textViewClickListener = new View.OnClickListener() {
@@ -667,7 +681,6 @@ private int screen_x , screen_y ;
             case 0:
                 System.out.println("F0");
 
-               // iTouch.change_temp_hum(23,43);
 
                 lb_stop.setImageResource(R.drawable.activity_main_stop_on);
                 change_manual_main_states();
@@ -699,6 +712,7 @@ private int screen_x , screen_y ;
                 break;
             case 4:
                 buttonManual.setSelected(true);
+
                 switch (manual_byte) {
                     case 0x04:
                         lb_Manual.setImageResource(R.drawable.activity_main_manual_m1_on);
@@ -871,29 +885,29 @@ private int screen_x , screen_y ;
     public boolean onTouch(View v, MotionEvent event) {
 
 
-                    switch (event.getAction() & MotionEvent.ACTION_MASK) {
-                        case MotionEvent.ACTION_DOWN:
+        switch (event.getAction() & MotionEvent.ACTION_MASK) {
+            case MotionEvent.ACTION_DOWN:
 
-                            System.out.println("觸碰：" + event.getX() + " " + event.getY());
-                            currentX = event.getX();
-                            currentY = event.getY();
-                            break;
-                        case MotionEvent.ACTION_UP: // first finger lifted
+                System.out.println("觸碰：" + event.getX() + " " + event.getY());
+                currentX = event.getX();
+                currentY = event.getY();
+                break;
+            case MotionEvent.ACTION_UP: // first finger lifted
 
-                            break;
-                        case MotionEvent.ACTION_POINTER_UP: // second finger lifted
-                            break;
+                break;
+            case MotionEvent.ACTION_POINTER_UP: // second finger lifted
+                break;
 
-                        case MotionEvent.ACTION_POINTER_DOWN: // first and second finger down
-                            break;
-                        case MotionEvent.ACTION_MOVE:
-                            dragObject(event);
-                            break;
-                    }
+            case MotionEvent.ACTION_POINTER_DOWN: // first and second finger down
+                break;
+            case MotionEvent.ACTION_MOVE:
+                dragObject(event);
+                break;
+        }
 
 
-                    return true;
-                }
+        return true;
+    }
 
     /**
      * Timer 的 Task ， 每n秒發送一次指令
@@ -919,6 +933,11 @@ private int screen_x , screen_y ;
 
     @Override
     public void onReceiveASIXUDPBroadcast(List list) {
+
+    }
+
+    @Override
+    public void onReceiveBroadcastnoconnect(boolean flag) {
 
     }
 
@@ -1024,14 +1043,13 @@ private int screen_x , screen_y ;
     public void updateView(byte[] byteArray) {
         try {
             ProjectTools.printByteArray(byteArray, "主執行緒收到 Ecopro 的 polling ack", 10);
-//            temp_time = byteArray;
-//
-//            for(int i = 3 ; i<19; i++)
-//            {
-//                System.out.println("正巧："+i+" :"+temp_time[i]);
-//
-//
-//            }
+            temp_time = byteArray;
+
+            for (int i = 3; i < temp_time.length; i++) {
+                System.out.println("正巧：" + i + " :" + temp_time[i]);
+
+
+            }
 
             if (byteArray.length > 18) {
 
@@ -1096,6 +1114,49 @@ private int screen_x , screen_y ;
                     manual_byte = byteArray[2];
                 }
 
+            if (byteArray.length > 27) {
+                //  byteArray[27]
+
+
+                Drawable drawable;
+                Resources res = this.getResources();
+
+
+                temp_hum_background.setVisibility(View.VISIBLE);
+
+                System.out.println("溫濕度" + Integer.parseInt(convertByteToHexString(byteArray[27]), 16) + " " + Integer.parseInt(convertByteToHexString(byteArray[29]), 16));
+                switch(byteArray[26])
+                {
+                    case 0x00:
+                        System.out.println("溫濕度：" + 0x00);
+                        drawable = res.getDrawable(R.drawable.circlered);
+                        temp_hum_background.setBackground(drawable);
+                        temp_view.setText("Temp:- - -");
+                        temp_hum.setText("Hum:- -");
+                        break;
+                    case  0x01:
+                        drawable = res.getDrawable(R.drawable.circlegreen);
+                        temp_hum_background.setBackground(drawable);
+                        System.out.println("溫濕度：" + 0x01);
+                        temp_view.setText("Temp:" + Integer.parseInt(convertByteToHexString(byteArray[27]), 16) + " °C");
+                        temp_hum.setText("Hum:" + Integer.parseInt(convertByteToHexString(byteArray[29]), 16) + " %");
+
+                        break;
+                    case 0x02:
+                        drawable = res.getDrawable(R.drawable.circlegreen);
+                        temp_hum_background.setBackground(drawable);
+                        System.out.println("溫濕度：" + 0x02);
+                        temp_view.setText("Temp:" + Integer.parseInt(convertByteToHexString(byteArray[27]), 16) + " °F");
+                        temp_hum.setText("Hum:" + Integer.parseInt(convertByteToHexString(byteArray[29]), 16) + " %");
+                        break;
+                }
+                   }
+            else
+            {
+              //  temp_hum_background.setVisibility(View.INVISIBLE);
+
+            }
+
 
             if (byteArray[1] == (byte) 0x81) { // 詢問狀態
 
@@ -1159,7 +1220,7 @@ private int screen_x , screen_y ;
             }
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("MainActivity_updateView try catch");
+            System.out.println("MainActivity_updateView try catch:" + e);
         }
 
     }
@@ -1173,6 +1234,7 @@ private int screen_x , screen_y ;
         mm5.setImageResource(R.drawable.activity_main_manual_m5_off);
         // manual_layout.setVisibility(View.VISIBLE);
         switch (byte_manual[2]) {
+
             case 0x04:
                 manual_byte = 0x04;
                 lb_Manual.setImageResource(R.drawable.activity_main_manual_m1_on);
@@ -1371,19 +1433,36 @@ private int screen_x , screen_y ;
     final protected static char[] hexArray = "0123456789ABCDEF".toCharArray();
 
     public static String convertByteToHexString(byte b) {
-        byte[] temp = new byte[1];
-        temp[0] = b;
-        char[] hexChars = new char[temp.length * 2];
-        for (int j = 0; j < temp.length; j++) {
-            int v = temp[j] & 0xFF;
-            hexChars[j * 2] = hexArray[v >>> 4];
-            hexChars[j * 2 + 1] = hexArray[v & 0x0F];
+
+        try {
+            char[] hexChars = new char[0];
+            byte[] temp = new byte[1];
+            temp[0] = b;
+            hexChars = new char[temp.length * 2];
+            for (int j = 0; j < temp.length; j++) {
+                int v = temp[j] & 0xFF;
+                hexChars[j * 2] = hexArray[v >>> 4];
+                hexChars[j * 2 + 1] = hexArray[v & 0x0F];
+
+            }
+            return new String(hexChars);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         //    int intValue = Integer.parseInt(new String(hexChars));
-
-
-        return new String(hexChars);
+        return new String("");
     }
 
+    public void change_hum_temp(int temp, int hum) {
+        try {
+            System.out.println("溫濕度1");
+
+
+        } catch (Resources.NotFoundException e) {
+            e.printStackTrace();
+        }
+
+
+    }
 }
