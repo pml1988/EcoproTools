@@ -511,7 +511,7 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
                     temp_commandchangmode[6] = (byte) dataControl.getPd_four();
                     temp_commandchangmode = ProjectTools.getChecksumArray(temp_commandchangmode);
                     System.out.println("傳送訊息1 " + temp_commandchangmode.length);
-                    ecoproConnector.sendCommand(ipAddress, temp_commandchangmode, dataControl.getPort_use());
+                    ecoproConnector.sendCommand(ipAddress, temp_commandchangmode, dataControl.getPort_local());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -526,7 +526,7 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
                     temp_commandchangmode[6] = (byte) dataControl.getPd_four();
                     temp_commandchangmode = ProjectTools.getChecksumArray(temp_commandchangmode);
                     System.out.println("傳送訊息2 " + temp_commandchangmode.length);
-                    ecoproConnector.sendCommand(ipAddress, temp_commandchangmode, dataControl.getPort_use());
+                    ecoproConnector.sendCommand(ipAddress, temp_commandchangmode, dataControl.getPort_local());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -632,7 +632,7 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
                         }
                         if (ipAddress != null && ipAddress.length() > 0) {
                             System.out.println("傳送訊息4 " + commandArray.length);
-                            ecoproConnector.sendCommand(ipAddress, commandArray, dataControl.getPort_use());
+                            ecoproConnector.sendCommand(ipAddress, commandArray, dataControl.getPort_local());
                             edit_time = true;
                         }
                     }
@@ -915,14 +915,14 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
     private class EcoproTimerTask extends TimerTask {
         public void run() {
             if (ipAddress.length() > 0) {
-                System.out.println(dataControl.getPd_one() + " " + dataControl.getPd_two() + " " + dataControl.getPd_three() + " " + dataControl.getPd_four());
+                System.out.println("傳送訊息5:"+dataControl.getPd_one() + " " + dataControl.getPd_two() + " " + dataControl.getPd_three() + " " + dataControl.getPd_four());
                 byte[] COMMAND_POLLING = new byte[]{(byte) 0xf0, (byte) 0x01, (byte) dataControl.getPd_one(), (byte) dataControl.getPd_two(), (byte) dataControl.getPd_three(), (byte) dataControl.getPd_four(), (byte) 0x00};
                 //  byte[] COMMAND_POLLING = new byte[]{(byte) 0xf0, (byte) 0x01,(byte) 4, (byte) 4, (byte)9, (byte) 3,(byte) 0x00};
 
                 COMMAND_POLLING = ProjectTools.getChecksumArray(COMMAND_POLLING);
 
-                System.out.println("傳送訊息5 " + COMMAND_POLLING.length);
-                ecoproConnector.sendCommand(ipAddress, COMMAND_POLLING, dataControl.getPort_use());
+                System.out.println("傳送訊息5 " + COMMAND_POLLING.length+ " "+dataControl.getPort_local());
+                ecoproConnector.sendCommand(ipAddress, COMMAND_POLLING, dataControl.getPort_local());
             }
         }
     }
@@ -1318,12 +1318,12 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
      **/
     private void send_manual_state(byte m_byte) {
         byte[] commandArray = ProjectTools.COMMAND_CHANGE_MODE_4;
-        System.out.println("奇怪勒：" + m_byte);
+        System.out.println("：" + m_byte);
         commandArray[2] = m_byte;
         commandArray = ProjectTools.getChecksumArray(commandArray);
         if (ipAddress != null && ipAddress.length() > 0) {
             System.out.println("傳送訊息6 " + commandArray.length);
-            ecoproConnector.sendCommand(ipAddress, commandArray, dataControl.getPort_use());
+            ecoproConnector.sendCommand(ipAddress, commandArray, dataControl.getPort_local());
         }
     }
 

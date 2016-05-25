@@ -123,6 +123,7 @@ public class EcoproConnector {
                 // connect and send
                 try {
                     socket = SocketFactory.getDefault().createSocket();
+                    System.out.println("傳送訊息5555:"+tempIpAddress+"   "+ tempPort);
                     SocketAddress sa = new InetSocketAddress(tempIpAddress, tempPort);
                     socket.connect(sa, TCP_SOCKET_TIMEOUT);
                     System.out.println("checkLink 開啟 socket");
@@ -201,7 +202,7 @@ public class EcoproConnector {
      * 傳送訊息時 socket 連線 中斷  不保持連線
      **/
     public byte[] executeCommand(String ipAddress, byte[] commandArray , int port) {
-        System.out.println("傳送訊息主地方2");
+        System.out.println("傳送訊息主地方2:"+ ipAddress+" >< "+port);
         Log.i(TAG, "sendCommand, " + ipAddress);
         //   System.out.println("追蹤："+commandArray);
         Socket socket = null;

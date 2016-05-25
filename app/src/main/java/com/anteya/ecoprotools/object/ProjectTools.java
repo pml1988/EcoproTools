@@ -694,5 +694,31 @@ public class ProjectTools {
         }
     }
 
-    // endregion
+    public final static String COLON_HELF = ":";
+    public final static String COLON_FULL = "：";
+    public static int getPort(String ipString){
+
+        System.out.println("抓port");
+
+        String strArray[] = new String[0];
+        int port = 0;
+
+        if(ipString.contains(COLON_FULL)){
+            strArray = ipString.split(COLON_FULL);
+        }else if(ipString.contains(COLON_HELF)){
+            strArray = ipString.split(COLON_HELF);
+        }
+        if(strArray.length == 2){
+
+
+
+            port = Integer.parseInt(strArray[1]);
+            System.out.println("自帶port："+port);
+        }
+        if(port == 0){
+            port = 8023;
+        }
+
+        return port;
+    }
 }

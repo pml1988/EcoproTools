@@ -11,17 +11,31 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/dialogFragmentEdit_textViewNameTitle"
-            style="@style/MySettingsBigTitle"
-            android:text="Ecopro Name:"
-            android:layout_width="wrap_content" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
 
-        <EditText
-            android:id="@+id/dialogFragmentEdit_editTextName"
-            android:layout_width="fill_parent"
+            <TextView
+                android:id="@+id/dialogFragmentEdit_textViewNameTitle"
+                style="@style/MySettingsBigTitle"
+                android:text="Ecopro Name:"
+                android:layout_width="wrap_content" />
+
+            <EditText
+                android:id="@+id/dialogFragmentEdit_editTextName"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/activitySettings_textViewTitle_layoutHeight"
+                android:hint="Input Name"/>
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="@dimen/activitySettings_textViewTitle_layoutHeight"
             android:layout_height="@dimen/activitySettings_textViewTitle_layoutHeight"
-            android:hint="Input Name"/>
+            android:id="@+id/dialogFragmentEdit_im1"
+            android:src="@drawable/checken"
+            android:padding="10dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -29,17 +43,31 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/dialogFragmentEdit_textViewIpAddressTitle"
-            style="@style/MySettingsBigTitle"
-            android:text="Ecopro Local IP:"
-            android:layout_width="wrap_content" />
-
-        <EditText
-            android:id="@+id/dialogFragmentEdit_editTextIpAddress"
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/dialogFragmentEdit_textViewIpAddressTitle"
+                style="@style/MySettingsBigTitle"
+                android:text="Ecopro Local IP:"
+                android:layout_width="wrap_content" />
+
+            <EditText
+                android:id="@+id/dialogFragmentEdit_editTextIpAddress"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/activitySettings_textViewTitle_layoutHeight"
+                android:hint="Input IP"/>
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="@dimen/activitySettings_textViewTitle_layoutHeight"
             android:layout_height="@dimen/activitySettings_textViewTitle_layoutHeight"
-            android:hint="Input IP"/>
+            android:id="@+id/dialogFragmentEdit_im2"
+            android:src="@drawable/checken"
+            android:padding="10dp" />
 
     </LinearLayout>
 
@@ -48,18 +76,33 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
-        <TextView
-            style="@style/MySettingsBigTitle"
-            android:id="@+id/textView4"
-            android:text="Ecopro WAN IP:"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <EditText
-            android:id="@+id/dialogFragmentEdit_editTextIpAddress_Wan"
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                style="@style/MySettingsBigTitle"
+                android:id="@+id/textView4"
+                android:text="Ecopro WAN IP:"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/dialogFragmentEdit_editTextIpAddress_Wan"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/activitySettings_textViewTitle_layoutHeight"
+                android:hint="Input IP" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="@dimen/activitySettings_textViewTitle_layoutHeight"
             android:layout_height="@dimen/activitySettings_textViewTitle_layoutHeight"
-            android:hint="Input IP" />
+            android:id="@+id/dialogFragmentEdit_im3"
+            android:src="@drawable/checken"
+            android:padding="10dp" />
 
     </LinearLayout>
 
@@ -69,19 +112,33 @@
         android:layout_height="wrap_content"
         style="@style/MySettingsBigTitle">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Ecopro Password:"
-            android:id="@+id/dialogFragmentEdit_password"
-            style="@style/MySettingsBigTitle" />
-
-        <EditText
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ecopro Password:"
+                android:id="@+id/dialogFragmentEdit_password"
+                style="@style/MySettingsBigTitle" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/activitySettings_textViewTitle_layoutHeight"
+                android:id="@+id/dialogFragmentEdit_editTextIpassword"
+                android:hint="Input 4 number"
+                android:inputType="number" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="@dimen/activitySettings_textViewTitle_layoutHeight"
             android:layout_height="@dimen/activitySettings_textViewTitle_layoutHeight"
-            android:id="@+id/dialogFragmentEdit_editTextIpassword"
-            android:hint="Input 4 number"
-            android:inputType="number" />
+            android:id="@+id/dialogFragmentEdit_im4"
+            android:src="@drawable/checken"
+            android:padding="10dp" />
     </LinearLayout>
 
 </LinearLayout>

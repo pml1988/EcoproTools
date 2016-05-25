@@ -47,6 +47,8 @@ private  int version = 0;
 
     private EditText editTextSSID, editTextPassword, editTextPortOne, editTextPortTwo;
 
+    private TextView activityWifiSettings_ipaddress;
+
     private Spinner spinnerNetworkMode, spinnerSecurityMode, spinnerChannel;
 
     private TextView textViewNetworkMode;
@@ -86,8 +88,8 @@ private  int version = 0;
         initView();
 
 
-        System.out.println("成長：" + dataControl.getIpaddress_wan());
-        ecoproConnector.sendUDPBroadcastToSpecifyIpAddress(dataControl.getIpaddress_wan());
+        System.out.println("成長：" + dataControl.getIpAddress());
+        ecoproConnector.sendUDPBroadcastToSpecifyIpAddress(dataControl.getIpAddress());
     }
 
     @Override
@@ -113,6 +115,8 @@ private  int version = 0;
     }
 
     private void initView() {
+
+        activityWifiSettings_ipaddress = (TextView)findViewById(R.id.activityWifiSettings_ipaddress);
 
         editTextSSID = (EditText) findViewById(R.id.activityWifiSettings_editTextSSID);
         editTextPassword = (EditText) findViewById(R.id.activityWifiSettings_editTextPassword);
@@ -364,6 +368,8 @@ private  int version = 0;
         byte[] byteArray = (byte[]) hashMap.get("data");
         System.out.println("版本長度：" + byteArray.length);
         String ip = (String) hashMap.get("ip");
+
+        activityWifiSettings_ipaddress.setText(ip);
 
         String ssid = ProjectTools.getSSIDFromAck(byteArray);
 
