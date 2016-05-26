@@ -88,8 +88,8 @@ private  int version = 0;
         initView();
 
 
-        System.out.println("成長：" + dataControl.getIpAddress());
-        ecoproConnector.sendUDPBroadcastToSpecifyIpAddress(dataControl.getIpAddress());
+        System.out.println("成長：" + dataControl.getIpAddress_local());
+        ecoproConnector.sendUDPBroadcastToSpecifyIpAddress(dataControl.getIpAddress_local());
     }
 
     @Override

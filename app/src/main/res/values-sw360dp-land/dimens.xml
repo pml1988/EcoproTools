@@ -45,4 +45,6 @@
     <dimen name="activityMain_layoutMode_bottom">30dp</dimen>
     <dimen name="layoutmove_Fonts">10dp</dimen>
 
+    <dimen name="activityMain_ip_setting_height">30dp</dimen>
+
 </resources>

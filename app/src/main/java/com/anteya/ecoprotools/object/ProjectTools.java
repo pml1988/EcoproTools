@@ -546,7 +546,7 @@ public class ProjectTools {
 
         //    int intValue = Integer.parseInt(new String(hexChars));
 
-       // System.out.println("幹怎麼回事2：" + new String(hexChars));
+        // System.out.println("幹怎麼回事2：" + new String(hexChars));
 
 
         return new String(hexChars);
@@ -570,9 +570,9 @@ public class ProjectTools {
             if (value > 127)
                 value -= 256;
             //最後轉回byte就OK
-            rawData [i] = (byte) value;
+            rawData[i] = (byte) value;
         }
-        return rawData ;
+        return rawData;
     }
 
     // endregion
@@ -696,29 +696,50 @@ public class ProjectTools {
 
     public final static String COLON_HELF = ":";
     public final static String COLON_FULL = "：";
-    public static int getPort(String ipString){
+
+    public static int getPort(String ipString) {
 
         System.out.println("抓port");
 
         String strArray[] = new String[0];
         int port = 0;
 
-        if(ipString.contains(COLON_FULL)){
+        if (ipString.contains(COLON_FULL)) {
             strArray = ipString.split(COLON_FULL);
-        }else if(ipString.contains(COLON_HELF)){
+        } else if (ipString.contains(COLON_HELF)) {
             strArray = ipString.split(COLON_HELF);
         }
-        if(strArray.length == 2){
-
+        if (strArray.length == 2) {
 
 
             port = Integer.parseInt(strArray[1]);
-            System.out.println("自帶port："+port);
+            System.out.println("自帶port：" + port);
         }
-        if(port == 0){
+        if (port == 0) {
             port = 8023;
         }
 
         return port;
+    }
+
+
+    public static String changesemicolon(String ipString) {
+
+        System.out.println("抓port");
+
+        try {
+            String strArray[];
+            String temp = "";
+            if (ipString.contains(COLON_FULL)) {
+                strArray = ipString.split(COLON_FULL);
+                if (strArray.length == 2) {
+                    temp = strArray[0] + ":" + strArray[1];
+                    System.out.println("切換全形：:" + temp);
+                }
+            }
+            return ipString;
+        } catch (Exception e) {
+            return ipString;
+        }
     }
 }

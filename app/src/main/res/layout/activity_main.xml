@@ -482,5 +482,12 @@
         android:layout_below="@+id/activityMain_layoutMode"
         android:layout_marginLeft="10dp" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/view_port"
+        android:layout_below="@+id/view_ipaddress"
+        android:layout_marginLeft="10dp" />
+
 
 </RelativeLayout>

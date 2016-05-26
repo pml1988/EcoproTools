@@ -86,7 +86,7 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
     private LightOperatingTime lightOperatingTime;
     private AirOperatingTime airOperatingTime;
     private FanOperatingTime fanOperatingTime;
-  private TextView view_ipaddress;
+    private TextView view_ipaddress, view_port;
 
 
     private String golbe_password;
@@ -236,8 +236,11 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
 
         try {
             ipAddress = dataControl.getIpAddress();
-            view_ipaddress.setText("connect:"+ipAddress);
 
+            String[] ipaddressarray = ProjectTools.changesemicolon(ipAddress).split(":");
+
+            view_ipaddress.setText("connect:" + ipaddressarray[0]);
+            view_port.setText("port:" + dataControl.getPort_local());
             startTimer();
         } catch (Exception e) {
             e.printStackTrace();
@@ -299,8 +302,8 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
         temp_hum = (TextView) findViewById(R.id.temp_hum);
 
         temp_hum_background = (LinearLayout) findViewById(R.id.temp_hum_background);
-        view_ipaddress = (TextView)findViewById(R.id.view_ipaddress);
-
+        view_ipaddress = (TextView) findViewById(R.id.view_ipaddress);
+        view_port = (TextView) findViewById(R.id.view_port);
         lb_stop = (ImageButton) findViewById(R.id.lb_stop);
         lb_F1 = (ImageButton) findViewById(R.id.lb_germinate);
         lb_F2 = (ImageButton) findViewById(R.id.lb_growth);
@@ -915,13 +918,13 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
     private class EcoproTimerTask extends TimerTask {
         public void run() {
             if (ipAddress.length() > 0) {
-                System.out.println("傳送訊息5:"+dataControl.getPd_one() + " " + dataControl.getPd_two() + " " + dataControl.getPd_three() + " " + dataControl.getPd_four());
+                System.out.println("傳送訊息5:" + dataControl.getPd_one() + " " + dataControl.getPd_two() + " " + dataControl.getPd_three() + " " + dataControl.getPd_four());
                 byte[] COMMAND_POLLING = new byte[]{(byte) 0xf0, (byte) 0x01, (byte) dataControl.getPd_one(), (byte) dataControl.getPd_two(), (byte) dataControl.getPd_three(), (byte) dataControl.getPd_four(), (byte) 0x00};
                 //  byte[] COMMAND_POLLING = new byte[]{(byte) 0xf0, (byte) 0x01,(byte) 4, (byte) 4, (byte)9, (byte) 3,(byte) 0x00};
 
                 COMMAND_POLLING = ProjectTools.getChecksumArray(COMMAND_POLLING);
 
-                System.out.println("傳送訊息5 " + COMMAND_POLLING.length+ " "+dataControl.getPort_local());
+                System.out.println("傳送訊息5 " + COMMAND_POLLING.length + " " + dataControl.getPort_local());
                 ecoproConnector.sendCommand(ipAddress, COMMAND_POLLING, dataControl.getPort_local());
             }
         }
@@ -971,6 +974,16 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
 
     @Override
     public void onCheckLink(boolean isLinked) {
+
+        if (!isLinked) {
+            Message msg = new Message();
+            msg.arg1 = 3;
+
+            myHandler.sendMessage(msg);
+
+
+        }
+
 
     }
 
@@ -1125,8 +1138,7 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
                 temp_hum_background.setVisibility(View.VISIBLE);
 
                 System.out.println("溫濕度" + Integer.parseInt(convertByteToHexString(byteArray[27]), 16) + " " + Integer.parseInt(convertByteToHexString(byteArray[29]), 16));
-                switch(byteArray[26])
-                {
+                switch (byteArray[26]) {
                     case 0x00:
                         System.out.println("溫濕度：" + 0x00);
                         drawable = res.getDrawable(R.drawable.circlered);
@@ -1134,7 +1146,7 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
                         temp_view.setText("Temp:- - -");
                         temp_hum.setText("Hum:- -");
                         break;
-                    case  0x01:
+                    case 0x01:
                         drawable = res.getDrawable(R.drawable.circlegreen);
                         temp_hum_background.setBackground(drawable);
                         System.out.println("溫濕度：" + 0x01);
@@ -1150,10 +1162,8 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
                         temp_hum.setText("Hum:" + Integer.parseInt(convertByteToHexString(byteArray[29]), 16) + " %");
                         break;
                 }
-                   }
-            else
-            {
-              //  temp_hum_background.setVisibility(View.INVISIBLE);
+            } else {
+                //  temp_hum_background.setVisibility(View.INVISIBLE);
 
             }
 
@@ -1302,6 +1312,14 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
         public void handleMessage(Message msg) {
             MainActivity activity = mOuter.get();
             if (activity != null) {
+
+                switch (msg.arg1) {
+                    case 3:
+                        activity.upactivitybar();
+
+                }
+
+
                 // Do something with outer as your wish.
                 switch (msg.what) {
                     case RECEIVE_DATA:
@@ -1312,6 +1330,13 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
             }
         }
     }
+
+    public void upactivitybar() {
+        actionBar_mainActivity_textTitle.setText(title + " Ver." + strVersion + " (Unknow)");
+//        view_ipaddress.setText("connect:");
+//        view_port.setText("port:");
+    }
+
 
     /**
      * 更改手動模式狀態 M1(0x04) M2(0x05) M3(0x06) M4(0x07) M5(0x08)

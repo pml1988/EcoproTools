@@ -35,4 +35,6 @@
 
     <dimen name="activityMain_layoutMode_bottom_height">120dp</dimen>
     <dimen name="activityMain_layoutMode_bottom">60dp</dimen>
+
+    <dimen name="activityMain_ip_setting_height">40dp</dimen>
 </resources>

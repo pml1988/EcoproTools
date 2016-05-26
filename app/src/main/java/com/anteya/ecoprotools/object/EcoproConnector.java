@@ -223,14 +223,19 @@ public class EcoproConnector {
             } else {
                 // 執行完畢，關閉連線。
                 try {
+                    ecoproConnectorCallback.onCheckLink(false);
                     System.out.println("executeCommand socket 不成功就關閉");
                     socket.close();
                 } catch (IOException e) {
+                    ecoproConnectorCallback.onCheckLink(false);
+                    System.out.println("executeCommand socket 不成功就關閉＝＝");
                     e.printStackTrace();
                 }
                 return null;
             }
         } catch (Exception e) {
+            ecoproConnectorCallback.onCheckLink(false);
+            System.out.println("executeCommand socket 不成功就關閉＝＝");
             e.printStackTrace();
             return null;
         }

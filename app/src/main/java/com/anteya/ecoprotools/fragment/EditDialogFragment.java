@@ -40,7 +40,7 @@ public class EditDialogFragment extends DialogFragment {
 
     private String ipAddress_Wan;
 
-    private String port ="8023";
+    private String port = "8023";
 
     private int password;
 
@@ -179,63 +179,75 @@ public class EditDialogFragment extends DialogFragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
+                String tempipaddress = editTextIpAddress.getText().toString();
 
-                Matcher matcher = pattern.matcher(editTextIpAddress.getText().toString());
-                System.out.println("判斷IP格式:" + editTextIpAddress.getText().toString());
 
-                String[] tempipport = editTextIpAddress.getText().toString().split(":");
+                boolean flag1 = false;
 
-                if (tempipport.length > 1) {
-                    port = tempipport[1];
-                    System.out.println("判斷IP端口數據:" + port);
+
+                String[] tempipport = ProjectTools.changesemicolon(tempipaddress).split(":");
+
+                if (tempipport.length == 2) {
+                    try {
+                        port = Integer.parseInt(tempipport[1]) + "";
+                        System.out.println("判斷IP1端口數據:" + tempipport[0] + "" + port);
+                        flag1 = true;
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                        System.out.println("判斷IP1端口錯誤:" + port + " " + e);
+                    }
+
+                } else if (tempipport.length == 1) {
+                    System.out.println("判斷IP1:" + tempipport[0]);
+                    if (tempipaddress.substring(tempipaddress.length() - 1).equals(".") || tempipaddress.substring(tempipaddress.length() - 1).equals(":")) {
+                        System.out.println("判斷IP1有.;:");
+                        //  im2.setImageResource(R.drawable.checken);
+                    } else {
+                        flag1 = true;
+                    }
                 }
 
+                Matcher matcher = pattern.matcher(tempipport[0]);
 
-                if (matcher.find()) {
 
-                    String tempstr = tempipport[0];
-                    System.out.println("判斷IP位址數據:" + tempstr);
-                    String[] tmp = tempstr.split("\\.");
+                if (matcher.find() && flag1 == true) {
+                    System.out.println("判斷IP1格式if:" + tempipport[0]);
+                    String[] tmp = tempipport[0].split("\\.");
+
+
                     if (tmp.length == 4) {
-                        if (tempstr.substring(tempstr.length() - 1).equals(".")) {
-                            System.out.println("判斷IP最後是點");
-                            im2.setImageResource(R.drawable.checken);
-                        } else {
-                            System.out.println("判斷IP最後不是點:");
-                            System.out.println("判斷IP段落:" + tmp.length);
-                            for (int i = 0; i < tmp.length; i++) {
+
+                        System.out.println("判斷IP1格式4:" + tempipport[0]);
+
+
+                        for (int i = 0; i < tmp.length; i++) {
+                            System.out.println("判斷IP1拆解數值:" + tmp[i]);
+                            try {
                                 if (Integer.parseInt(tmp[i]) > 255) {
-                                    System.out.println("判斷IP錯誤大於255:" + i);
+                                    System.out.println("判斷IP1錯誤大於255:" + i);
                                     im2.setImageResource(R.drawable.checken);
-                                    return;
                                 } else {
 
-
-                                    flag_local = true;
                                     im2.setImageResource(R.drawable.checkok);
+                                    System.out.println("判斷IP正確:" + i);
 
-//                                    if (i == 0) {
-//                                        if (Integer.parseInt(tmp[0]) != 192 || Integer.parseInt(tmp[0]) != 10 || Integer.parseInt(tmp[0]) != 172) {
-//                                            im2.setImageResource(R.drawable.checken);
-//                                            Toast.makeText(getActivity(), "不屬於區域網路IP", Toast.LENGTH_SHORT).show();
-//                                            System.out.println("判斷IP不屬於區域網路:" + i);
-//                                            return;
-//                                        }
-//                                    } else {
-//                                        System.out.println("判斷IP正確");
-//                                        flag_local = true;
-//                                        im2.setImageResource(R.drawable.checkok);
-//
-//                                    }
+                                    if (Integer.parseInt(tmp[0]) == 192 || Integer.parseInt(tmp[0]) == 10 || Integer.parseInt(tmp[0]) == 172) {
+                                        im2.setImageResource(R.drawable.checkok);
+                                        flag_local = true;
+                                        System.out.println("判斷IP1屬於區域網路:" + tmp[0]);
+                                    } else {
+                                        im2.setImageResource(R.drawable.checken);
+                                        System.out.println("判斷IP1不屬於區域網路IP:" + tmp[0]);
+                                        Toast.makeText(getActivity(), "不屬於區域網路IP", Toast.LENGTH_SHORT).show();
+                                    }
                                 }
+                            } catch (NumberFormatException e) {
+                                e.printStackTrace();
                             }
                         }
-                    } else {
-                        System.out.println("判斷IP錯誤1:" + tmp.length);
-                        im2.setImageResource(R.drawable.checken);
                     }
                 } else {
-                    System.out.println("判斷IP錯誤格式不正確");
+                    System.out.println("判斷IP1格式else:" + tempipport[0]);
                     im2.setImageResource(R.drawable.checken);
                 }
             }
@@ -250,89 +262,129 @@ public class EditDialogFragment extends DialogFragment {
         editTextIpAddress_wan = (EditText) view.findViewById(R.id.dialogFragmentEdit_editTextIpAddress_Wan);
 
         editTextIpAddress_wan.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
+                                                         @Override
+                                                         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                                                         }
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                Matcher matcher = pattern.matcher(editTextIpAddress_wan.getText().toString());
-                System.out.println("判斷IP格式:" + editTextIpAddress_wan.getText().toString());
-                if (matcher.find()) {
-                    String tempstr = editTextIpAddress_wan.getText().toString();
-                    String[] tmp = tempstr.split("\\.");
-                    if (tmp.length == 4) {
-                        if (tempstr.substring(tempstr.length() - 1).equals(".")) {
-                            System.out.println("判斷IP最後是點");
-                            im3.setImageResource(R.drawable.checken);
-                        } else {
-                            System.out.println("判斷IP最後不是點:");
-                            System.out.println("判斷IP段落:" + tmp.length);
-                            for (int i = 0; i < tmp.length; i++) {
-                                if (Integer.parseInt(tmp[i]) > 255) {
-                                    System.out.println("判斷IP錯誤大於255:" + i);
-                                    im3.setImageResource(R.drawable.checken);
-                                    return;
-                                } else {
-                                    System.out.println("判斷IP正確");
-                                    flag_wan = true;
-                                    im3.setImageResource(R.drawable.checkok);
-                                }
-                            }
-                        }
-                    } else {
-                        System.out.println("判斷IP錯誤1:" + tmp.length);
-                        im3.setImageResource(R.drawable.checken);
-                    }
-                } else {
-                    System.out.println("判斷IP錯誤2");
-                    im3.setImageResource(R.drawable.checken);
-                }
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
+                                                         @Override
+                                                         public void onTextChanged(CharSequence s, int start, int before, int count) {
 
 
-            }
-        });
+                                                             try {
+                                                                 Matcher matcher = pattern.matcher(editTextIpAddress_wan.getText().toString());
+                                                                 System.out.println("判斷IP2端口數據:" + editTextIpAddress_wan.getText().toString());
+
+                                                                 String temp = (ProjectTools.changesemicolon(editTextIpAddress_wan.getText().toString()));
+
+                                                                 String[] tempipport = temp.split(":");
+                                                                 if (tempipport.length > 1) {
+                                                                     port = tempipport[1];
+                                                                     System.out.println("判斷IP2端口數據=:" + port);
+                                                                 }
+
+                                                                 System.out.println("判斷IP2端口數據:" + tempipport[0]);
+
+
+                                                                 if (matcher.find()) {
+                                                                     System.out.println("判斷IP1格式if:" + tempipport[0]);
+                                                                     String[] tmp = tempipport[0].split("\\.");
+
+
+                                                                     if (tmp.length == 4) {
+
+                                                                         System.out.println("判斷IP1格式4:" + tempipport[0]);
+
+
+                                                                         for (int i = 0; i < tmp.length; i++) {
+                                                                             System.out.println("判斷IP2拆解數值:" + tmp[i]);
+
+                                                                             if (Integer.parseInt(tmp[i]) > 255) {
+                                                                                 System.out.println("判斷IP2錯誤大於255:" + i);
+                                                                                 im2.setImageResource(R.drawable.checken);
+                                                                             }
+
+                                                                         }
+                                                                     }
+
+
+                                                                 } else {
+                                                                     im3.setImageResource(R.drawable.checken);
+
+                                                                 }
+
+
+                                                                 String[] tmp = tempipport[0].split("\\.");
+
+                                                                 if (tmp.length == 4) {
+
+                                                                     if (Integer.parseInt(tmp[0]) == 192 || Integer.parseInt(tmp[0]) == 127 || Integer.parseInt(tmp[0]) == 10) {
+                                                                         System.out.println("判斷IP2屬於IP格式:" + tmp[0]);
+                                                                     // Toast.makeText(getActivity(), "屬於區域網路IP", Toast.LENGTH_SHORT).show();
+                                                                         im3.setImageResource(R.drawable.checken);
+                                                                     } else {
+                                                                         System.out.println("判斷IP2屬於區域網路IP，此處不適用:" + tmp[0]);
+                                                                         im3.setImageResource(R.drawable.checkok);
+                                                                         flag_wan = true;
+                                                                     }
+                                                                 } else {
+                                                                     im3.setImageResource(R.drawable.checken);
+                                                                 }
+
+
+                                                             } catch (NumberFormatException e) {
+                                                                 e.printStackTrace();
+                                                                 System.out.println("判斷IP2例外:" + e);
+                                                                 im3.setImageResource(R.drawable.checken);
+                                                             }
+                                                         }
+
+                                                         @Override
+                                                         public void afterTextChanged(Editable s) {
+                                                         }
+                                                     }
+
+        );
 
         editTextPassword = (EditText) view.findViewById(R.id.dialogFragmentEdit_editTextIpassword);
 
         editTextPassword.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                                                    @Override
+                                                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            }
+                                                    }
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                                                    @Override
+                                                    public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-                if (editTextPassword.getText().toString().length() == 4) {
-                    im4.setImageResource(R.drawable.checkok);
-                    flag_pw = true;
-                } else {
-                    im4.setImageResource(R.drawable.checken);
-                }
+                                                        if (editTextPassword.getText().toString().length() == 4) {
+                                                            im4.setImageResource(R.drawable.checkok);
+                                                            flag_pw = true;
+                                                        } else {
+                                                            im4.setImageResource(R.drawable.checken);
+                                                        }
 
 
-            }
+                                                    }
 
-            @Override
-            public void afterTextChanged(Editable s) {
+                                                    @Override
+                                                    public void afterTextChanged(Editable s) {
 
-            }
-        });
+                                                    }
+                                                }
+
+        );
 
         // setup
         builder.setView(view);
-        if (isNewEcopro) {
+        if (isNewEcopro)
+
+        {
             builder.setPositiveButton("Save", addEcoproDialogClickListener);
             builder.setNegativeButton("Cancel", null);
 
-        } else {
+        } else
+
+        {
             builder.setPositiveButton("Save", updateEcoproDialogClickListener);
             builder.setNegativeButton("Cancel", null);
             builder.setNeutralButton("Delete", deleteEcoproDialogClickListener);
@@ -393,16 +445,20 @@ public class EditDialogFragment extends DialogFragment {
         @Override
         public void onClick(DialogInterface dialog, int which) {
 
-            ecopro.setName(editTextName.getText().toString());
+            try {
+                ecopro.setName(editTextName.getText().toString());
 
-            ecopro.setIpAddress(editTextIpAddress.getText().toString());
+                ecopro.setIpAddress(editTextIpAddress.getText().toString());
 
-            ecopro.setIpAddress_wan(editTextIpAddress_wan.getText().toString());
+                ecopro.setIpAddress_wan(editTextIpAddress_wan.getText().toString());
 
-            ecopro.setPassword(editTextPassword.getText().toString());
+                ecopro.setPassword(editTextPassword.getText().toString());
 
-            if (editDialogFragmentCallback != null) {
-                editDialogFragmentCallback.updateEcopro(ecopro);
+                if (editDialogFragmentCallback != null) {
+                    editDialogFragmentCallback.updateEcopro(ecopro);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     };

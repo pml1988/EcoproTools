@@ -147,6 +147,14 @@ public class DataControl extends Application {
         userData.edit().putString(PREF_IP_ADDRESS_now, ipAddress).commit();
     }
 
+
+    public String getIpAddress_local() {
+        SharedPreferences userData = getSharedPreferences(PREF, 0);
+        String tempStr = userData.getString(PREF_IP_ADDRESS, "");
+
+        return tempStr;
+    }
+
     public String getIpAddress() {
         SharedPreferences userData = getSharedPreferences(PREF, 0);
         String tempStr = userData.getString(PREF_IP_ADDRESS, "");
@@ -155,7 +163,7 @@ public class DataControl extends Application {
         int port = userData.getInt(PREF_PORT,0);
         port_use = port;
         ipaddress_wan = tempStr_wan;
-        return tempStr;
+        return tempStr_now;
     }
 
     /**
