@@ -1317,6 +1317,9 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
                     case 3:
                         activity.upactivitybar();
 
+
+
+
                 }
 
 

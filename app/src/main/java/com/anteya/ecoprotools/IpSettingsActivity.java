@@ -445,6 +445,7 @@ public class IpSettingsActivity extends Activity implements EcoproConnector.Ecop
     @Override
     public void addNewEcopro(Ecopro ecopro) {
         Log.d(TAG, "addNewEcopro 收到 event");
+        System.out.println("物件修改(新增)");
         sqLiteControl.addEcopro(ecopro);
         updateListView();
     }
@@ -452,6 +453,7 @@ public class IpSettingsActivity extends Activity implements EcoproConnector.Ecop
     @Override
     public void updateEcopro(Ecopro ecopro) {
         Log.d(TAG, "updateEcopro 收到 event");
+        System.out.println("物件修改(修改)");
         sqLiteControl.updateEcopro(ecopro);
         updateListView();
     }
@@ -459,6 +461,7 @@ public class IpSettingsActivity extends Activity implements EcoproConnector.Ecop
     @Override
     public void deleteEcopro(Ecopro ecopro) {
         Log.d(TAG, "deleteEcopro 收到 event");
+        System.out.println("物件修改(刪除)");
         sqLiteControl.deleteEcopro(ecopro);
         updateListView();
     }
@@ -599,7 +602,7 @@ public class IpSettingsActivity extends Activity implements EcoproConnector.Ecop
 
         listEcopro = sqLiteControl.getEcoproArray();
         listMacData.clear();
-
+        System.out.println("物件修改1");
         for (Ecopro ecopro : listEcopro) {
 
             HashMap<String, Object> hashMap = new HashMap<>();
@@ -612,7 +615,7 @@ public class IpSettingsActivity extends Activity implements EcoproConnector.Ecop
 
             listMacData.add(hashMap);
         }
-
+        System.out.println("物件修改2");
         if (keepGoing) {
             listItemAdapter = new SimpleAdapter(this, listMacData, //套入動態資訊
                     R.layout.listview_ip_mac,//套用自訂的XML
@@ -620,9 +623,10 @@ public class IpSettingsActivity extends Activity implements EcoproConnector.Ecop
                     new int[]{R.id.layoutMac_ip, R.id.layoutMac_mac, R.id.layoutMac_mac1} //將動態資訊對應到元件ID
 
             );
-
+            System.out.println("物件修改3");
             listView.setAdapter(listItemAdapter);
         }
+        System.out.println("物件修改4");
     }
 
     private boolean second_connect = true;
@@ -641,6 +645,7 @@ public class IpSettingsActivity extends Activity implements EcoproConnector.Ecop
                         link_check = false;
                     } catch (InterruptedException e) {
                         e.printStackTrace();
+                        link_check = false;
                     }
 
                 }
@@ -684,6 +689,7 @@ public class IpSettingsActivity extends Activity implements EcoproConnector.Ecop
                             link_check = false;
                         } catch (InterruptedException e) {
                             e.printStackTrace();
+                            link_check = false;
                         }
 
                     }

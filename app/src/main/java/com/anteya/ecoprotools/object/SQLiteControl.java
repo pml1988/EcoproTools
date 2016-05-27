@@ -122,7 +122,7 @@ public class SQLiteControl {
 
             list.add(ecopro);
         }
-
+        System.out.println("物件修改 GetEcoproArray, Ecopro Table 搜尋結果：共 " + result.getCount() + "筆資料");
         result.close();
         db.close();
 

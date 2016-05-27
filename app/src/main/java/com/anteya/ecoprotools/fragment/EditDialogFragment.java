@@ -319,7 +319,7 @@ public class EditDialogFragment extends DialogFragment {
 
                                                                      if (Integer.parseInt(tmp[0]) == 192 || Integer.parseInt(tmp[0]) == 127 || Integer.parseInt(tmp[0]) == 10) {
                                                                          System.out.println("判斷IP2屬於IP格式:" + tmp[0]);
-                                                                     // Toast.makeText(getActivity(), "屬於區域網路IP", Toast.LENGTH_SHORT).show();
+                                                                         // Toast.makeText(getActivity(), "屬於區域網路IP", Toast.LENGTH_SHORT).show();
                                                                          im3.setImageResource(R.drawable.checken);
                                                                      } else {
                                                                          System.out.println("判斷IP2屬於區域網路IP，此處不適用:" + tmp[0]);
@@ -445,20 +445,36 @@ public class EditDialogFragment extends DialogFragment {
         @Override
         public void onClick(DialogInterface dialog, int which) {
 
-            try {
-                ecopro.setName(editTextName.getText().toString());
 
-                ecopro.setIpAddress(editTextIpAddress.getText().toString());
+            if (flag_name != true) {
+                Toast.makeText(getActivity().getApplicationContext(), "Please Input Name", Toast.LENGTH_SHORT).show();
 
-                ecopro.setIpAddress_wan(editTextIpAddress_wan.getText().toString());
+            } else if (flag_local != true) {
+                Toast.makeText(getActivity().getApplicationContext(), "Please Input Local IP address", Toast.LENGTH_SHORT).show();
 
-                ecopro.setPassword(editTextPassword.getText().toString());
+            } else if (flag_wan != true) {
+                Toast.makeText(getActivity().getApplicationContext(), "Please Input Wan IP address", Toast.LENGTH_SHORT).show();
+                dialog.cancel();
+            } else if (flag_pw != true) {
+                Toast.makeText(getActivity().getApplicationContext(), "最多四碼，請重新輸入", Toast.LENGTH_SHORT).show();
 
-                if (editDialogFragmentCallback != null) {
-                    editDialogFragmentCallback.updateEcopro(ecopro);
+            } else {
+
+                try {
+                    ecopro.setName(editTextName.getText().toString());
+
+                    ecopro.setIpAddress(editTextIpAddress.getText().toString());
+
+                    ecopro.setIpAddress_wan(editTextIpAddress_wan.getText().toString());
+
+                    ecopro.setPassword(editTextPassword.getText().toString());
+
+                    if (editDialogFragmentCallback != null) {
+                        editDialogFragmentCallback.updateEcopro(ecopro);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
             }
         }
     };
