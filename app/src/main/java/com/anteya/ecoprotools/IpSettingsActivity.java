@@ -295,9 +295,9 @@ public class IpSettingsActivity extends Activity implements EcoproConnector.Ecop
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-            System.out.println("執行中");
+            System.out.println("執行中1");
             if (link_check == false) {
-                System.out.println("執行中");
+                System.out.println("執行中2");
                 link_check = true;
 
                 try {
@@ -369,7 +369,7 @@ public class IpSettingsActivity extends Activity implements EcoproConnector.Ecop
             Ecopro ecopro = listEcopro.get(position);
 
             EditDialogFragment editDialogFragment = EditDialogFragment.newInstance(ecopro, IpSettingsActivity.this);
-
+            editDialogFragment.setCancelable(false);
             editDialogFragment.show(getFragmentManager(), "updateDialog");
 
             return false;
@@ -600,31 +600,39 @@ public class IpSettingsActivity extends Activity implements EcoproConnector.Ecop
 
     public void updateListView() {
 
-        listEcopro = sqLiteControl.getEcoproArray();
-        listMacData.clear();
-        System.out.println("物件修改1");
-        for (Ecopro ecopro : listEcopro) {
+        try {
+            listEcopro = sqLiteControl.getEcoproArray();
+            listMacData.clear();
+            System.out.println("物件修改1");
+            for (Ecopro ecopro : listEcopro) {
 
-            HashMap<String, Object> hashMap = new HashMap<>();
+                HashMap<String, Object> hashMap = new HashMap<>();
 
-            hashMap.put(EcoproString.HASH_MAP_KEY_ID, ecopro.getId());
-            hashMap.put(EcoproString.HASH_MAP_KEY_NAME, ecopro.getName());
-            hashMap.put(EcoproString.HASH_MAP_KEY_IP, ecopro.getIpAddress());
-            hashMap.put(EcoproString.HASH_MAP_KEY_IP_WAN, ecopro.getIpAddress_wan());
-            hashMap.put(EcoproString.HASH_MAP_KEY_MAC, ecopro.getMacAddress());
+                hashMap.put(EcoproString.HASH_MAP_KEY_ID, ecopro.getId());
+                hashMap.put(EcoproString.HASH_MAP_KEY_NAME, ecopro.getName());
+                hashMap.put(EcoproString.HASH_MAP_KEY_IP, ecopro.getIpAddress());
+                hashMap.put(EcoproString.HASH_MAP_KEY_IP_WAN, ecopro.getIpAddress_wan());
+                hashMap.put(EcoproString.HASH_MAP_KEY_MAC, ecopro.getMacAddress());
 
-            listMacData.add(hashMap);
+                listMacData.add(hashMap);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         System.out.println("物件修改2");
         if (keepGoing) {
-            listItemAdapter = new SimpleAdapter(this, listMacData, //套入動態資訊
-                    R.layout.listview_ip_mac,//套用自訂的XML
-                    new String[]{EcoproString.HASH_MAP_KEY_NAME, EcoproString.HASH_MAP_KEY_IP, EcoproString.HASH_MAP_KEY_IP_WAN}, //動態資訊取出順序
-                    new int[]{R.id.layoutMac_ip, R.id.layoutMac_mac, R.id.layoutMac_mac1} //將動態資訊對應到元件ID
+            try {
+                listItemAdapter = new SimpleAdapter(this, listMacData, //套入動態資訊
+                        R.layout.listview_ip_mac,//套用自訂的XML
+                        new String[]{EcoproString.HASH_MAP_KEY_NAME, EcoproString.HASH_MAP_KEY_IP, EcoproString.HASH_MAP_KEY_IP_WAN}, //動態資訊取出順序
+                        new int[]{R.id.layoutMac_ip, R.id.layoutMac_mac, R.id.layoutMac_mac1} //將動態資訊對應到元件ID
 
-            );
-            System.out.println("物件修改3");
-            listView.setAdapter(listItemAdapter);
+                );
+                System.out.println("物件修改3");
+                listView.setAdapter(listItemAdapter);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         System.out.println("物件修改4");
     }
@@ -672,6 +680,11 @@ public class IpSettingsActivity extends Activity implements EcoproConnector.Ecop
                         ecoproConnector.checkLink(ipAddress_wan, port);
                         dataControl.setPort_use(port);
                         second_connect = false;
+                    }
+                    else
+                    {
+                        link_check = false;
+                        Toast.makeText(IpSettingsActivity.this, "Connection Failed", Toast.LENGTH_SHORT).show();
                     }
                 }
 

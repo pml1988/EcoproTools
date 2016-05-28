@@ -102,29 +102,34 @@ public class SQLiteControl {
      */
     public List<Ecopro> getEcoproArray(){
 
-        List<Ecopro> list = new ArrayList<>();
+        List<Ecopro> list = null;
+        try {
+            list = new ArrayList<>();
 
-        SQLiteDatabase db = sqLiteDBHelper.getReadableDatabase();
+            SQLiteDatabase db = sqLiteDBHelper.getReadableDatabase();
 
-        Cursor result = db.query(EcoproString.ECOPRO_TABLE_NAME, null, null, null, null, null, null, null);
+            Cursor result = db.query(EcoproString.ECOPRO_TABLE_NAME, null, null, null, null, null, null, null);
 
-        System.out.println(TAG + " GetEcoproArray, Ecopro Table 搜尋結果：共 " + result.getCount() + "筆資料");
+            System.out.println(TAG + " GetEcoproArray, Ecopro Table 搜尋結果：共 " + result.getCount() + "筆資料");
 
-        while(result.moveToNext()){
+            while(result.moveToNext()){
 
-            Ecopro ecopro = new Ecopro();
-            ecopro.setId(result.getInt(result.getColumnIndex(EcoproString.ECOPRO_ID)));
-            ecopro.setName(result.getString(result.getColumnIndex(EcoproString.ECOPRO_NAME)));
-            ecopro.setIpAddress(result.getString(result.getColumnIndex(EcoproString.ECOPRO_IP_ADDRESS)));
-            ecopro.setIpAddress_wan(result.getString(result.getColumnIndex(EcoproString.ECOPRO_IP_ADDRESS_WAN)));
-            ecopro.setMacAddress(result.getString(result.getColumnIndex(EcoproString.ECOPRO_MAC_ADDRESS)));
-            ecopro.setPassword(result.getString(result.getColumnIndex(EcoproString.ECOPRO_PASSWORD)));
+                Ecopro ecopro = new Ecopro();
+                ecopro.setId(result.getInt(result.getColumnIndex(EcoproString.ECOPRO_ID)));
+                ecopro.setName(result.getString(result.getColumnIndex(EcoproString.ECOPRO_NAME)));
+                ecopro.setIpAddress(result.getString(result.getColumnIndex(EcoproString.ECOPRO_IP_ADDRESS)));
+                ecopro.setIpAddress_wan(result.getString(result.getColumnIndex(EcoproString.ECOPRO_IP_ADDRESS_WAN)));
+                ecopro.setMacAddress(result.getString(result.getColumnIndex(EcoproString.ECOPRO_MAC_ADDRESS)));
+                ecopro.setPassword(result.getString(result.getColumnIndex(EcoproString.ECOPRO_PASSWORD)));
 
-            list.add(ecopro);
+                list.add(ecopro);
+            }
+            System.out.println("物件修改 GetEcoproArray, Ecopro Table 搜尋結果：共 " + result.getCount() + "筆資料");
+            result.close();
+            db.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        System.out.println("物件修改 GetEcoproArray, Ecopro Table 搜尋結果：共 " + result.getCount() + "筆資料");
-        result.close();
-        db.close();
 
 //        ProjectTools.printEcoproList(list);
 

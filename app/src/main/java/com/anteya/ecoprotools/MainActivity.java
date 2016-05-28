@@ -544,7 +544,7 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
     // endregion
 
     // region function
-
+private boolean flag_send_bug = true ;
     /**
      * 手動模式 修改時間
      **/
@@ -630,23 +630,42 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
 
                         // 計算 checksum
                         commandArray = ProjectTools.getChecksumArray(commandArray);
-                        for (int i = 0; i < commandArray.length; i++) {
-                            System.out.println(i + "項 丟出修改時間資料：" + commandArray[i]);
+
+
+                        System.out.println("取消---------");
+                        if(flag_send_bug)
+                        {
+                            for (int i = 0; i < commandArray.length; i++) {
+                                System.out.println(i + "項 丟出修改時間資料：" + commandArray[i]);
+                            }
+                            if (ipAddress != null && ipAddress.length() > 0) {
+                                System.out.println("傳送訊息4 " + commandArray.length);
+                                ecoproConnector.sendCommand(ipAddress, commandArray, dataControl.getPort_local());
+                                edit_time = true;
+                                flag_send_bug =true;
+                            }
                         }
-                        if (ipAddress != null && ipAddress.length() > 0) {
-                            System.out.println("傳送訊息4 " + commandArray.length);
-                            ecoproConnector.sendCommand(ipAddress, commandArray, dataControl.getPort_local());
-                            edit_time = true;
+
+                        if(!flag_send_bug)
+                        {
+                            flag_send_bug = true;
                         }
                     }
                 }, hourTime, minuteTime, true);
 
         tpd.setButton(TimePickerDialog.BUTTON_POSITIVE, "Save", tpd);
-        tpd.setButton(TimePickerDialog.BUTTON_NEGATIVE, "Cancel", tpd);
+        tpd.setButton(TimePickerDialog.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                System.out.println("取消--------------------");
+                flag_send_bug =false;
+            }
+        });
 
 
         //  tpd.setTitle((onOff) ? "Turn on" : "Turn off");
         tpd.setTitle(type);
+        tpd.setCancelable(false);
         tpd.show();
 
         tpd.setOnDismissListener(new DialogInterface.OnDismissListener() {
@@ -1069,20 +1088,6 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
 
                 if (edit_time == true) {
 
-//                    System.out.println("正合適03：" + convertByteToHexString(byteArray[3]));
-//                    System.out.println("正合適04：" + convertByteToHexString(byteArray[4]));
-//                    System.out.println("正合適05：" + convertByteToHexString(byteArray[5]));
-//                    System.out.println("正合適06：" + convertByteToHexString(byteArray[6]));
-//                    System.out.println("正合適09：" + convertByteToHexString(byteArray[9]));
-//                    System.out.println("正合適10：" + convertByteToHexString(byteArray[10]));
-//                    System.out.println("正合適11：" + convertByteToHexString(byteArray[11]));
-//                    System.out.println("正合適12：" + convertByteToHexString(byteArray[12])); //10禁衛
-//                    System.out.println("正合適15：" + convertByteToHexString(byteArray[15]));
-//                    System.out.println("正合適16：" + convertByteToHexString(byteArray[16]));
-//                    System.out.println("正合適17：" + convertByteToHexString(byteArray[17]));
-//                    System.out.println("正合適18：" + convertByteToHexString(byteArray[18]));
-
-
                     lightOperatingTime.ManualMode_TurnOnTime = Integer.parseInt(convertByteToHexString(byteArray[3]));
                     lightOperatingTime.ManualMode_TurnOnTime_minute = Integer.parseInt(convertByteToHexString(byteArray[4]));
                     lightOperatingTime.ManualMode_TurnOffTime = Integer.parseInt(convertByteToHexString(byteArray[5]));
@@ -1098,18 +1103,6 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
                     fanOperatingTime.ManualMode_TurnOffTime = Integer.parseInt(convertByteToHexString(byteArray[17]));
                     fanOperatingTime.ManualMode_TurnOffTime_minute = Integer.parseInt(convertByteToHexString(byteArray[18]));
 
-//                    System.out.println("揪合適03：" + lightOperatingTime.ManualMode_TurnOnTime);
-//                    System.out.println("揪合適04：" + lightOperatingTime.ManualMode_TurnOnTime_minute);
-//                    System.out.println("揪合適05：" + lightOperatingTime.ManualMode_TurnOffTime);
-//                    System.out.println("揪合適06：" + lightOperatingTime.ManualMode_TurnOffTime_minute);
-//                    System.out.println("揪合適09：" + airOperatingTime.ManualMode_TurnOnTime);
-//                    System.out.println("揪合適10：" + airOperatingTime.ManualMode_TurnOnTime_minute);
-//                    System.out.println("揪合適11：" + airOperatingTime.ManualMode_TurnOffTime);
-//                    System.out.println("揪合適12：" + airOperatingTime.ManualMode_TurnOffTime_minute); //10禁衛
-//                    System.out.println("揪合適15：" + fanOperatingTime.ManualMode_TurnOnTime);
-//                    System.out.println("揪合適16：" + fanOperatingTime.ManualMode_TurnOnTime_minute);
-//                    System.out.println("揪合適17：" + fanOperatingTime.ManualMode_TurnOffTime);
-//                    System.out.println("揪合適18：" + fanOperatingTime.ManualMode_TurnOffTime_minute);
 
                 }
 
@@ -1175,14 +1168,6 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
                 // 更改畫面上所顯示的時間  收到資料傳到 ProjectTools.getEcoproOnTime 做轉換
                 // 更改畫面上所顯示的時間  收到資料傳到 ProjectTools.getEcoproOnTime 做轉換
 
-                System.out.println("測試1:" + ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_LIGHT, ProjectTools.ECOPRO_ON_TIME, byteArray)));
-                System.out.println("測試2:" + ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_LIGHT, ProjectTools.ECOPRO_OFF_TIME, byteArray)));
-                System.out.println("測試3:" + ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_AIR, ProjectTools.ECOPRO_ON_TIME, byteArray)));
-                System.out.println("測試4:" + ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_AIR, ProjectTools.ECOPRO_OFF_TIME, byteArray)));
-                System.out.println("測試5:" + ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_FAN, ProjectTools.ECOPRO_ON_TIME, byteArray)));
-                System.out.println("測試6:" + ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_FAN, ProjectTools.ECOPRO_OFF_TIME, byteArray)));
-
-
                 textViewLightTurnOnTime.setText(ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_LIGHT, ProjectTools.ECOPRO_ON_TIME, byteArray)));
                 textViewLightTurnOffTime.setText(ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_LIGHT, ProjectTools.ECOPRO_OFF_TIME, byteArray)));
                 textViewAirTurnOnTime.setText(ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_AIR, ProjectTools.ECOPRO_ON_TIME, byteArray)));
@@ -1226,6 +1211,11 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
                 changeWorkStatus(byteArray);
                 // switchEnabled(false);
                 // 更改畫面上開啟關閉狀態
+
+            }else
+            {
+
+                actionBar_mainActivity_textTitle.setText(title + " Ver." + strVersion + " (Unknow)");
 
             }
         } catch (Exception e) {

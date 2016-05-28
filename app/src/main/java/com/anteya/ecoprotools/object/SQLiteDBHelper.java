@@ -12,7 +12,7 @@ import com.anteyatec.anteyalibrary.AnteyaString;
  */
 public class SQLiteDBHelper extends SQLiteOpenHelper{
 
-    private final static int DATABASE_VERSION = 8;
+    private final static int DATABASE_VERSION = 1;
 
     private final static String TAG = "SQLiteDBHelper";
 

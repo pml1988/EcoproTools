@@ -71,7 +71,7 @@ public class EditDialogFragment extends DialogFragment {
         editDialogFragment.setEditDialogFragmentCallback(editDialogFragmentCallback);
 
         editDialogFragment.isNewEcopro = false;
-
+        editDialogFragment.setCancelable(false);
         editDialogFragment.ecopro = ecopro;
 
         return editDialogFragment;
@@ -84,7 +84,7 @@ public class EditDialogFragment extends DialogFragment {
         editDialogFragment.setEditDialogFragmentCallback(editDialogFragmentCallback);
 
         editDialogFragment.isNewEcopro = true;
-
+        editDialogFragment.setCancelable(false);
         return editDialogFragment;
     }
 
@@ -198,12 +198,17 @@ public class EditDialogFragment extends DialogFragment {
                     }
 
                 } else if (tempipport.length == 1) {
-                    System.out.println("判斷IP1:" + tempipport[0]);
-                    if (tempipaddress.substring(tempipaddress.length() - 1).equals(".") || tempipaddress.substring(tempipaddress.length() - 1).equals(":")) {
-                        System.out.println("判斷IP1有.;:");
-                        //  im2.setImageResource(R.drawable.checken);
-                    } else {
-                        flag1 = true;
+
+                    try {
+                        System.out.println("判斷IP1:" + tempipport[0]);
+                        if (tempipaddress.substring(tempipaddress.length() - 1).equals(".") || tempipaddress.substring(tempipaddress.length() - 1).equals(":")) {
+                            System.out.println("判斷IP1有.;:");
+                            //  im2.setImageResource(R.drawable.checken);
+                        } else {
+                            flag1 = true;
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
 
@@ -262,88 +267,75 @@ public class EditDialogFragment extends DialogFragment {
         editTextIpAddress_wan = (EditText) view.findViewById(R.id.dialogFragmentEdit_editTextIpAddress_Wan);
 
         editTextIpAddress_wan.addTextChangedListener(new TextWatcher() {
-                                                         @Override
-                                                         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                                                         }
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-                                                         @Override
-                                                         public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
 
-
-                                                             try {
-                                                                 Matcher matcher = pattern.matcher(editTextIpAddress_wan.getText().toString());
-                                                                 System.out.println("判斷IP2端口數據:" + editTextIpAddress_wan.getText().toString());
-
-                                                                 String temp = (ProjectTools.changesemicolon(editTextIpAddress_wan.getText().toString()));
-
-                                                                 String[] tempipport = temp.split(":");
-                                                                 if (tempipport.length > 1) {
-                                                                     port = tempipport[1];
-                                                                     System.out.println("判斷IP2端口數據=:" + port);
-                                                                 }
-
-                                                                 System.out.println("判斷IP2端口數據:" + tempipport[0]);
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
 
 
-                                                                 if (matcher.find()) {
-                                                                     System.out.println("判斷IP1格式if:" + tempipport[0]);
-                                                                     String[] tmp = tempipport[0].split("\\.");
+                try {
+                    Matcher matcher = pattern.matcher(editTextIpAddress_wan.getText().toString());
+                    System.out.println("判斷IP2端口數據:" + editTextIpAddress_wan.getText().toString());
+
+                    String temp = (ProjectTools.changesemicolon(editTextIpAddress_wan.getText().toString()));
+
+                    String[] tempipport = temp.split(":");
+
+                    if (tempipport[0].equals("http")) {
 
 
-                                                                     if (tmp.length == 4) {
+                        if (tempipport.length == 3) {
+                            port = tempipport[2];
+                        }
 
-                                                                         System.out.println("判斷IP1格式4:" + tempipport[0]);
-
-
-                                                                         for (int i = 0; i < tmp.length; i++) {
-                                                                             System.out.println("判斷IP2拆解數值:" + tmp[i]);
-
-                                                                             if (Integer.parseInt(tmp[i]) > 255) {
-                                                                                 System.out.println("判斷IP2錯誤大於255:" + i);
-                                                                                 im2.setImageResource(R.drawable.checken);
-                                                                             }
-
-                                                                         }
-                                                                     }
+                        im3.setImageResource(R.drawable.checkok);
+                        flag_wan = true;
+                    } else {
 
 
-                                                                 } else {
-                                                                     im3.setImageResource(R.drawable.checken);
-
-                                                                 }
-
-
-                                                                 String[] tmp = tempipport[0].split("\\.");
-
-                                                                 if (tmp.length == 4) {
-
-                                                                     if (Integer.parseInt(tmp[0]) == 192 || Integer.parseInt(tmp[0]) == 127 || Integer.parseInt(tmp[0]) == 10) {
-                                                                         System.out.println("判斷IP2屬於IP格式:" + tmp[0]);
-                                                                         // Toast.makeText(getActivity(), "屬於區域網路IP", Toast.LENGTH_SHORT).show();
-                                                                         im3.setImageResource(R.drawable.checken);
-                                                                     } else {
-                                                                         System.out.println("判斷IP2屬於區域網路IP，此處不適用:" + tmp[0]);
-                                                                         im3.setImageResource(R.drawable.checkok);
-                                                                         flag_wan = true;
-                                                                     }
-                                                                 } else {
-                                                                     im3.setImageResource(R.drawable.checken);
-                                                                 }
+                        if (tempipport.length > 1) {
+                            port = tempipport[1];
+                            System.out.println("判斷IP2端口數據=:" + port);
+                        }
 
 
-                                                             } catch (NumberFormatException e) {
-                                                                 e.printStackTrace();
-                                                                 System.out.println("判斷IP2例外:" + e);
-                                                                 im3.setImageResource(R.drawable.checken);
-                                                             }
-                                                         }
+                        System.out.println("判斷IP2端口數據:" + tempipport[0]);
 
-                                                         @Override
-                                                         public void afterTextChanged(Editable s) {
-                                                         }
-                                                     }
 
-        );
+                        String[] tmp = tempipport[0].split("\\.");
+
+                        if (tmp.length == 4) {
+
+
+                            im3.setImageResource(R.drawable.checkok);
+                            flag_wan = true;
+
+                        } else {
+                            im3.setImageResource(R.drawable.checken);
+                            flag_wan = true;
+                        }
+
+
+                    }
+
+
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                    System.out.println("判斷IP2例外:" + e);
+                    im3.setImageResource(R.drawable.checken);
+                }
+
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         editTextPassword = (EditText) view.findViewById(R.id.dialogFragmentEdit_editTextIpassword);
 
@@ -380,6 +372,7 @@ public class EditDialogFragment extends DialogFragment {
 
         {
             builder.setPositiveButton("Save", addEcoproDialogClickListener);
+
             builder.setNegativeButton("Cancel", null);
 
         } else
@@ -410,16 +403,15 @@ public class EditDialogFragment extends DialogFragment {
         @Override
         public void onClick(DialogInterface dialog, int which) {
 
+            System.out.println("關閉：" + which);
+
             if (flag_name != true) {
                 Toast.makeText(getActivity().getApplicationContext(), "Please Input Name", Toast.LENGTH_SHORT).show();
 
             } else if (flag_local != true) {
                 Toast.makeText(getActivity().getApplicationContext(), "Please Input Local IP address", Toast.LENGTH_SHORT).show();
 
-            } else if (flag_wan != true) {
-                Toast.makeText(getActivity().getApplicationContext(), "Please Input Wan IP address", Toast.LENGTH_SHORT).show();
-                dialog.cancel();
-            } else if (flag_pw != true) {
+            }else if (flag_pw != true) {
                 Toast.makeText(getActivity().getApplicationContext(), "最多四碼，請重新輸入", Toast.LENGTH_SHORT).show();
 
             } else {
@@ -436,7 +428,7 @@ public class EditDialogFragment extends DialogFragment {
                 if (editDialogFragmentCallback != null) {
                     editDialogFragmentCallback.addNewEcopro(ecopro);
                 }
-            }
+        }
 
         }
     };
