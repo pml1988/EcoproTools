@@ -67,7 +67,6 @@ public class VideoDecoder {
             inputBuffer.put(data, offset, length);
             mediaCodec.queueInputBuffer(inputBufferIndex, 0, length, 0, 0);
             mCount++;
-            System.out.println("數數："+mCount * 1000000 / 15);
         }
 
         MediaCodec.BufferInfo bufferInfo = new MediaCodec.BufferInfo();
@@ -77,7 +76,6 @@ public class VideoDecoder {
 
         while (outputBufferIndex >= 0) {
             mediaCodec.releaseOutputBuffer(outputBufferIndex, true);
-            System.out.println("數數outputBufferIndex:"+outputBufferIndex);
             outputBufferIndex = mediaCodec.dequeueOutputBuffer(bufferInfo, 0);
         }
     }

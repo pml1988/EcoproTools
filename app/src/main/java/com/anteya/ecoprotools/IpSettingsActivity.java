@@ -149,16 +149,6 @@ public class IpSettingsActivity extends Activity implements EcoproConnector.Ecop
 
         text1 = (TextView) findViewById(R.id.activityIpSettings_textView);
 
-
-//        btn = (Button) findViewById(R.id.button);
-//        btn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                System.out.println("檢查密碼" + dataControl.getPd_one() + " " + dataControl.getPd_two() + " " + dataControl.getPd_three() + " " + dataControl.getPd_four());
-//            }
-//        });
-
-
         editTextIpAddress = (TextView) findViewById(R.id.activityIpSettings_editText);
         editTextIpAddress_wan = (TextView) findViewById(R.id.activityIpSettings_textView_wan);
         activityIpSettings_editText_password = (TextView) findViewById(R.id.activityIpSettings_editText_password);
@@ -350,14 +340,6 @@ public class IpSettingsActivity extends Activity implements EcoproConnector.Ecop
 
 
             }
-//            else
-//            {
-//                System.out.println("執行中勿擾");
-//            }
-
-
-            // 點擊完直接連線並顯示連線成功
-            // 不跳頁
         }
     };
 
@@ -643,7 +625,7 @@ public class IpSettingsActivity extends Activity implements EcoproConnector.Ecop
 
         if (isLinked) {
             Toast.makeText(IpSettingsActivity.this, "Connection Success " + ipAddress, Toast.LENGTH_SHORT).show();
-            dataControl.saveIpAddress_now(ipAddress);
+            dataControl.saveIpAddress_now(ipAddress ,port );
             dataControl.setPort_local(port);
             new Thread(new Runnable() {
                 @Override
@@ -692,7 +674,7 @@ public class IpSettingsActivity extends Activity implements EcoproConnector.Ecop
                 second_connect = true;
                 Toast.makeText(IpSettingsActivity.this, "Connection Failed", Toast.LENGTH_SHORT).show();
 
-                dataControl.saveIpAddress_now(ipAddress_wan);
+                dataControl.saveIpAddress_now(ipAddress_wan ,port);
 
                 new Thread(new Runnable() {
                     @Override

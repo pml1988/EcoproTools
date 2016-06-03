@@ -332,7 +332,7 @@ public class ProjectTools {
 
         try {
 
-            System.out.println("ProjectTools：" + (byteArray[deviceType + onOffType]) + ":" + convertByteToHexString(byteArray[deviceType + onOffType + 1]));
+        //    System.out.println("ProjectTools：" + (byteArray[deviceType + onOffType]) + ":" + convertByteToHexString(byteArray[deviceType + onOffType + 1]));
 
 
             return convertByteToHexString(byteArray[deviceType + onOffType]) + ":" + convertByteToHexString(byteArray[deviceType + onOffType + 1]);

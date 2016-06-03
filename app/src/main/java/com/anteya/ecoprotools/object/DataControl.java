@@ -142,9 +142,24 @@ public class DataControl extends Application {
         userData.edit().putInt(PREF_PORT, port).commit();
     }
 
-    public void saveIpAddress_now(String ipAddress) {
+    public void saveIpAddress_now(String ipAddress , int port_now) {
         SharedPreferences userData = getSharedPreferences(PREF, 0);
         userData.edit().putString(PREF_IP_ADDRESS_now, ipAddress).commit();
+        userData.edit().putInt(PREF_PORT, port_now).commit();
+    }
+
+    public void savePort_now(int port_) {
+        SharedPreferences userData = getSharedPreferences(PREF, 0);
+        userData.edit().putInt(PREF_PORT, port_).commit();
+    }
+
+    public String getIpAddress_now() {
+        SharedPreferences userData = getSharedPreferences(PREF, 0);
+        String tempStr = userData.getString(PREF_IP_ADDRESS_now, "");
+        int port = userData.getInt(PREF_PORT,0);
+        port_use = port;
+
+        return tempStr;
     }
 
 
@@ -160,7 +175,10 @@ public class DataControl extends Application {
         String tempStr = userData.getString(PREF_IP_ADDRESS, "");
         String tempStr_wan = userData.getString(PREF_IP_ADDRESS_wan, "");
         String tempStr_now = userData.getString(PREF_IP_ADDRESS_now, "");
+
+
         int port = userData.getInt(PREF_PORT,0);
+        System.out.println("撈資料："+port);
         port_use = port;
         ipaddress_wan = tempStr_wan;
         return tempStr_now;

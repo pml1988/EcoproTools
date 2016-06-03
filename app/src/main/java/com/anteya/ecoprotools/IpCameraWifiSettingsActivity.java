@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.anteya.ecoprotools.object.DataControl;
@@ -109,6 +110,7 @@ public class IpCameraWifiSettingsActivity extends Activity implements IpCamThrea
 
                 ipCamThread.startSetWifi();
                 System.out.println("ipcam wifi 啟動");
+                Toast.makeText(IpCameraWifiSettingsActivity.this, "設定",Toast.LENGTH_SHORT);
             }
         });
 

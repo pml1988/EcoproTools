@@ -372,31 +372,31 @@ public class IpCameraActivity extends Activity implements IpCamThread.DataReceiv
         public void onClick(View v) {
 
             switch (v.getId()) {
-                case 0:
+                case R.id.activity_ipcam_down:
                     if (ipCamThread != null) {
                         ipCamThread.sendIOCtrl_2((byte) 2);
 
                        // ipCamThread.sendIOCtrl_3();
                     }
-                   // System.out.println("下");
+                   System.out.println("下");
                     break;
-                case 1:
+                case R.id.activity_ipcam_up:
                     if (ipCamThread != null) {
                         ipCamThread.sendIOCtrl_2((byte) 1);
                     }
-                   // System.out.println("上");
+                    System.out.println("上");
                     break;
-                case 2:
+                case R.id.activity_ipcam_left:
                     if (ipCamThread != null) {
                         ipCamThread.sendIOCtrl_2((byte) 3);
                     }
-                  //  System.out.println("左");
+                    System.out.println("左");
                     break;
-                case 3:
+                case R.id.activity_ipcam_right:
                     if (ipCamThread != null) {
                         ipCamThread.sendIOCtrl_2((byte) 6);
                     }
-                  //  System.out.println("右");
+                    System.out.println("右");
                     break;
 
             }
@@ -617,7 +617,6 @@ public class IpCameraActivity extends Activity implements IpCamThread.DataReceiv
     public void onVideoDataReceive(byte[] data) {
         // 收到 IpCamThread 傳來的Data, 將Data傳回主執行緒進行UI更新
 
-        System.out.println("鈴杯："+data.length);
 
 
         Message message = new Message();

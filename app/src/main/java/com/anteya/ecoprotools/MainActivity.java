@@ -183,6 +183,7 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
         screen_y = metrics.heightPixels;
         try {
             strVersion = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
@@ -239,8 +240,12 @@ public class MainActivity extends Activity implements EcoproConnectorCallback, V
 
             String[] ipaddressarray = ProjectTools.changesemicolon(ipAddress).split(":");
 
+            ipAddress = dataControl.getIpAddress_now();
+
+
+
             view_ipaddress.setText("connect:" + ipaddressarray[0]);
-            view_port.setText("port:" + dataControl.getPort_local());
+            view_port.setText("port:" + dataControl.getPort_use());
             startTimer();
         } catch (Exception e) {
             e.printStackTrace();
@@ -944,7 +949,7 @@ private boolean flag_send_bug = true ;
                 COMMAND_POLLING = ProjectTools.getChecksumArray(COMMAND_POLLING);
 
                 System.out.println("傳送訊息5 " + COMMAND_POLLING.length + " " + dataControl.getPort_local());
-                ecoproConnector.sendCommand(ipAddress, COMMAND_POLLING, dataControl.getPort_local());
+                ecoproConnector.sendCommand(ipAddress, COMMAND_POLLING, dataControl.getPort_use());
             }
         }
     }
@@ -1077,11 +1082,11 @@ private boolean flag_send_bug = true ;
             ProjectTools.printByteArray(byteArray, "主執行緒收到 Ecopro 的 polling ack", 10);
             temp_time = byteArray;
 
-            for (int i = 3; i < temp_time.length; i++) {
-                System.out.println("正巧：" + i + " :" + temp_time[i]);
-
-
-            }
+//            for (int i = 3; i < temp_time.length; i++) {
+//                System.out.println("正巧：" + i + " :" + temp_time[i]);
+//
+//
+//            }
 
             if (byteArray.length > 18) {
 
@@ -1103,13 +1108,8 @@ private boolean flag_send_bug = true ;
                     fanOperatingTime.ManualMode_TurnOffTime = Integer.parseInt(convertByteToHexString(byteArray[17]));
                     fanOperatingTime.ManualMode_TurnOffTime_minute = Integer.parseInt(convertByteToHexString(byteArray[18]));
 
-
                 }
-
-
             }
-
-
             change_user(byteArray[1]);
 
 //            for (int i = 0; i < byteArray.length; i++) {
@@ -1176,7 +1176,6 @@ private boolean flag_send_bug = true ;
                 textViewFanTurnOffTime.setText(ampm(ProjectTools.getEcoproOnTime(ProjectTools.ECOPRO_FAN, ProjectTools.ECOPRO_OFF_TIME, byteArray)));
 
                 change_manual_main_states();
-
                 change_manual_status(byteArray);
 
                 /**寫死的更改F1F2F3數值設定 此處修改會影響控制機控制手機變動**/
@@ -1306,10 +1305,6 @@ private boolean flag_send_bug = true ;
                 switch (msg.arg1) {
                     case 3:
                         activity.upactivitybar();
-
-
-
-
                 }
 
 
@@ -1433,7 +1428,7 @@ private boolean flag_send_bug = true ;
             dataControl.setPd_three(Integer.parseInt(temp_pw.substring(2, 3)));
             dataControl.setPd_four(Integer.parseInt(temp_pw.substring(3, 4)));
         } else {
-            System.out.println("怒 四位密碼");
+            System.out.println("四位密碼");
         }
 
         return temp_pw;
@@ -1472,15 +1467,4 @@ private boolean flag_send_bug = true ;
         return new String("");
     }
 
-    public void change_hum_temp(int temp, int hum) {
-        try {
-            System.out.println("溫濕度1");
-
-
-        } catch (Resources.NotFoundException e) {
-            e.printStackTrace();
-        }
-
-
-    }
 }
